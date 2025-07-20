@@ -4,8 +4,9 @@
 class Aura : public Module {
 public:
 	Aura() : Module("Aura", "Attacks nearby entities", Category::PLAYER) {
-		registerSetting(new SliderSetting<float>("Reach", "Attack range", &range, 5.f, 3.f, 12.f));
+		registerSetting(new SliderSetting<float>("Reach", "Attack range", &range, 5.f, 3.f, 15.f));
 		registerSetting(new SliderSetting<int>("Delay", "Attack delay in ticks", &delay, 5, 0, 20));
+		registerSetting(new BoolSetting("Strafe", "Strafe around the target, because thats tuff", &strafe, false));
 	}
 
 	void onEnable() override {
@@ -50,11 +51,21 @@ public:
 
 	void onSendPacket(Packet* packet) override {
 		if (!shouldRotate || !packet || packet->getId() != PacketID::PlayerAuthInput) return;
+		if (!targets.empty()) return;
+
 		PlayerAuthInputPacket* paip = static_cast<PlayerAuthInputPacket*>(packet);
 		paip->rotation.y = rot.y;
 		paip->headYaw = rot.y;
 		paip->rotation.x = rot.x;
 		shouldRotate = false;
+	}
+
+	void onUpdateRotation(LocalPlayer* localPlayer) override {
+		if (localPlayer && strafe) {
+			if (!targets.empty()) return;
+			localPlayer->rotation->presentRot = rot;
+			localPlayer->getActorHeadRotationComponent()->headYaw = rot.y; //fun fact! ALWAYS set getActorHeadRotation. if you dont you get a broken looking rotation. this makes it #fancy
+		}
 	}
 
 private:
@@ -64,4 +75,5 @@ private:
 	int delay = 5;
 	int tickCounter = 0;
 	bool shouldRotate = false;
+	bool strafe = false;
 };

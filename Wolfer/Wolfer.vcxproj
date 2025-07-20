@@ -161,7 +161,6 @@
     <ClCompile Include="Client\Managers\HookManager\Hooks\FuncHook.cpp" />
     <ClCompile Include="Client\Managers\ModuleManager\ModuleManager.cpp" />
     <ClCompile Include="Client\Managers\ModuleManager\Modules\Category\Client\ClickGUI.cpp" />
-    <ClCompile Include="Client\Managers\ModuleManager\Modules\Category\Player\ChestStealer.cpp" />
     <ClCompile Include="Client\Managers\ModuleManager\Modules\ModuleBase\Module.cpp" />
     <ClCompile Include="Client\Managers\NotificationManager\NotificationManager.cpp" />
     <ClCompile Include="dllmain.cpp" />
@@ -229,6 +228,7 @@
     <ClInclude Include="Client\Managers\HookManager\Hooks\World\GameMode\StartDestroyBlockHook.h" />
     <ClInclude Include="Client\Managers\HookManager\Hooks\World\GameMode\StopDestroyBlockHook.h" />
     <ClInclude Include="Client\Managers\HookManager\Hooks\World\Level\LevelTickHook.h" />
+    <ClInclude Include="Client\Managers\ModuleManager\Guide.h" />
     <ClInclude Include="Client\Managers\ModuleManager\ModuleManager.h" />
     <ClInclude Include="Client\Managers\ModuleManager\Modules\Category\Client\Hud.h" />
     <ClInclude Include="Client\Managers\ModuleManager\Modules\Category\Exploit\Phase.h" />
