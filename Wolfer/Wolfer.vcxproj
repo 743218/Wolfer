@@ -231,7 +231,7 @@
     <ClInclude Include="Client\Managers\HookManager\Hooks\World\Level\LevelTickHook.h" />
     <ClInclude Include="Client\Managers\ModuleManager\ModuleManager.h" />
     <ClInclude Include="Client\Managers\ModuleManager\Modules\Category\Client\Hud.h" />
-    <ClInclude Include="Client\Managers\ModuleManager\Modules\Category\Exploit\AutoGhost.h" />
+    <ClInclude Include="Client\Managers\ModuleManager\Modules\Category\Exploit\Phase.h" />
     <ClInclude Include="Client\Managers\ModuleManager\Modules\Category\Player\Aura.h" />
     <ClInclude Include="Client\Managers\ModuleManager\Modules\Category\Player\ChestStealer.h" />
     <ClInclude Include="Client\Managers\ModuleManager\Modules\Category\Player\SpinAttack.h" />

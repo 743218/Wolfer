@@ -16,7 +16,7 @@ public:
         float calcYaw = (localPlayer->rotation->presentRot.y + 90.f) * (PI / 180.f);
         float calcPitch = (localPlayer->rotation->prevRot.x) * -(PI / 180.f);
 
-        Vec3<float> moveVec;
+        Vector3<float> moveVec;
         moveVec.x = std::cos(calcYaw) * std::cos(calcPitch) * speed;
         moveVec.y = std::sin(calcPitch) * speed;
         moveVec.z = std::sin(calcYaw) * std::cos(calcPitch) * speed;

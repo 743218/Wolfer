@@ -20,17 +20,17 @@ namespace D2D {
 	void Clean();
 	void Flush();
 
-	Vec2<float> getWindowSize();
-	void drawText(const Vec2<float>& textPos, const std::string& textStr, const WolferColor& color, float textSize = 1.f, bool storeTextLayout = true);
+	Vector2<float> getWindowSize();
+	void drawText(const Vector2<float>& textPos, const std::string& textStr, const WolferColor& color, float textSize = 1.f, bool storeTextLayout = true);
 	float getTextWidth(const std::string& textStr, float textSize = 1.f, bool storeTextLayout = true);
 	float getTextHeight(const std::string& textStr, float textSize = 1.f, bool storeTextLayout = true);
-	void drawLine(const Vec2<float>& startPos, const Vec2<float>& endPos, const WolferColor& color, float width = 1.f);
-	void drawRectangle(const Vec4<float>& rect, const WolferColor& color, float width = 1.f);
-	void fillRectangle(const Vec4<float>& rect, const WolferColor& color);
-	void drawCircle(const Vec2<float>& centerPos, const WolferColor& color, float radius, float width = 1.f);
-	void fillCircle(const Vec2<float>& centerPos, const WolferColor& color, float radius);
-	void addBlur(const Vec4<float>& rect, float strength, bool flush = true);
+	void drawLine(const Vector2<float>& startPos, const Vector2<float>& endPos, const WolferColor& color, float width = 1.f);
+	void drawRectangle(const Vector4<float>& rect, const WolferColor& color, float width = 1.f);
+	void fillRectangle(const Vector4<float>& rect, const WolferColor& color);
+	void drawCircle(const Vector2<float>& centerPos, const WolferColor& color, float radius, float width = 1.f);
+	void fillCircle(const Vector2<float>& centerPos, const WolferColor& color, float radius);
+	void addBlur(const Vector4<float>& rect, float strength, bool flush = true);
 
-	void lookAt(float viewMatrix[4][4], const Vec3<float>& eye, const Vec3<float>& center, const Vec3<float>& up);
+	void lookAt(float viewMatrix[4][4], const Vector3<float>& eye, const Vector3<float>& center, const Vector3<float>& up);
 	void perspective(float projectionMatrix[4][4], float fov, float aspect, float zNear, float zFar);
 };

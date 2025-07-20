@@ -75,7 +75,7 @@ public:
         LocalPlayer* localPlayer = g_Data.getLocalPlayer();
         if (!localPlayer) return;
 
-        Vec3<float> playerPos = localPlayer->getPos();
+        Vector3<float> playerPos = localPlayer->getPos();
 
         for (auto it = blockList.begin(); it != blockList.end();) {
             BlockPos pos = it->first;
@@ -123,11 +123,11 @@ public:
         if (!tracer2D || blockList.empty()) return;
         if (!g_Data.getLocalPlayer()) return;
 
-        Vec2<float> screenSize(
+        Vector2<float> screenSize(
             renderCtx->clientInstance->getguiData()->windowSizeScaled.x,
             renderCtx->clientInstance->getguiData()->windowSizeScaled.y
         );
-        Vec2<float> center(screenSize.x / 2.f, screenSize.y / 2.f);
+        Vector2<float> center(screenSize.x / 2.f, screenSize.y / 2.f);
 
         for (const auto& entry : blockList) {
             const BlockPos& pos = entry.first;
@@ -144,11 +144,11 @@ public:
                 tracerHeight = 0.5f;
             }
 
-            Vec3<float> target(pos.x + 0.5f, pos.y + tracerHeight, pos.z + 0.5f);
-            Vec2<float> screenPos;
+            Vector3<float> target(pos.x + 0.5f, pos.y + tracerHeight, pos.z + 0.5f);
+            Vector2<float> screenPos;
 
             if (MCR::worldToScreen(target, screenPos)) {
-                MCR::DrawLine(center, screenPos, 0.2f, WolferColor(vis.fillColor.r, vis.fillColor.g, vis.fillColor.b, 255));
+                MCR::drawLine(center, screenPos, 0.2f, WolferColor(vis.fillColor.r, vis.fillColor.g, vis.fillColor.b, 255));
             }
         }
     }

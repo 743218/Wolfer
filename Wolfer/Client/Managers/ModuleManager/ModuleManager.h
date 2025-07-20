@@ -38,7 +38,7 @@
 #include "Modules/Category/Client/CustomFont.h"
 
 // EXPLOIT
-#include "Modules/Category/Exploit/AutoGhost.h"
+#include "Modules/Category/Exploit/Phase.h"
 
 class ModuleManager {
 public:

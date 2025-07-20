@@ -11,10 +11,10 @@ enum class HitResultType : int32_t {
 
 class HitResult {
 public:
-    Vec3<float> startPos;
-    Vec3<float> rayDirection;
+    Vector3<float> startPos;
+    Vector3<float> rayDirection;
     HitResultType type;
     int32_t selectedFace;
     BlockPos blockPos;
-    Vec3<float> endPos;
+    Vector3<float> endPos;
 };

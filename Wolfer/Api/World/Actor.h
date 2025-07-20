@@ -41,10 +41,10 @@ public:
     CLASS_MEMBER(ActorRotationComponent*, rotation, 0x2A0);
     CLASS_MEMBER(bool, isDestroying, 0x19F0);
 public:
-    Vec3<float> getHumanPos() {
-        Vec3<float> targetPos = this->getEyePos();
+    Vector3<float> getHumanPos() {
+        Vector3<float> targetPos = this->getEyePos();
 
-        if (this->getActorTypeComponent()->id == 319) return targetPos.sub(Vec3<float>(0.f, 1.6f, 0.f));
+        if (this->getActorTypeComponent()->id == 319) return targetPos.sub(Vector3<float>(0.f, 1.6f, 0.f));
         return targetPos;
     }
 
@@ -137,11 +137,11 @@ public:
         return setInvis(this, invisible); // Return FunctionCall as Actor
     }
 
-    Vec3<float> getPos() {
+    Vector3<float> getPos() {
         return stateVector->pos;
     }
 
-    Vec3<float> getEyePos() {
+    Vector3<float> getEyePos() {
         return getRenderPositionComponent()->eyePos;
     }
 
@@ -205,8 +205,8 @@ public:
         return func(this, effect);
     }
 
-    void setPos(const Vec3<float>& pos) {
-        using func_t = __int64(__thiscall*)(Actor*, const Vec3<float>&);
+    void setPos(const Vector3<float>& pos) {
+        using func_t = __int64(__thiscall*)(Actor*, const Vector3<float>&);
         static func_t Func = (func_t)(Addresses::Actor_setPos);
         Func(this, pos);
     }
@@ -254,8 +254,8 @@ public:
         return getAttribute(AttributeId::Health)->currentValue;
     }
 
-    void lerpMotion(const Vec3<float>& delta) {
-        Memory::CallVFunc<24, void, const Vec3<float>&>(this, delta);
+    void lerpMotion(const Vector3<float>& delta) {
+        Memory::CallVFunc<24, void, const Vector3<float>&>(this, delta);
     }
 
     bool isAlive() {

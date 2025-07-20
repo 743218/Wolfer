@@ -122,14 +122,14 @@ public:
     int32_t ticksAlive; //0x0088
     char pad_008C[44]; //0x008C
     */
-    Vec2<float>                                           rotation;             // this+0x30
-    Vec3<float>                                           position;             // this+0x38
+    Vector2<float>                                           rotation;             // this+0x30
+    Vector3<float>                                           position;             // this+0x38
     float                                                    headYaw;              // this+0x44
-    Vec3<float>                                           mPosDelta;            // this+0x4C
-    Vec2<float>                                           mAnalogMoveVector;
-    Vec2<float>                                           mVehicleRotation;
-    Vec2<float>                                           mMove;
-    Vec3<float>                                           mGazeDir;
+    Vector3<float>                                           mPosDelta;            // this+0x4C
+    Vector2<float>                                           mAnalogMoveVector;
+    Vector2<float>                                           mVehicleRotation;
+    Vector2<float>                                           mMove;
+    Vector3<float>                                           mGazeDir;
     InputData                                                  mInputData;           // this+0x70
     InputModeAuth                                              mInputMode;           // this+0x78
     ClientPlayMode                                           mPlayMode;            // this+0x7C

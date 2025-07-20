@@ -20,7 +20,7 @@ public:
 
         if (!g_Data.canUseMoveKeys()) return;
 
-        Vec3<float> motion(0.f, glide, 0.f);
+        Vector3<float> motion(0.f, glide, 0.f);
 
         if (g_Data.isKeyDown(VK_SPACE)) motion.y += vSpeed;
         if (g_Data.isKeyDown(VK_SHIFT)) motion.y -= vSpeed;

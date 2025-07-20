@@ -43,7 +43,7 @@ public:
 public:
     InteractAction mAction;   // this+0x30
     uint64_t               mTargetId; // this+0x38
-    Vec3<float>                mPos;      // this+0x40
+    Vector3<float>                mPos;      // this+0x40
 
     // prevent constructor by default
     InteractPacket& operator=(InteractPacket const&);

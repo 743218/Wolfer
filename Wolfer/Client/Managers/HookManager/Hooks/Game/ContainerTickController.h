@@ -256,7 +256,7 @@ private:
 	virtual __int64 onDictationEvent(const std::string&);
 
 public:
-	virtual void setAssociatedBlockPos(Vec3<int> const&);
+	virtual void setAssociatedBlockPos(Vector3<int> const&);
 	virtual void setAssociatedEntityUniqueID(__int64);
 	virtual void setSuspendInput(bool);
 

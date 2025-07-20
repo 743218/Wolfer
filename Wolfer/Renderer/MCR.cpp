@@ -10,7 +10,7 @@ Tessellator* MCR::tessellator = nullptr;
 mce::MaterialPtr* MCR::uiMaterial = nullptr;
 mce::MaterialPtr* MCR::blendMaterial = nullptr;
 Font* MCR::mcFont = nullptr;
-Vec3<float> MCR::origin;
+Vector3<float> MCR::origin;
 float MCR::deltaTime = 0.016f;
 std::vector<MCR::Render3dData> MCR::quad3dRenderList;
 std::vector<MCR::Render3dData> MCR::line3dRenderList;
@@ -30,9 +30,7 @@ void MCR::onRenderScreen(MinecraftUIRenderContext* ctx) {
 
 	mcFont = ctx->clientInstance->mcGame->mcFont;
 
-	// NameTags
 	{
-		// Prevents NamTags render override HUD and Watermark
 		static NameTags* nameTagsMod = ModuleManager::getModule<NameTags>();
 		if (nameTagsMod->isEnabled())
 			nameTagsMod->Render();
@@ -91,7 +89,7 @@ void MCR::setColor(const WolferColor& color) {
 	currentColor->dirty = true;
 }
 
-void MCR::DrawLine(const Vec2<float>& start, const Vec2<float>& end, float thickness, const WolferColor& color) {
+void MCR::drawLine(const Vector2<float>& start, const Vector2<float>& end, float thickness, const WolferColor& color) {
 	setColor(color);
 	tessellator->begin(VertextFormat::LINE_LIST);
 
@@ -103,7 +101,7 @@ void MCR::DrawLine(const Vec2<float>& start, const Vec2<float>& end, float thick
 	MeshHelpers::renderMeshImmediately(screenCtx, tessellator, uiMaterial);
 }
 
-void MCR::drawText(const Vec2<float>& textPos, const std::string& textStr, const WolferColor& color, float textSize) {
+void MCR::drawText(const Vector2<float>& textPos, const std::string& textStr, const WolferColor& color, float textSize) {
 
 	std::string text = textStr;
 	mce::Color mcColor = color.toMCColor();
@@ -137,7 +135,7 @@ float MCR::getTextHeight(float textSize) {
 	return (9.f * textSize);
 }
 
-void MCR::drawQuad(const Vec2<float>& p1, const Vec2<float>& p2, const Vec2<float>& p3, const Vec2<float>& p4, const WolferColor& color) {
+void MCR::drawQuad(const Vector2<float>& p1, const Vector2<float>& p2, const Vector2<float>& p3, const Vector2<float>& p4, const WolferColor& color) {
 	setColor(color);
 	tessellator->begin(VertextFormat::QUAD, 4);
 
@@ -149,11 +147,11 @@ void MCR::drawQuad(const Vec2<float>& p1, const Vec2<float>& p2, const Vec2<floa
 	MeshHelpers::renderMeshImmediately(screenCtx, tessellator, uiMaterial);
 }
 
-void MCR::fillRectangle(const Vec4<float>& rect, const WolferColor& color) {
-	drawQuad(Vec2<float>(rect.x, rect.w), Vec2<float>(rect.z, rect.w), Vec2<float>(rect.z, rect.y), Vec2<float>(rect.x, rect.y), color);
+void MCR::fillRectangle(const Vector4<float>& rect, const WolferColor& color) {
+	drawQuad(Vector2<float>(rect.x, rect.w), Vector2<float>(rect.z, rect.w), Vector2<float>(rect.z, rect.y), Vector2<float>(rect.x, rect.y), color);
 }
 
-/*void MCR::drawItem(const Vec2<float>& pos, ItemStack* itemStack, float scale, bool showDurabilityBar) {
+/*void MCR::drawItem(const Vector2<float>& pos, ItemStack* itemStack, float scale, bool showDurabilityBar) {
 	baseActorRenderCtx.itemRenderer->renderGuiItemNew(&baseActorRenderCtx, itemStack, 0, pos.x, pos.y, 1.f, scale, false);
 
 	if (itemStack->item.get()->isGlint(itemStack)) {
@@ -170,15 +168,15 @@ void MCR::fillRectangle(const Vec4<float>& rect, const WolferColor& color) {
 		if (maxDamage != 0 && durability != maxDamage) {
 			float percent = (float)durability / (float)maxDamage;
 			WolferColor color = Colors::lerp(WolferColor(255, 0, 0), WolferColor(0, 255, 0), percent);
-			Vec4<float> barRect = Vec4<float>(pos.x + (2.f * scale), pos.y + (13.5f * scale), pos.x + (14.f * scale), pos.y + (15.f * scale));
-			Vec4<float> durabilityRect = Vec4<float>(barRect.x, barRect.y, barRect.x + ((barRect.z - barRect.x) * percent), barRect.y + (1.f * scale));
+			Vector4<float> barRect = Vector4<float>(pos.x + (2.f * scale), pos.y + (13.5f * scale), pos.x + (14.f * scale), pos.y + (15.f * scale));
+			Vector4<float> durabilityRect = Vector4<float>(barRect.x, barRect.y, barRect.x + ((barRect.z - barRect.x) * percent), barRect.y + (1.f * scale));
 
 			fillRectangle(barRect, WolferColor(0, 0, 0, 255));
 			fillRectangle(durabilityRect, color);
 		}
 	}
 }*/
-void MCR::drawItem(const Vec2<float>& pos, ItemStack* itemStack, float scale, bool showDurabilityBar) {
+void MCR::drawItem(const Vector2<float>& pos, ItemStack* itemStack, float scale, bool showDurabilityBar) {
 	baseActorRenderCtx.itemRenderer->renderGuiItemNew(&baseActorRenderCtx, itemStack, 0, pos.x, pos.y, 1.f, scale, false);
 
 	if (itemStack->item.get()->isGlint(itemStack)) {
@@ -195,8 +193,8 @@ void MCR::drawItem(const Vec2<float>& pos, ItemStack* itemStack, float scale, bo
 		if (maxDamage != 0 && durability != maxDamage) {
 			float percent = (float)durability / (float)maxDamage;
 			WolferColor color = Colors::lerp(WolferColor(255, 0, 0), WolferColor(0, 255, 0), percent);
-			Vec4<float> barRect = Vec4<float>(pos.x + (2.f * scale), pos.y + (13.5f * scale), pos.x + (14.f * scale), pos.y + (15.f * scale));
-			Vec4<float> durabilityRect = Vec4<float>(barRect.x, barRect.y, barRect.x + ((barRect.z - barRect.x) * percent), barRect.y + (1.f * scale));
+			Vector4<float> barRect = Vector4<float>(pos.x + (2.f * scale), pos.y + (13.5f * scale), pos.x + (14.f * scale), pos.y + (15.f * scale));
+			Vector4<float> durabilityRect = Vector4<float>(barRect.x, barRect.y, barRect.x + ((barRect.z - barRect.x) * percent), barRect.y + (1.f * scale));
 
 			fillRectangle(barRect, WolferColor(0, 0, 0, 255));
 			fillRectangle(durabilityRect, color);
@@ -204,7 +202,7 @@ void MCR::drawItem(const Vec2<float>& pos, ItemStack* itemStack, float scale, bo
 	}
 }
 
-void MCR::drawItemDurability(ItemStack* itemStack, Vec2<float> itemPos, float scale, float opacity, int mode) {
+void MCR::drawItemDurability(ItemStack* itemStack, Vector2<float> itemPos, float scale, float opacity, int mode) {
 	Item* item = itemStack->item.get();
 	float maxDamage = item->getMaxDamage();
 	float damageValue = item->getDamageValue(itemStack->mUserData);
@@ -214,22 +212,22 @@ void MCR::drawItemDurability(ItemStack* itemStack, Vec2<float> itemPos, float sc
 	float fraction = percentage / 100;
 	WolferColor durabilityColor = Colors::lerp(WolferColor(255, 0, 0), WolferColor(0, 255, 0), fraction);
 	if (mode == 0 || mode == 2) {
-		Vec4<float> barPos = Vec4<float>(itemPos.x + 1.5f * scale, itemPos.y + 14.f * scale, itemPos.x + 15.f * scale, itemPos.y + 16.f * scale);
-		Vec4<float> rect = Vec4<float>(barPos.x, barPos.y, barPos.x + ((barPos.z - barPos.x) / 100 * (int)percentage), barPos.w - 1.f * scale);
+		Vector4<float> barPos = Vector4<float>(itemPos.x + 1.5f * scale, itemPos.y + 14.f * scale, itemPos.x + 15.f * scale, itemPos.y + 16.f * scale);
+		Vector4<float> rect = Vector4<float>(barPos.x, barPos.y, barPos.x + ((barPos.z - barPos.x) / 100 * (int)percentage), barPos.w - 1.f * scale);
 		MCR::fillRectangle(barPos, WolferColor(static_cast<u_int>(0.f, 0.f, 0.f)));
 		MCR::fillRectangle(rect, durabilityColor);
 	}
 	if (mode == 1 || mode == 2) {
 		std::string duraText = std::to_string((int)percentage);
-		MCR::drawText(Vec2<float>(itemPos.x + 7.5f, itemPos.y - 6.5f), duraText, durabilityColor, scale);
+		MCR::drawText(Vector2<float>(itemPos.x + 7.5f, itemPos.y - 6.5f), duraText, durabilityColor, scale);
 	}
 }
 
 void MCR::drawBox3dFilled(const AABB& aabb, const WolferColor& color, const WolferColor& lineColor, float scale) {
-	Vec3<float> diff = aabb.upper.sub(aabb.lower);
-	Vec3<float> newLower = aabb.lower.sub(MCR::origin);
+	Vector3<float> diff = aabb.upper.sub(aabb.lower);
+	Vector3<float> newLower = aabb.lower.sub(MCR::origin);
 
-	Vec3<float> vertices[8] = {
+	Vector3<float> vertices[8] = {
 		{newLower.x, newLower.y, newLower.z},
 		{newLower.x + diff.x, newLower.y, newLower.z},
 		{newLower.x, newLower.y, newLower.z + diff.z},
@@ -242,11 +240,11 @@ void MCR::drawBox3dFilled(const AABB& aabb, const WolferColor& color, const Wolf
 	};
 
 	glm::mat4 rotationMatrix = glm::rotate(glm::mat4(scale), 0.f, glm::vec3(1.0f, 1.0f, 1.0f));
-	Vec3<float> newLowerReal = newLower.add(Vec3<float>(0.5f, 0.5f, 0.5f));
+	Vector3<float> newLowerReal = newLower.add(Vector3<float>(0.5f, 0.5f, 0.5f));
 
 	for (int i = 0; i < 8; i++) {
 		glm::vec4 rotatedVertex = rotationMatrix * glm::vec4(vertices[i].x - newLowerReal.x, vertices[i].y - newLowerReal.y, vertices[i].z - newLowerReal.z, 0.0f);
-		vertices[i] = Vec3<float>(rotatedVertex.x + newLowerReal.x, rotatedVertex.y + newLowerReal.y, rotatedVertex.z + newLowerReal.z);
+		vertices[i] = Vector3<float>(rotatedVertex.x + newLowerReal.x, rotatedVertex.y + newLowerReal.y, rotatedVertex.z + newLowerReal.z);
 	}
 
 	if (color.a > 0) {
@@ -256,7 +254,7 @@ void MCR::drawBox3dFilled(const AABB& aabb, const WolferColor& color, const Wolf
 	}
 
 	if (lineColor.a > 0) {
-		static auto drawLine = [](const Vec3<float>& start, const Vec3<float>& end, const WolferColor& _color) {
+		static auto drawLine = [](const Vector3<float>& start, const Vector3<float>& end, const WolferColor& _color) {
 			line3dRenderList.push_back(Render3dData(start, _color));
 			line3dRenderList.push_back(Render3dData(end, _color));
 		};
@@ -281,12 +279,12 @@ void MCR::drawBox3dFilled(const AABB& aabb, const WolferColor& color, const Wolf
 	}
 }
 
-bool MCR::worldToScreen(const Vec3<float>& pos, Vec2<float>& out) {
+bool MCR::worldToScreen(const Vector3<float>& pos, Vector2<float>& out) {
 
 	ClientHMDState* hmdState = g_Data.clientInstance->getHMDState();
 
-	Vec2<float> screenSize = g_Data.clientInstance->guiData->windowSizeScaled;
-	Vec3<float> relativePos = pos.sub(origin);
+	Vector2<float> screenSize = g_Data.clientInstance->guiData->windowSizeScaled;
+	Vector3<float> relativePos = pos.sub(origin);
 
 	glm::mat4 mvpMatrix = hmdState->mLastLevelProjMatrix * hmdState->mLastLevelViewMatrix;
 	glm::vec4 clipSpacePosition = mvpMatrix * glm::vec4(relativePos.x, relativePos.y, relativePos.z, 1.0f);
@@ -296,7 +294,7 @@ bool MCR::worldToScreen(const Vec3<float>& pos, Vec2<float>& out) {
 
 	clipSpacePosition /= clipSpacePosition.w;
 
-	out = Vec2<float>(
+	out = Vector2<float>(
 		(clipSpacePosition.x + 1.0f) * (0.5f * screenSize.x),
 		(1.0f - clipSpacePosition.y) * (0.5f * screenSize.y)
 	);
@@ -304,8 +302,8 @@ bool MCR::worldToScreen(const Vec3<float>& pos, Vec2<float>& out) {
 	return true;
 }
 
-void MCR::drawTextInWorld(const Vec3<float>& pos, const std::string& textStr, const WolferColor& color, float textSize) {
-	Vec2<float> textPos;
+void MCR::drawTextInWorld(const Vector3<float>& pos, const std::string& textStr, const WolferColor& color, float textSize) {
+	Vector2<float> textPos;
 	const float textWidth = getTextWidth(textStr, textSize);
 	const float textHeight = getTextHeight(textSize);
 	if (worldToScreen(pos.add(0.5f), textPos)) {

@@ -86,7 +86,7 @@ bool PlayerUtil::tryPlaceBlock(const BlockPos& blockPos, bool airPlace, bool pac
 					itemUseInvTransac->slot = plrInv->selectedSlot;
 					itemUseInvTransac->itemInHand = NetworkItemStackDescriptor(plrInv->container->getItem(plrInv->selectedSlot));
 					itemUseInvTransac->playerPos = localPlayer->getPos();
-					itemUseInvTransac->clickPos = Vec3<float>(0.5f, 0.5f, 0.5f);
+					itemUseInvTransac->clickPos = Vector3<float>(0.5f, 0.5f, 0.5f);
 
 					InventoryTransactionPacket pk(std::move(itemUseInvTransac));
 					localPlayer->level->getPacketSender()->send(&pk);
@@ -156,7 +156,7 @@ bool MoveUtil::isMoving() {
 	return false;
 }
 
-Vec2<float> MoveUtil::getMotion(const float& speed) {
+Vector2<float> MoveUtil::getMotion(const float& speed) {
 	float playerYaw = g_Data.getLocalPlayer()->rotation->presentRot.y;
 	bool w = g_Data.isKeyDown('W');
 	bool a = g_Data.isKeyDown('A');
@@ -176,7 +176,7 @@ Vec2<float> MoveUtil::getMotion(const float& speed) {
 		if (!a && d) playerYaw += 180.0f;
 	}
 	float calcYaw = playerYaw * 0.01745329251f; //0.01745329251f = PI / 180
-	return Vec2<float>(cos(calcYaw) * speed, sin(calcYaw) * speed);
+	return Vector2<float>(cos(calcYaw) * speed, sin(calcYaw) * speed);
 }
 
 float MoveUtil::getAdjustedYaw() {
@@ -194,7 +194,7 @@ float MoveUtil::getAdjustedYaw() {
 }
 
 void MoveUtil::setSpeed(const float& speed) {
-	Vec2<float> motion = getMotion(speed);
+	Vector2<float> motion = getMotion(speed);
 	if (!isMoving()) {
 		motion.x = 0.f;
 		motion.y = 0.f;

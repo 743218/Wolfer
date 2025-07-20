@@ -19,29 +19,29 @@ bool WorldUtil::canBuildOn(const BlockPos& blockPos) {
 	return getBlock(blockPos)->blockLegacy->canBeBuiltOver(ci->getRegion(), blockPos);
 }
 
-float WorldUtil::distanceToPoint(const Vec3<float>& pos, const Vec3<float>& point) {
+float WorldUtil::distanceToPoint(const Vector3<float>& pos, const Vector3<float>& point) {
 	return pos.dist(point);
 }
 
-float WorldUtil::distanceToEntity(const Vec3<float>& pos, Actor* entity) {
+float WorldUtil::distanceToEntity(const Vector3<float>& pos, Actor* entity) {
 	return distanceToPoint(pos, entity->getPos());
 }
 
-float WorldUtil::distanceToBlock(const Vec3<float>& pos, const BlockPos& blockPos) {
-	return distanceToPoint(pos, blockPos.CastTo<float>().add(Vec3<float>(0.5f, 0.5f, 0.5f)));
+float WorldUtil::distanceToBlock(const Vector3<float>& pos, const BlockPos& blockPos) {
+	return distanceToPoint(pos, blockPos.CastTo<float>().add(Vector3<float>(0.5f, 0.5f, 0.5f)));
 }
 
-float WorldUtil::getSeenPercent(const Vec3<float>& pos, const AABB& aabb) {
+float WorldUtil::getSeenPercent(const Vector3<float>& pos, const AABB& aabb) {
 	float seenPercent = g_Data.clientInstance->getRegion()->getSeenPercent(pos, aabb);
 	if (seenPercent > 1.f) return 1.f; //fixes weird bug when player is phased in the z axis making exposure output more than 1
 	return seenPercent;
 }
 
-float WorldUtil::getSeenPercent(const Vec3<float>& pos, Actor* actor) {
+float WorldUtil::getSeenPercent(const Vector3<float>& pos, Actor* actor) {
 	return getSeenPercent(pos, actor->aabbShape->aabb);
 }
 
-float WorldUtil::getExposure(const Vec3<float>& pos, const AABB& aabb, const int& ignoredBlock) {
+float WorldUtil::getExposure(const Vector3<float>& pos, const AABB& aabb, const int& ignoredBlock) {
 	BlockPos blockPos(
 		static_cast<int>(pos.x),
 		static_cast<int>(pos.y),
@@ -53,9 +53,9 @@ float WorldUtil::getExposure(const Vec3<float>& pos, const AABB& aabb, const int
 		return WorldUtil::getSeenPercent(pos, aabb);
 	}
 	else {
-		Vec3<float> min = aabb.lower;
+		Vector3<float> min = aabb.lower;
 		if (pos.y > min.y) {
-			Vec3<float> posBelow(pos.x, pos.y - 1.f, pos.z);
+			Vector3<float> posBelow(pos.x, pos.y - 1.f, pos.z);
 			BlockPos blockBelow(
 				static_cast<int>(posBelow.x),
 				static_cast<int>(posBelow.y),
@@ -68,9 +68,9 @@ float WorldUtil::getExposure(const Vec3<float>& pos, const AABB& aabb, const int
 	return 0.f;
 }
 
-bool WorldUtil::rayCast(const Vec3<float>& start, const Vec3<float>& end, const int& ignoredBlock) {
-	Vec3<float> current = Vec3<float>(start.x, start.y, start.z);
-	Vec3<float> direction = end.sub(start).normalize();
+bool WorldUtil::rayCast(const Vector3<float>& start, const Vector3<float>& end, const int& ignoredBlock) {
+	Vector3<float> current = Vector3<float>(start.x, start.y, start.z);
+	Vector3<float> direction = end.sub(start).normalize();
 
 	const float stepX = sign(direction.x);
 	const float stepY = sign(direction.y);

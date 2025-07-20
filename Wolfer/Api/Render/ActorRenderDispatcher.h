@@ -6,8 +6,8 @@ class BaseActorRenderContext;
 
 class ActorRenderDispatcher {
 public:
-	void render(BaseActorRenderContext* entityRenderContext, Actor* entity, Vec3<float>* cameraTargetPos, Vec3<float>* pos, Vec2<float>* rot, bool ignoreLighting) {
-		using func_t = void(__thiscall*)(ActorRenderDispatcher*, BaseActorRenderContext*, Actor*, Vec3<float>*, Vec3<float>*, Vec2<float>*, bool);
+	void render(BaseActorRenderContext* entityRenderContext, Actor* entity, Vector3<float>* cameraTargetPos, Vector3<float>* pos, Vector2<float>* rot, bool ignoreLighting) {
+		using func_t = void(__thiscall*)(ActorRenderDispatcher*, BaseActorRenderContext*, Actor*, Vector3<float>*, Vector3<float>*, Vector2<float>*, bool);
 		static func_t Func = (func_t)Memory::getFuncFromCall(Memory::findSig("E8 ? ? ? ? 0F 57 C0 0F 11 85 ? ? ? ? 48 8D 95 ? ? ? ? 48 8B 8F"));
 		Func(this, entityRenderContext, entity, cameraTargetPos, pos, rot, ignoreLighting);
 	}

@@ -8,8 +8,8 @@ struct NotificationBase {
 	float duration;
 	float maxDuration;
 
-	Vec2<float> pos;
-	Vec2<float> vel;
+	Vector2<float> pos;
+	Vector2<float> vel;
 
 	NotificationBase(std::string Message, float Duration = 3.f) {
 		this->message = Message;

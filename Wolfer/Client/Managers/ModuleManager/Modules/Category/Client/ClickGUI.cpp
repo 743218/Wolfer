@@ -8,7 +8,7 @@ ClickGUI::~ClickGUI() {
 	windowList.clear();
 }
 
-ClickGUI::ClickWindow::ClickWindow(std::string windowName, Vec2<float> startPos, Category c) {
+ClickGUI::ClickWindow::ClickWindow(std::string windowName, Vector2<float> startPos, Category c) {
 	this->name = windowName;
 	this->category = c;
 	this->pos = startPos;

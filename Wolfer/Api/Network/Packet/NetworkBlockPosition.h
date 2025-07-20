@@ -2,5 +2,5 @@
 #include "../../../Api/Utils/Maths.h"
 class NetworkBlockPosition {
 public:
-    Vec3<float> position;
+    Vector3<float> position;
 };

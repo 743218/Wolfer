@@ -219,13 +219,13 @@ namespace detail
 
 			float32x4_t Vec0 = neon::copy_lane(neon::dupq_lane(m0, 0), 0, m1, 0); // (m[1][0], m[0][0], m[0][0], m[0][0]);
 			float32x4_t Vec1 = neon::copy_lane(neon::dupq_lane(m0, 1), 0, m1, 1); // (m[1][1], m[0][1], m[0][1], m[0][1]);
-			float32x4_t Vec2 = neon::copy_lane(neon::dupq_lane(m0, 2), 0, m1, 2); // (m[1][2], m[0][2], m[0][2], m[0][2]);
-			float32x4_t Vec3 = neon::copy_lane(neon::dupq_lane(m0, 3), 0, m1, 3); // (m[1][3], m[0][3], m[0][3], m[0][3]);
+			float32x4_t Vector2 = neon::copy_lane(neon::dupq_lane(m0, 2), 0, m1, 2); // (m[1][2], m[0][2], m[0][2], m[0][2]);
+			float32x4_t Vector3 = neon::copy_lane(neon::dupq_lane(m0, 3), 0, m1, 3); // (m[1][3], m[0][3], m[0][3], m[0][3]);
 
-			float32x4_t Inv0 = Vec1 * Fac0 - Vec2 * Fac1 + Vec3 * Fac2;
-			float32x4_t Inv1 = Vec0 * Fac0 - Vec2 * Fac3 + Vec3 * Fac4;
-			float32x4_t Inv2 = Vec0 * Fac1 - Vec1 * Fac3 + Vec3 * Fac5;
-			float32x4_t Inv3 = Vec0 * Fac2 - Vec1 * Fac4 + Vec2 * Fac5;
+			float32x4_t Inv0 = Vec1 * Fac0 - Vector2 * Fac1 + Vector3 * Fac2;
+			float32x4_t Inv1 = Vec0 * Fac0 - Vector2 * Fac3 + Vector3 * Fac4;
+			float32x4_t Inv2 = Vec0 * Fac1 - Vec1 * Fac3 + Vector3 * Fac5;
+			float32x4_t Inv3 = Vec0 * Fac2 - Vec1 * Fac4 + Vector2 * Fac5;
 
 			float32x4_t r0 = float32x4_t{-1, +1, -1, +1} * Inv0;
 			float32x4_t r1 = float32x4_t{+1, -1, +1, -1} * Inv1;

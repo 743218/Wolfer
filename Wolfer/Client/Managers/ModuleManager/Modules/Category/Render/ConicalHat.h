@@ -10,10 +10,10 @@ private:
     float opacityfill = 0.45f;
     float opacityline = 0.45f;
 
-    void drawLineStrip3d(const std::vector<Vec3<float>>& points, const WolferColor& color) {
+    void drawLineStrip3d(const std::vector<Vector3<float>>& points, const WolferColor& color) {
         if (points.empty()) return;
 
-        std::vector<Vec3<float>> localPoints;
+        std::vector<Vector3<float>> localPoints;
         localPoints.reserve(points.size());
         for (const auto& p : points) {
             localPoints.emplace_back(
@@ -43,8 +43,8 @@ public:
         if (!player || !player->aabbShape || !MCR::tessellator || !MCR::screenCtx || !MCR::blendMaterial) return;
 
         AABB aabb = player->aabbShape->aabb;
-        Vec3<float> eyePos = player->getEyePos();
-        Vec3<float> origin = g_Data.clientInstance->getLevelRenderer()->levelRendererPlayer->realOrigin;
+        Vector3<float> eyePos = player->getEyePos();
+        Vector3<float> origin = g_Data.clientInstance->getLevelRenderer()->levelRendererPlayer->realOrigin;
 
         float width = aabb.upper.x - aabb.lower.x;
         float radius = width * sizex;
@@ -56,10 +56,10 @@ public:
 
         float baseY = (eyePos.y + 0.3f + yOffset) - 0.1f;
         float tipY = baseY + height;
-        Vec3<float> tip = { eyePos.x - origin.x, tipY - origin.y, eyePos.z - origin.z };
+        Vector3<float> tip = { eyePos.x - origin.x, tipY - origin.y, eyePos.z - origin.z };
 
         const int segments = 72;
-        std::vector<Vec3<float>> ringPoints;
+        std::vector<Vector3<float>> ringPoints;
         ringPoints.reserve(segments + 1);
 
         for (int i = 0; i <= segments; ++i) {
@@ -70,8 +70,8 @@ public:
         }
 
         for (int i = 0; i < segments; ++i) {
-            Vec3<float>& p1 = ringPoints[i];
-            Vec3<float>& p2 = ringPoints[i + 1];
+            Vector3<float>& p1 = ringPoints[i];
+            Vector3<float>& p2 = ringPoints[i + 1];
 
             WolferColor base(baseColor.r, baseColor.g, baseColor.b, static_cast<uint8_t>(255.f * opacityfill));
             MCR::setColor(base);

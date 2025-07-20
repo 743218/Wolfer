@@ -25,7 +25,7 @@ public:
 		return newMatPtr;
 	};
 
-	bool OWorldToScreen(Vec3<float> origin, Vec3<float> pos, Vec2<float>& screen, Vec2<float>& fov, Vec2<float>& displaySize) const
+	bool OWorldToScreen(Vector3<float> origin, Vector3<float> pos, Vector2<float>& screen, Vector2<float>& fov, Vector2<float>& displaySize) const
 	{
 		pos = pos.sub(origin);
 
@@ -49,22 +49,22 @@ public:
 		return true;
 	}
 
-	float transformDot(int index, const Vec3<float>& p) const {
+	float transformDot(int index, const Vector3<float>& p) const {
 		return p.x * matrix[index * 4 + 0] +
 			p.y * matrix[index * 4 + 1] +
 			p.z * matrix[index * 4 + 2] +
 			matrix[index * 4 + 3];
 	}
 
-	__forceinline float transformx(const Vec3<float>& p) const {
+	__forceinline float transformx(const Vector3<float>& p) const {
 		return p.x * matrix[0] + p.y * matrix[4] + p.z * matrix[8] + matrix[12];
 	}
 
-	__forceinline float transformy(const Vec3<float>& p) const {
+	__forceinline float transformy(const Vector3<float>& p) const {
 		return p.x * matrix[1] + p.y * matrix[5] + p.z * matrix[9] + matrix[13];
 	}
 
-	__forceinline float transformz(const Vec3<float>& p) const {
+	__forceinline float transformz(const Vector3<float>& p) const {
 		return p.x * matrix[2] + p.y * matrix[6] + p.z * matrix[10] + matrix[14];
 	}
 };
@@ -102,17 +102,17 @@ public:
 		return (GLMatrix*)((uintptr_t)(this) + 0x330);
 	}
 
-	inline bool WorldToScreen(Vec3<float> pos, Vec2<float>& screen) //good for any version 
+	inline bool WorldToScreen(Vector3<float> pos, Vector2<float>& screen) //good for any version 
 	{ // pos = pos 2 w2s, screen = output screen coords
 		if (!getguiData()) {
 			return false;
 		}
-		Vec2<float> displaySize = getguiData()->windowSizeReal;
+		Vector2<float> displaySize = getguiData()->windowSizeReal;
 		//LevelRenderer* lr = levelRenderer;
 		if (getLevelRenderer() == nullptr) return false;
 
-		Vec3<float> origin = getLevelRenderer()->levelRendererPlayer->Origin;
-		Vec2<float> fov = getFov();
+		Vector3<float> origin = getLevelRenderer()->levelRendererPlayer->Origin;
+		Vector2<float> fov = getFov();
 
 		pos.x -= origin.x;
 		pos.y -= origin.y;
@@ -135,8 +135,8 @@ public:
 
 		return true;
 	}
-	Vec2<float> getFov() { // Check for fov in clientinstance
-		Vec2<float> fov;
+	Vector2<float> getFov() { // Check for fov in clientinstance
+		Vector2<float> fov;
 		fov.x = *(float*)(reinterpret_cast<uintptr_t>(this) + 0x6F0); // 1.21.2
 		fov.y = *(float*)(reinterpret_cast<uintptr_t>(this) + 0x704); // 1.21.2
 		return fov;

@@ -12,7 +12,7 @@ private:
 
 		static ClickGUI* clickGuiMod = ModuleManager::getModule<ClickGUI>();
 		if (clickGuiMod->isEnabled()) {
-			clickGuiMod->onMouseUpdate(Vec2<float>((float)mouseX, (float)mouseY), mouseButton, isDown);
+			clickGuiMod->onMouseUpdate(Vector2<float>((float)mouseX, (float)mouseY), mouseButton, isDown);
 			return;
 		}
 		oFunc(a1, mouseButton, isDown, mouseX, mouseY, relativeMovementX, relativeMovementY, a8);

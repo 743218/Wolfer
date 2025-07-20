@@ -8,20 +8,20 @@ private:
     float renderAlpha = 0.0f;
 
     struct FadeBlock {
-        Vec3<int> pos;
+        Vector3<int> pos;
         float alpha;
-        FadeBlock(Vec3<int> p, float a) : pos(p), alpha(a) {}
+        FadeBlock(Vector3<int> p, float a) : pos(p), alpha(a) {}
     };
     std::vector<FadeBlock> fadingBlocks;
 
-    Vec2<float> currentRot = { 0.f, 0.f };
+    Vector2<float> currentRot = { 0.f, 0.f };
     bool strict = false;
 
-    Vec3<int> getBlockUnderFeet(LocalPlayer* player) {
-        if (!player) return Vec3<int>{ 0, -1337, 0 };
+    Vector3<int> getBlockUnderFeet(LocalPlayer* player) {
+        if (!player) return Vector3<int>{ 0, -1337, 0 };
 
         auto pos = player->getPos();
-        auto vel = player->stateVector ? player->stateVector->velocity : Vec3<float>{ 0.f, 0.f, 0.f };
+        auto vel = player->stateVector ? player->stateVector->velocity : Vector3<float>{ 0.f, 0.f, 0.f };
 
         float x = vel.x, z = vel.z;
         float spd = std::sqrt(x * x + z * z);
@@ -34,10 +34,10 @@ private:
         int py = static_cast<int>(std::floor(pos.y - 2.0f));
         int pz = static_cast<int>(std::floor(pos.z));
 
-        Vec3<int> foot = { px, py, pz };
+        Vector3<int> foot = { px, py, pz };
 
         auto region = g_Data.getClientInstance()->getRegion();
-        if (!region) return Vec3<int>{ 0, -1337, 0 };
+        if (!region) return Vector3<int>{ 0, -1337, 0 };
 
         auto b = region->getBlock(foot);
         if (b && b->blockLegacy && b->blockLegacy->blockId == 0) {
@@ -57,7 +57,7 @@ private:
             }
         }
         else {
-            return Vec3<int>{ 0, -1337, 0 };
+            return Vector3<int>{ 0, -1337, 0 };
         }
 
         for (int dx = -1; dx <= 1; dx++) {
@@ -65,7 +65,7 @@ private:
                 if (dx == 0 && dz == 0) continue;
 
                 int cx = px + dx, cz = pz + dz;
-                Vec3<int> checkPos = { cx, py, cz };
+                Vector3<int> checkPos = { cx, py, cz };
                 auto fb = region->getBlock(checkPos);
                 if (fb && fb->blockLegacy && fb->blockLegacy->blockId == 0) {
                     for (int i = 0; i < 6; i++) {
@@ -86,7 +86,7 @@ private:
             }
         }
 
-        return Vec3<int>{ 0, -1337, 0 };
+        return Vector3<int>{ 0, -1337, 0 };
     }
 
     int findBlockHotbarSlot(LocalPlayer* player) {
@@ -101,7 +101,7 @@ private:
         return -1;
     }
 
-    bool isBlockPlaceable(LocalPlayer* player, const Vec3<int>& pos) {
+    bool isBlockPlaceable(LocalPlayer* player, const Vector3<int>& pos) {
         if (!player) return false;
         BlockSource* region = g_Data.getClientInstance()->getRegion();
         if (!region) return false;
@@ -111,12 +111,12 @@ private:
         return block->blockLegacy->blockId == 0;
     }
 
-    int getPlaceableBlockFace(BlockSource* region, const Vec3<int>& pos) {
-        static const Vec3<int> directions[6] = {
+    int getPlaceableBlockFace(BlockSource* region, const Vector3<int>& pos) {
+        static const Vector3<int> directions[6] = {
             {0, -1, 0}, {0, 1, 0}, {0, 0, -1}, {0, 0, 1}, {-1, 0, 0}, {1, 0, 0}
         };
         for (int side = 0; side < 6; ++side) {
-            Vec3<int> neighborPos = {
+            Vector3<int> neighborPos = {
                 pos.x + directions[side].x,
                 pos.y + directions[side].y,
                 pos.z + directions[side].z
@@ -153,7 +153,7 @@ private:
         return true;
     }
 
-    void placeBlock(LocalPlayer* player, GameMode* gameMode, const Vec3<int>& pos, int slot) {
+    void placeBlock(LocalPlayer* player, GameMode* gameMode, const Vector3<int>& pos, int slot) {
         if (!player || !gameMode) return;
         if (slot < 0) return;
 
@@ -200,7 +200,7 @@ public:
         int slot = findBlockHotbarSlot(player);
         if (slot == -1) return;
 
-        Vec3<int> underFeetPos = getBlockUnderFeet(player);
+        Vector3<int> underFeetPos = getBlockUnderFeet(player);
         if (underFeetPos.y == -1337) return;
 
         if (isBlockPlaceable(player, underFeetPos)) {
@@ -229,8 +229,8 @@ public:
                 fadingBlocks.erase(fadingBlocks.begin() + i);
                 continue;
             }
-            Vec3<float> lower(static_cast<float>(block.pos.x), static_cast<float>(block.pos.y), static_cast<float>(block.pos.z));
-            Vec3<float> upper(lower.x + 1.0f, lower.y + 1.0f, lower.z + 1.0f);
+            Vector3<float> lower(static_cast<float>(block.pos.x), static_cast<float>(block.pos.y), static_cast<float>(block.pos.z));
+            Vector3<float> upper(lower.x + 1.0f, lower.y + 1.0f, lower.z + 1.0f);
             WolferColor fillColor(0, 255, 175, static_cast<int>(15.0f * block.alpha));
             WolferColor outlineColor(0, 0, 0, 0);
             MCR::drawBox3dFilled(AABB(lower, upper), fillColor, outlineColor);
@@ -241,7 +241,7 @@ public:
     void onUpdateRotation(LocalPlayer* player) override {
         if (!player || !player->stateVector || !player->rotation) return;
 
-        Vec3<float> velocity = player->stateVector->velocity;
+        Vector3<float> velocity = player->stateVector->velocity;
         float speed = std::sqrt(velocity.x * velocity.x + velocity.z * velocity.z);
         if (speed < 0.01f) return;
 

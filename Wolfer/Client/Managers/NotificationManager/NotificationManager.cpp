@@ -5,7 +5,7 @@
 
 void NotificationManager::Render() {
 
-	Vec2<float> windowSize = g_Data.clientInstance->guiData->windowSizeReal;	//D2D::getWindowSize();
+	Vector2<float> windowSize = g_Data.clientInstance->guiData->windowSizeReal;	//D2D::getWindowSize();
 	float textSize = 1.f;
 	float textPaddingX = 3.f;
 	float textPaddingY = -1.f;
@@ -23,11 +23,11 @@ void NotificationManager::Render() {
 		float textWidth = D2D::getTextWidth(message, textSize);
 
 		if (notif->duration == notif->maxDuration) {
-			notif->pos = Vec2<float>(windowSize.x, posY);
+			notif->pos = Vector2<float>(windowSize.x, posY);
 		}
 
 		if (notif->duration > 0.f) {
-			Vec2<float> posTo = Vec2<float>(windowSize.x - offsetX - textWidth - (textPaddingX * 2.f), posY);
+			Vector2<float> posTo = Vector2<float>(windowSize.x - offsetX - textWidth - (textPaddingX * 2.f), posY);
 			notif->pos.x = Math::lerp(notif->pos.x, posTo.x, D2D::deltaTime * 8.f);
 			notif->pos.y = Math::lerp(notif->pos.y, posTo.y, D2D::deltaTime * 8.f);
 			notif->duration -= D2D::deltaTime;
@@ -52,12 +52,12 @@ void NotificationManager::Render() {
 		if (anim > 1.f)
 			anim = 1.f;
 
-		Vec4<float> rectPos = Vec4<float>(notif->pos.x,
+		Vector4<float> rectPos = Vector4<float>(notif->pos.x,
 										  notif->pos.y,
 										  notif->pos.x + textWidth + (textPaddingX * 2.f),
 										  notif->pos.y + textHeight + (textPaddingY * 2.f));
 
-		Vec2<float> textPos = Vec2<float>(rectPos.x + textPaddingX, rectPos.y + textPaddingY);
+		Vector2<float> textPos = Vector2<float>(rectPos.x + textPaddingX, rectPos.y + textPaddingY);
 
 		D2D::fillRectangle(rectPos, WolferColor(0, 0, 0, (int)(135 * anim)));
 		D2D::drawText(textPos, message, WolferColor(255, 255, 255, (int)(255 * anim)), textSize);

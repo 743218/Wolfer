@@ -138,9 +138,9 @@ void D2D::Render() {
 		char colorBrushDb[30];
 		sprintf_s(colorBrushDb, 30, "ColorBrushCaches: %i", (int)(colorBrushCache.size()));
 
-		drawText(Vec2<float>(10.f, 75.f), std::string(textFormatDb), WolferColor(255, 255, 255), 0.5f, false);
-		drawText(Vec2<float>(10.f, 90.f), std::string(textLayoutDb), WolferColor(255, 255, 255), 0.5f, false);
-		drawText(Vec2<float>(10.f, 105.f), std::string(colorBrushDb), WolferColor(255, 255, 255), 0.5f, false);
+		drawText(Vector2<float>(10.f, 75.f), std::string(textFormatDb), WolferColor(255, 255, 255), 0.5f, false);
+		drawText(Vector2<float>(10.f, 90.f), std::string(textLayoutDb), WolferColor(255, 255, 255), 0.5f, false);
+		drawText(Vector2<float>(10.f, 105.f), std::string(colorBrushDb), WolferColor(255, 255, 255), 0.5f, false);
 	}
 	*/
 	// ClickGUI
@@ -153,7 +153,7 @@ void D2D::Render() {
 
 	// Eject
 	{
-		Vec2<float> windowSize = D2D::getWindowSize();
+		Vector2<float> windowSize = D2D::getWindowSize();
 		static float holdTime = 0.f;
 		static float holdAnim = 0.f;
 		static float showDuration = 0.f;
@@ -168,10 +168,10 @@ void D2D::Render() {
 			float textWidth = getTextWidth(text, textSize);
 			float textHeight = getTextHeight(text, textSize);
 
-			Vec2<float> textPos = Vec2<float>((windowSize.x - textWidth) / 2.f, -30.f + (100.f * showDuration));
-			Vec4<float> rectPos = Vec4<float>(textPos.x - textPaddingX, textPos.y - textPaddingY, textPos.x + textWidth + textPaddingX, textPos.y + textHeight + textPaddingY);
-			Vec4<float> underlineRect = Vec4<float>(rectPos.x, rectPos.w, rectPos.z, rectPos.w + 2.f * textSize);
-			Vec4<float> underlineAnim = Vec4<float>(underlineRect.x, underlineRect.y, underlineRect.x + (underlineRect.z - underlineRect.x) * holdAnim, underlineRect.w);
+			Vector2<float> textPos = Vector2<float>((windowSize.x - textWidth) / 2.f, -30.f + (100.f * showDuration));
+			Vector4<float> rectPos = Vector4<float>(textPos.x - textPaddingX, textPos.y - textPaddingY, textPos.x + textWidth + textPaddingX, textPos.y + textHeight + textPaddingY);
+			Vector4<float> underlineRect = Vector4<float>(rectPos.x, rectPos.w, rectPos.z, rectPos.w + 2.f * textSize);
+			Vector4<float> underlineAnim = Vector4<float>(underlineRect.x, underlineRect.y, underlineRect.x + (underlineRect.z - underlineRect.x) * holdAnim, underlineRect.w);
 
 			fillRectangle(rectPos, WolferColor(0, 0, 0, 125));
 			fillRectangle(underlineRect, WolferColor(0, 0, 0, 165));
@@ -240,12 +240,12 @@ void D2D::Flush() {
 	d2dDeviceContext->Flush();
 }
 
-Vec2<float> D2D::getWindowSize() {
+Vector2<float> D2D::getWindowSize() {
 	D2D1_SIZE_U size = sourceBitmap->GetPixelSize();
-	return Vec2<float>((float)size.width, (float)size.height);
+	return Vector2<float>((float)size.width, (float)size.height);
 }
 
-void D2D::drawText(const Vec2<float>& textPos, const std::string& textStr, const WolferColor& color, float textSize, bool storeTextLayout) {
+void D2D::drawText(const Vector2<float>& textPos, const std::string& textStr, const WolferColor& color, float textSize, bool storeTextLayout) {
 	IDWriteTextLayout* textLayout = getTextLayout(textStr, textSize, storeTextLayout);
 
 	static CustomFont* customFontMod = ModuleManager::getModule<CustomFont>();
@@ -274,32 +274,32 @@ float D2D::getTextHeight(const std::string& textStr, float textSize, bool storeT
 	return std::ceilf(textMetrics.height);
 }
 
-void D2D::drawLine(const Vec2<float>& startPos, const Vec2<float>& endPos, const WolferColor& color, float width) {
+void D2D::drawLine(const Vector2<float>& startPos, const Vector2<float>& endPos, const WolferColor& color, float width) {
 	ID2D1SolidColorBrush* colorBrush = getSolidColorBrush(color);
 	d2dDeviceContext->DrawLine(D2D1::Point2F(startPos.x, startPos.y), D2D1::Point2F(endPos.x, endPos.y), colorBrush, width);
 }
 
-void D2D::drawRectangle(const Vec4<float>& rect, const WolferColor& color, float width) {
+void D2D::drawRectangle(const Vector4<float>& rect, const WolferColor& color, float width) {
 	ID2D1SolidColorBrush* colorBrush = getSolidColorBrush(color);
 	d2dDeviceContext->DrawRectangle(D2D1::RectF(rect.x, rect.y, rect.z, rect.w), colorBrush, width);
 }
 
-void D2D::fillRectangle(const Vec4<float>& rect, const WolferColor& color) {
+void D2D::fillRectangle(const Vector4<float>& rect, const WolferColor& color) {
 	ID2D1SolidColorBrush* colorBrush = getSolidColorBrush(color);
 	d2dDeviceContext->FillRectangle(D2D1::RectF(rect.x, rect.y, rect.z, rect.w), colorBrush);
 }
 
-void D2D::drawCircle(const Vec2<float>& centerPos, const WolferColor& color, float radius, float width) {
+void D2D::drawCircle(const Vector2<float>& centerPos, const WolferColor& color, float radius, float width) {
 	ID2D1SolidColorBrush* colorBrush = getSolidColorBrush(color);
 	d2dDeviceContext->DrawEllipse(D2D1::Ellipse(D2D1::Point2F(centerPos.x, centerPos.y), radius, radius), colorBrush, width);
 }
 
-void D2D::fillCircle(const Vec2<float>& centerPos, const WolferColor& color, float radius) {
+void D2D::fillCircle(const Vector2<float>& centerPos, const WolferColor& color, float radius) {
 	ID2D1SolidColorBrush* colorBrush = getSolidColorBrush(color);
 	d2dDeviceContext->FillEllipse(D2D1::Ellipse(D2D1::Point2F(centerPos.x, centerPos.y), radius, radius), colorBrush);
 }
 
-void D2D::addBlur(const Vec4<float>& rect, float strength, bool flush) {
+void D2D::addBlur(const Vector4<float>& rect, float strength, bool flush) {
 	if (flush) {
 		d2dDeviceContext->Flush();
 	}
@@ -338,10 +338,10 @@ void D2D::addBlur(const Vec4<float>& rect, float strength, bool flush) {
 	clipRectGeo->Release();
 }
 
-void D2D::lookAt(float viewMatrix[4][4], const Vec3<float>& eye, const Vec3<float>& center, const Vec3<float>& up) {
-	Vec3<float> f = center.sub(eye).normalize();
-	Vec3<float> s = f.cross(up).normalize();
-	Vec3<float> u = s.cross(f);
+void D2D::lookAt(float viewMatrix[4][4], const Vector3<float>& eye, const Vector3<float>& center, const Vector3<float>& up) {
+	Vector3<float> f = center.sub(eye).normalize();
+	Vector3<float> s = f.cross(up).normalize();
+	Vector3<float> u = s.cross(f);
 
 	viewMatrix[0][0] = s.x;
 	viewMatrix[1][0] = s.y;

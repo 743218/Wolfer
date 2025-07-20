@@ -17,7 +17,7 @@ public:
 
         if (!g_Data.canUseMoveKeys()) return;
 
-        Vec3<float> currentPos = localPlayer->getPos();
+        Vector3<float> currentPos = localPlayer->getPos();
 
         float yaw = localPlayer->rotation->presentRot.y;
 
@@ -33,7 +33,7 @@ public:
         if (left) x -= 1;
         if (right) x += 1;
 
-        Vec3<float> offset(0.f, 0.f, 0.f);
+        Vector3<float> offset(0.f, 0.f, 0.f);
 
         if (x != 0 || y != 0) {
             double angle = std::atan2(static_cast<double>(x), static_cast<double>(y)) * (180.0 / static_cast<double>(PI));
@@ -45,7 +45,7 @@ public:
         if (g_Data.isKeyDown(VK_SPACE)) offset.y += vSpeed;
         if (g_Data.isKeyDown(VK_SHIFT)) offset.y -= vSpeed;
 
-        Vec3<float> newPos(
+        Vector3<float> newPos(
             currentPos.x + offset.x,
             currentPos.y + offset.y,
             currentPos.z + offset.z

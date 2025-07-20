@@ -3,7 +3,7 @@
 #include <queue>
 
 struct NameTagRenderData {
-    Vec2<float> screenPos;
+    Vector2<float> screenPos;
     std::string text;
     float scale;
 };
@@ -44,22 +44,22 @@ public:
         Level* level = localPlayer->level;
         if (level == nullptr) return;
 
-        Vec3<float> origin = MCR::origin;
+        Vector3<float> origin = MCR::origin;
 
         NameTagsTransform transform;
 
         for (auto& entity : level->getRuntimeActorList()) {
             uint32_t entityId = entity->getActorTypeComponent()->id;
             if (TargetUtil::isTargetValid(entity, mobTags, false) || (itemTags && entityId == 64) || (self && entity == localPlayer)) {
-                Vec2<float> textPos;
-                Vec3<float> entityPos = entity->getEyePos();
+                Vector2<float> textPos;
+                Vector3<float> entityPos = entity->getEyePos();
 
                 if (entityId != 319)
                     entityPos.y += entity->aabbShape->height;
 
                 float renderOffsetY = 0.75f;
 
-                if (MCR::worldToScreen(entityPos.add(Vec3<float>(0.f, renderOffsetY, 0.f)), textPos)) {
+                if (MCR::worldToScreen(entityPos.add(Vector3<float>(0.f, renderOffsetY, 0.f)), textPos)) {
                     float dist = origin.dist(entityPos);
                     float textSize = fmax(0.5f, fmin(2.f, 3.f / dist));
                     float textPaddingX = 2.f * textSize;
@@ -73,7 +73,7 @@ public:
                     textPos.x -= textWidth / 2.f;
                     textPos.y -= textHeight / 2.f;
 
-                    Vec4<float> rectPos = Vec4<float>(textPos.x - textPaddingX,
+                    Vector4<float> rectPos = Vector4<float>(textPos.x - textPaddingX,
                         textPos.y - textPaddingY,
                         textPos.x + textWidth + textPaddingX,
                         textPos.y + textHeight + textPaddingY);
@@ -84,7 +84,7 @@ public:
 
                     if (shouldRender) {
                         NameTagRenderData renderData;
-                        renderData.screenPos = Vec2<float>(textPos.x + (textWidth / 2.f), rectPos.y);
+                        renderData.screenPos = Vector2<float>(textPos.x + (textWidth / 2.f), rectPos.y);
                         renderData.text = entityName;
                         renderData.scale = textSize;
                         transform.renderList.push_back(renderData);
@@ -93,7 +93,7 @@ public:
                             float scale = 0.85f * textSize;
                             float spacing = 15.f * scale;
 
-                            Vec2<float> armorHudPos = Vec2<float>((rectPos.x + rectPos.z) / 2.f, rectPos.y - 17.f * scale);
+                            Vector2<float> armorHudPos = Vector2<float>((rectPos.x + rectPos.z) / 2.f, rectPos.y - 17.f * scale);
 
                             ItemStack* armorItemStack[6] = { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr };
 
@@ -122,7 +122,7 @@ public:
                                     MCR::drawItem(armorHudPos, armorItemStack[i], scale, true);
                                     uint8_t itemCount = armorItemStack[i]->mCount;
                                     if (itemCount > 1) {
-                                        Vec2<float> itemCountPos = Vec2<float>(armorHudPos.x + (17.f * scale), armorHudPos.y + (8.f * scale));
+                                        Vector2<float> itemCountPos = Vector2<float>(armorHudPos.x + (17.f * scale), armorHudPos.y + (8.f * scale));
                                         std::string itemCountText = std::to_string(itemCount);
                                         itemCountPos.x -= MCR::getTextWidth(itemCountText, scale);
                                         MCR::drawText(itemCountPos, itemCountText, WolferColor(255, 255, 255), scale);
@@ -145,8 +145,8 @@ public:
         LocalPlayer* localPlayer = g_Data.getLocalPlayer();
         if (localPlayer == nullptr) return;
 
-        Vec2<float> windowSize = g_Data.clientInstance->guiData->windowSizeReal;
-        Vec2<float> windowScaled = g_Data.clientInstance->guiData->windowSizeScaled;
+        Vector2<float> windowSize = g_Data.clientInstance->guiData->windowSizeReal;
+        Vector2<float> windowScaled = g_Data.clientInstance->guiData->windowSizeScaled;
 
         static NameTagsTransform currentTransform;
 
@@ -165,18 +165,18 @@ public:
             float textWidth = D2D::getTextWidth(entityName, textSize);
             float textHeight = D2D::getTextHeight(entityName, textSize);
 
-            Vec2<float> renderPos;
+            Vector2<float> renderPos;
             renderPos.x = renderData.screenPos.x * (windowSize.x / windowScaled.x);
             renderPos.y = renderData.screenPos.y * (windowSize.y / windowScaled.y);
 
-            Vec4<float> rectPos = Vec4<float>(renderPos.x - (textWidth / 2.f) - textPaddingX,
+            Vector4<float> rectPos = Vector4<float>(renderPos.x - (textWidth / 2.f) - textPaddingX,
                 renderPos.y,
                 renderPos.x + (textWidth / 2.f) + textPaddingX,
                 renderPos.y + textHeight + (textPaddingY * 2.f));
 
-            Vec4<float> underlineRect = Vec4<float>(rectPos.x, rectPos.w, rectPos.z, rectPos.w + 2.f * textSize);
+            Vector4<float> underlineRect = Vector4<float>(rectPos.x, rectPos.w, rectPos.z, rectPos.w + 2.f * textSize);
 
-            Vec2<float> textPos = Vec2<float>(rectPos.x + textPaddingX, rectPos.y + textPaddingY);
+            Vector2<float> textPos = Vector2<float>(rectPos.x + textPaddingX, rectPos.y + textPaddingY);
 
             D2D::fillRectangle(rectPos, WolferColor(0, 0, 0, opacity));
 

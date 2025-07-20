@@ -38,7 +38,7 @@ public:
 	virtual void removeItem(int, int);
 	virtual void removeAllItems(void);
 	virtual void removeAllItemsWithForceBalance(void);
-	virtual void dropContents(BlockSource&, struct Vec3<float> const&, bool);
+	virtual void dropContents(BlockSource&, struct Vector3<float> const&, bool);
 	virtual int getContainerSize(void);
 	virtual int getMaxStackSize(void);
 	virtual void startOpen(Player&);

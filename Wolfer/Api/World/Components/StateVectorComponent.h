@@ -2,7 +2,7 @@
 #include "../../../Api/Utils/Maths.h"
 
 struct StateVectorComponent {
-    Vec3<float> pos;
-    Vec3<float> oldPos;
-    Vec3<float> velocity;
+    Vector3<float> pos;
+    Vector3<float> oldPos;
+    Vector3<float> velocity;
 };

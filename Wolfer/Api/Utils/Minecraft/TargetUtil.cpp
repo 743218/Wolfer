@@ -60,9 +60,9 @@ bool TargetUtil::isTargetValid(Actor* target, bool isMob, bool friendCheck, floa
 	return true;
 }
 
-AABB TargetUtil::makeAABB(float width, float height, const Vec3<float>& lowerPos) {
+AABB TargetUtil::makeAABB(float width, float height, const Vector3<float>& lowerPos) {
 	AABB out;
-	out.lower = lowerPos.sub(Vec3<float>(width / 2.f, 1.6f, width / 2.f));
-	out.upper = out.lower.add(Vec3<float>(width, height, width));
+	out.lower = lowerPos.sub(Vector3<float>(width / 2.f, 1.6f, width / 2.f));
+	out.upper = out.lower.add(Vector3<float>(width, height, width));
 	return out;
 }

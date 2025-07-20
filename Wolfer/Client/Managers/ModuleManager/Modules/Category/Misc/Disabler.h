@@ -7,7 +7,7 @@ private:
 
 public:
     Disabler() : Module("Disabler", "Bypass server anticheats", Category::MISC) {
-        registerSetting(new EnumSetting("Mode", "Disabler mode", { "Aternos", "Guyser", "Lifeboat" }, &mode, 0));
+        registerSetting(new EnumSetting("Mode", "Disabler mode", { "Aternos", "Geyser", "Lifeboat" }, &mode, 0));
     }
 
     void onTick(GameMode* gm) override {

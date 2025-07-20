@@ -1,13 +1,13 @@
 #include "DamageUtil.h"
 
-float DamageUtils::getExplosionDamage(const Vec3<float>& position, Actor* actor, float extrapolation, int ignoredBlockId) {
+float DamageUtils::getExplosionDamage(const Vector3<float>& position, Actor* actor, float extrapolation, int ignoredBlockId) {
 	static constexpr float explosionRadius = 12.f;
 	static constexpr float armorReductionF = 0.035f;
 	static constexpr float maxEpf = 25.f;
 	static constexpr float maxPR = 20.f;
-	Vec3<float> targetPosition = actor->getHumanPos();
-	Vec3<float> predictVal = actor->stateVector->velocity.mul(extrapolation);
-	Vec3<float> finalPos = targetPosition.add(predictVal);
+	Vector3<float> targetPosition = actor->getHumanPos();
+	Vector3<float> predictVal = actor->stateVector->velocity.mul(extrapolation);
+	Vector3<float> finalPos = targetPosition.add(predictVal);
 	const float distanceToExplosion = finalPos.dist(position) / explosionRadius;
 	if (distanceToExplosion > 1.f) return 0.f;
 	float exposure = g_Data.clientInstance->getRegion()->getSeenPercent(position, actor->aabbShape->aabb);

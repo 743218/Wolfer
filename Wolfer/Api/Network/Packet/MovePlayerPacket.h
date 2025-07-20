@@ -20,7 +20,7 @@ enum class TeleportationCause : int {
 class MovePlayerPacket : public Packet {
 public:
     int64_t          mRuntimeId;
-    Vec3<float>      mPosition;
+    Vector3<float>      mPosition;
     float            headYaw;
     PositionMode          mode;
     bool             onGround;

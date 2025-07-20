@@ -35,8 +35,8 @@ public:
 		Actor* target = targets[0];
 		if (!target) return;
 
-		Vec3<float> eyePos = localPlayer->getEyePos();
-		Vec3<float> targetPos = target->getEyePos();
+		Vector3<float> eyePos = localPlayer->getEyePos();
+		Vector3<float> targetPos = target->getEyePos();
 		rot = eyePos.CalcAngle(targetPos);
 
 		for (Actor* t : targets) {
@@ -59,7 +59,7 @@ public:
 
 private:
 	std::vector<Actor*> targets;
-	Vec2<float> rot{};
+	Vector2<float> rot{};
 	float range = 5.f;
 	int delay = 5;
 	int tickCounter = 0;

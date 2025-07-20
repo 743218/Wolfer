@@ -7,7 +7,7 @@ private:
 	struct ClickWindow {
 		std::string name;
 		Category category;
-		Vec2<float> pos;
+		Vector2<float> pos;
 		bool extended = true;
 
 		// Animation
@@ -15,15 +15,15 @@ private:
 
 		std::vector<Module*> moduleList;
 
-		ClickWindow(std::string windowName, Vec2<float> startPos, Category c);
+		ClickWindow(std::string windowName, Vector2<float> startPos, Category c);
 	};
 
 	std::vector<ClickWindow*> windowList;
 	float openAnim = 0.0f;
 	bool initialized = false;
 
-	Vec2<float> mousePos = Vec2<float>(0.f, 0.f);
-	Vec2<float> mouseDelta = Vec2<float>(0.f, 0.f);
+	Vector2<float> mousePos = Vector2<float>(0.f, 0.f);
+	Vector2<float> mouseDelta = Vector2<float>(0.f, 0.f);
 
 	bool isLeftClickDown = false;
 	bool isHoldingLeftClick = false;
@@ -35,7 +35,7 @@ private:
 	KeybindSetting* capturingKbSettingPtr = nullptr;
 	SliderSettingBase* draggingSliderSettingPtr = nullptr;
 
-	void updateSelectedAnimRect(Vec4<float>& rect, float& anim) {
+	void updateSelectedAnimRect(Vector4<float>& rect, float& anim) {
 		bool shouldUp = rect.contains(mousePos);
 
 		if (draggingWindowPtr != nullptr)
@@ -121,7 +121,7 @@ public:
 	}
 
 
-	void onMouseUpdate(Vec2<float> mousePosA, char mouseButton, char isDown) {
+	void onMouseUpdate(Vector2<float> mousePosA, char mouseButton, char isDown) {
 
 		//MouseButtons
 		//0 = mouse move
@@ -175,7 +175,7 @@ public:
 	void InitClickGUI() {
 		setEnabled(false);
 
-		Vec2<float> startPos = Vec2<float>(25.f, 35.f);
+		Vector2<float> startPos = Vector2<float>(25.f, 35.f);
 		windowList.push_back(new ClickWindow("Movement", startPos, Category::MOVEMENT));
 		startPos.x += 150.f;
 		windowList.push_back(new ClickWindow("Render", startPos, Category::RENDER));
@@ -198,11 +198,11 @@ public:
 		if (g_Data.canUseMoveKeys())
 			g_Data.clientInstance->releasebMouse();
 
-		static Vec2<float> oldMousePos = mousePos;
+		static Vector2<float> oldMousePos = mousePos;
 		mouseDelta = mousePos.sub(oldMousePos);
 		oldMousePos = mousePos;
 
-		Vec2<float> screenSize = g_Data.clientInstance->guiData->windowSizeReal;	//D2D::getWindowSize();
+		Vector2<float> screenSize = g_Data.clientInstance->guiData->windowSizeReal;	//D2D::getWindowSize();
 		float deltaTime = D2D::deltaTime;
 
 		float textSize = 0.82f;
@@ -217,8 +217,8 @@ public:
 			openAnim = 1.f;
 
 		if (blurStrength > 0.1f)
-			D2D::addBlur(Vec4<float>(0.f, 0.f, screenSize.x, screenSize.y), blurStrength * openAnim);
-		D2D::fillRectangle(Vec4<float>(0.f, 0.f, screenSize.x, screenSize.y), WolferColor(0, 0, 0, (int)(110 * openAnim)));
+			D2D::addBlur(Vector4<float>(0.f, 0.f, screenSize.x, screenSize.y), blurStrength * openAnim);
+		D2D::fillRectangle(Vector4<float>(0.f, 0.f, screenSize.x, screenSize.y), WolferColor(0, 0, 0, (int)(110 * openAnim)));
 
 		for (auto& window : windowList) {
 			if (window == draggingWindowPtr) {
@@ -228,17 +228,17 @@ public:
 			static CustomFont* customFontMod = ModuleManager::getModule<CustomFont>();
 			float fontPercent = (float)customFontMod->fontSize / 25.f;
 
-			Vec4<float> hRectPos = Vec4<float>(window->pos.x,
+			Vector4<float> headerRectPos = Vector4<float>(window->pos.x,
 				window->pos.y,
 				window->pos.x + (int)(150.f * fontPercent) + (textPaddingX * 2.f),
 				window->pos.y + textHeight + (textPaddingY * 2.f));
 
-			Vec2<float> hTextPos = Vec2<float>(
-				hRectPos.x + (hRectPos.z - hRectPos.x - D2D::getTextWidth(window->name, textSize)) / 2.f,
-				hRectPos.y + (hRectPos.w - hRectPos.y - D2D::getTextHeight(window->name, textSize)) / 2.f
+			Vector2<float> headerTextPos = Vector2<float>(
+				headerRectPos.x + (headerRectPos.z - headerRectPos.x - D2D::getTextWidth(window->name, textSize)) / 2.f,
+				headerRectPos.y + (headerRectPos.w - headerRectPos.y - D2D::getTextHeight(window->name, textSize)) / 2.f
 			);
 
-			if (hRectPos.contains(mousePos)) {
+			if (headerRectPos.contains(mousePos)) {
 				if (isLeftClickDown) {
 					draggingWindowPtr = window;
 					isLeftClickDown = false;
@@ -249,12 +249,12 @@ public:
 				}
 			}
 
-			updateSelectedAnimRect(hRectPos, window->selectedAnim);
+			updateSelectedAnimRect(headerRectPos, window->selectedAnim);
 
-			D2D::fillRectangle(hRectPos, mainColor);
-			D2D::drawText(hTextPos, window->name, WolferColor(255, 255, 255), textSize);
+			D2D::fillRectangle(headerRectPos, mainColor);
+			D2D::drawText(headerTextPos, window->name, WolferColor(255, 255, 255), textSize);
 
-			D2D::fillRectangle(hRectPos, WolferColor(255, 255, 255, (int)(45 * window->selectedAnim)));
+			D2D::fillRectangle(headerRectPos, WolferColor(255, 255, 255, (int)(45 * window->selectedAnim)));
 
 			if (window->extended) {
 				float moduleSpace = 2.f * textSize * fontPercent;
@@ -290,18 +290,18 @@ public:
 				}
 
 				float wbgPaddingX = 2.f * textSize * fontPercent;
-				Vec4<float> wbgRectPos = Vec4<float>(hRectPos.x + wbgPaddingX, hRectPos.w, hRectPos.z - wbgPaddingX, hRectPos.w + yHeight);
+				Vector4<float> wbgRectPos = Vector4<float>(headerRectPos.x + wbgPaddingX, headerRectPos.w, headerRectPos.z - wbgPaddingX, headerRectPos.w + yHeight);
 				D2D::fillRectangle(wbgRectPos, WolferColor(0, 0, 0, 75));
 
-				float yOffset = hRectPos.w + moduleSpace;
+				float yOffset = headerRectPos.w + moduleSpace;
 				for (auto& mod : window->moduleList) {
 					float modPaddingX = wbgPaddingX + (2.f * textSize * fontPercent);
-					Vec4<float> mRectPos = Vec4<float>(hRectPos.x + modPaddingX,
+					Vector4<float> mRectPos = Vector4<float>(headerRectPos.x + modPaddingX,
 						yOffset,
-						hRectPos.z - modPaddingX,
+						headerRectPos.z - modPaddingX,
 						yOffset + textHeight + (textPaddingY * 2.f));
 
-					Vec2<float> mTextPos = Vec2<float>(
+					Vector2<float> mTextPos = Vector2<float>(
 						mRectPos.x + (mRectPos.z - mRectPos.x - D2D::getTextWidth(mod->getModuleName(), textSize)) / 2.f,
 						mRectPos.y + (mRectPos.w - mRectPos.y - D2D::getTextHeight(mod->getModuleName(), textSize)) / 2.f
 					);
@@ -337,12 +337,12 @@ public:
 						for (auto& setting : mod->getSettingList()) {
 							std::string settingName = setting->name;
 
-							Vec4<float> sRectPos = Vec4<float>(mRectPos.x + settingPaddingX,
+							Vector4<float> sRectPos = Vector4<float>(mRectPos.x + settingPaddingX,
 								yOffset,
 								mRectPos.z - settingPaddingZ,
 								yOffset + textHeight + (textPaddingY * 2.f));
 
-							Vec2<float> sTextPos = Vec2<float>(
+							Vector2<float> sTextPos = Vector2<float>(
 								sRectPos.x + textPaddingX,
 								sRectPos.y + (sRectPos.w - sRectPos.y - D2D::getTextHeight(settingName, textSize)) / 2.f
 							);
@@ -399,7 +399,7 @@ public:
 										keybindName = "None";
 								}
 
-								Vec2<float> keybindTextPos = Vec2<float>(sRectPos.z - textPaddingX - D2D::getTextWidth(keybindName, textSize), sTextPos.y);
+								Vector2<float> keybindTextPos = Vector2<float>(sRectPos.z - textPaddingX - D2D::getTextWidth(keybindName, textSize), sTextPos.y);
 
 								D2D::drawText(sTextPos, settingName + ":", WolferColor(255, 255, 255), textSize);
 								D2D::drawText(keybindTextPos, keybindName, WolferColor(255, 255, 255), textSize);
@@ -427,7 +427,7 @@ public:
 								}
 
 								std::string modeName = enumSetting->enumList[enumValue];
-								Vec2<float> modeTextPos = Vec2<float>(sRectPos.z - textPaddingX - D2D::getTextWidth(modeName, textSize), sTextPos.y);
+								Vector2<float> modeTextPos = Vector2<float>(sRectPos.z - textPaddingX - D2D::getTextWidth(modeName, textSize), sTextPos.y);
 
 								D2D::drawText(sTextPos, settingName + ":", WolferColor(255, 255, 255), textSize);
 								D2D::drawText(modeTextPos, modeName, WolferColor(255, 255, 255), textSize);
@@ -447,7 +447,7 @@ public:
 
 								float colorBoxSize = std::round(textHeight / 1.5f);
 								float colorBoxPaddingX = textPaddingX + (2.f * textSize);
-								Vec4<float> colorBoxRect = Vec4<float>(sRectPos.z - colorBoxPaddingX - colorBoxSize,
+								Vector4<float> colorBoxRect = Vector4<float>(sRectPos.z - colorBoxPaddingX - colorBoxSize,
 									(sRectPos.y + sRectPos.w - colorBoxSize) / 2.f,
 									sRectPos.z - colorBoxPaddingX,
 									(sRectPos.y + sRectPos.w + colorBoxSize) / 2.f);
@@ -465,12 +465,12 @@ public:
 
 									for (auto& slider : colorSetting->colorSliders) {
 
-										Vec4<float> colorSliderRect = Vec4<float>(sRectPos.x + settingPaddingX,
+										Vector4<float> colorSliderRect = Vector4<float>(sRectPos.x + settingPaddingX,
 											yOffset,
 											sRectPos.z - settingPaddingZ,
 											yOffset + textHeight + (textPaddingY * 2.f));
 
-										Vec2<float> colorSliderTextPos = Vec2<float>(colorSliderRect.x + textPaddingX, colorSliderRect.y + textPaddingY);
+										Vector2<float> colorSliderTextPos = Vector2<float>(colorSliderRect.x + textPaddingX, colorSliderRect.y + textPaddingY);
 
 										updateSelectedAnimRect(colorSliderRect, slider->selectedAnim);
 
@@ -503,13 +503,13 @@ public:
 										if (valuePercent < 0.f)
 											valuePercent = 0.f;
 
-										Vec4<float> valueRectPos = Vec4<float>(colorSliderRect.x, colorSliderRect.y, colorSliderRect.x + (colorSliderRect.z - colorSliderRect.x) * valuePercent, colorSliderRect.w);
+										Vector4<float> valueRectPos = Vector4<float>(colorSliderRect.x, colorSliderRect.y, colorSliderRect.x + (colorSliderRect.z - colorSliderRect.x) * valuePercent, colorSliderRect.w);
 
 										char valueText[10];
 										sprintf_s(valueText, 10, "%i", (int)value);
 										std::string valueTextStr(valueText);
 
-										Vec2<float> valueTextPos = Vec2<float>(colorSliderRect.z - textPaddingX - D2D::getTextWidth(valueTextStr, textSize, (draggingSliderSettingPtr != slider)), colorSliderTextPos.y);
+										Vector2<float> valueTextPos = Vector2<float>(colorSliderRect.z - textPaddingX - D2D::getTextWidth(valueTextStr, textSize, (draggingSliderSettingPtr != slider)), colorSliderTextPos.y);
 
 										D2D::fillRectangle(valueRectPos, mainColor);
 										D2D::drawText(colorSliderTextPos, slider->name + ":", WolferColor(255, 255, 255), textSize);
@@ -525,7 +525,7 @@ public:
 									float colorEndY = yOffset;
 									float colorSLineWidth = 4.f * textSize * fontPercent;
 									float colorSLinePaddingX = 1.f * textSize;
-									Vec4<float> colorSLineRect = Vec4<float>(colorStartX + colorSLinePaddingX,
+									Vector4<float> colorSLineRect = Vector4<float>(colorStartX + colorSLinePaddingX,
 										colorStartY,
 										colorStartX + colorSLinePaddingX + colorSLineWidth,
 										colorEndY);
@@ -568,13 +568,13 @@ public:
 									if (valuePercent < 0.f)
 										valuePercent = 0.f;
 
-									Vec4<float> valueRectPos = Vec4<float>(sRectPos.x, sRectPos.y, sRectPos.x + (sRectPos.z - sRectPos.x) * valuePercent, sRectPos.w);
+									Vector4<float> valueRectPos = Vector4<float>(sRectPos.x, sRectPos.y, sRectPos.x + (sRectPos.z - sRectPos.x) * valuePercent, sRectPos.w);
 
 									char valueText[10];
 									sprintf_s(valueText, 10, "%i", value);
 									std::string valueTextStr(valueText);
 
-									Vec2<float> valueTextPos = Vec2<float>(sRectPos.z - textPaddingX - D2D::getTextWidth(valueTextStr, textSize, (draggingSliderSettingPtr != sliderSettingBase)), sTextPos.y);
+									Vector2<float> valueTextPos = Vector2<float>(sRectPos.z - textPaddingX - D2D::getTextWidth(valueTextStr, textSize, (draggingSliderSettingPtr != sliderSettingBase)), sTextPos.y);
 
 									D2D::fillRectangle(valueRectPos, mainColor);
 									D2D::drawText(sTextPos, settingName + ":", WolferColor(255, 255, 255), textSize);
@@ -604,13 +604,13 @@ public:
 									if (valuePercent < 0.f)
 										valuePercent = 0.f;
 
-									Vec4<float> valueRectPos = Vec4<float>(sRectPos.x, sRectPos.y, sRectPos.x + (sRectPos.z - sRectPos.x) * valuePercent, sRectPos.w);
+									Vector4<float> valueRectPos = Vector4<float>(sRectPos.x, sRectPos.y, sRectPos.x + (sRectPos.z - sRectPos.x) * valuePercent, sRectPos.w);
 
 									char valueText[10];
 									sprintf_s(valueText, 10, "%.2f", value);
 									std::string valueTextStr(valueText);
 
-									Vec2<float> valueTextPos = Vec2<float>(sRectPos.z - textPaddingX - D2D::getTextWidth(valueTextStr, textSize, (draggingSliderSettingPtr != sliderSettingBase)), sTextPos.y);
+									Vector2<float> valueTextPos = Vector2<float>(sRectPos.z - textPaddingX - D2D::getTextWidth(valueTextStr, textSize, (draggingSliderSettingPtr != sliderSettingBase)), sTextPos.y);
 
 									D2D::fillRectangle(valueRectPos, mainColor);
 									D2D::drawText(sTextPos, settingName + ":", WolferColor(255, 255, 255), textSize);
@@ -628,7 +628,7 @@ public:
 
 						float sLineWidth = 4.f * textSize * fontPercent;
 						float sLinePaddingX = 1.f * textSize;
-						Vec4<float> sLineRect = Vec4<float>(mRectPos.x + sLinePaddingX,
+						Vector4<float> sLineRect = Vector4<float>(mRectPos.x + sLinePaddingX,
 							startY,
 							mRectPos.x + sLinePaddingX + sLineWidth,
 							endY);
@@ -642,13 +642,13 @@ public:
 		}
 
 		if (showDescription && descriptionText != "NULL" && draggingWindowPtr == nullptr && draggingSliderSettingPtr == nullptr) {
-			Vec2<float> mousePadding = Vec2<float>(15.f, 15.f);
-			Vec4<float> rectPos = Vec4<float>(mousePos.x + mousePadding.x,
+			Vector2<float> mousePadding = Vector2<float>(15.f, 15.f);
+			Vector4<float> rectPos = Vector4<float>(mousePos.x + mousePadding.x,
 				mousePos.y + mousePadding.y,
 				mousePos.x + mousePadding.x + D2D::getTextWidth(descriptionText, 0.8f) + 2.f * 2.f,
 				mousePos.y + mousePadding.y + D2D::getTextHeight(descriptionText, 0.8f));
 
-			Vec2<float> textPos = Vec2<float>(rectPos.x, rectPos.y).add(Vec2<float>(2.f, 0.f));
+			Vector2<float> textPos = Vector2<float>(rectPos.x, rectPos.y).add(Vector2<float>(2.f, 0.f));
 			D2D::fillRectangle(rectPos, WolferColor(0, 0, 0, 125));
 			D2D::drawText(textPos, descriptionText, WolferColor(255, 255, 255), 0.8f);
 

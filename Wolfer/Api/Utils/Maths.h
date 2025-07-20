@@ -11,7 +11,7 @@ static constexpr float DEG_RAD = 180.0f / PI;
 static constexpr float RAD_DEG = PI / 180.f;
 
 template<typename T>
-struct Vec2 {
+struct Vector2 {
 	union {
 		struct {
 			T x, y;
@@ -19,12 +19,12 @@ struct Vec2 {
 		T arr[2];
 	};
 
-	Vec2(T x = 0, T y = 0) {
+	Vector2(T x = 0, T y = 0) {
 		this->x = x;
 		this->y = y;
 	}
 
-	Vec2<T> normAngles() {
+	Vector2<T> normAngles() {
 		float x = this->x;
 		float y = this->y;
 		while (x > 90.f)
@@ -36,33 +36,33 @@ struct Vec2 {
 			y -= 360.0f;
 		while (y < -180.0f)
 			y += 360.0f;
-		return Vec2(x, y);
+		return Vector2(x, y);
 	}
 
-	Vec2<T> add(const Vec2<T>& o) const {
-		return Vec2<T>(x + o.x, y + o.y);
+	Vector2<T> add(const Vector2<T>& o) const {
+		return Vector2<T>(x + o.x, y + o.y);
 	}
 
-	Vec2<T> sub(const Vec2<T>& o) const {
-		return Vec2<T>(x - o.x, y - o.y);
+	Vector2<T> sub(const Vector2<T>& o) const {
+		return Vector2<T>(x - o.x, y - o.y);
 	}
 
-	Vec2<T> mul(const Vec2<T>& o) const {
-		return Vec2<T>(x * o.x, y * o.y);
+	Vector2<T> mul(const Vector2<T>& o) const {
+		return Vector2<T>(x * o.x, y * o.y);
 	}
 
-	Vec2<T> div(const Vec2<T>& o) const {
-		return Vec2<T>(x / o.x, y / o.y);
+	Vector2<T> div(const Vector2<T>& o) const {
+		return Vector2<T>(x / o.x, y / o.y);
 	}
 
 	template<typename Y>
-	Vec2<Y> CastTo() const {
-		return Vec2<Y>((Y)x, (Y)y);
+	Vector2<Y> CastTo() const {
+		return Vector2<Y>((Y)x, (Y)y);
 	}
 };
 
 template<typename T>
-struct Vec3 {
+struct Vector3 {
 
 	union {
 		struct {
@@ -71,45 +71,45 @@ struct Vec3 {
 		T arr[3];
 	};
 
-	Vec3(T x = 0, T y = 0, T z = 0) {
+	Vector3(T x = 0, T y = 0, T z = 0) {
 		this->x = x;
 		this->y = y;
 		this->z = z;
 	}
 
-	bool operator==(const Vec3<T>& other) const {
+	bool operator==(const Vector3<T>& other) const {
 		return (x == other.x && y == other.y && z == other.z);
 	}
 
-	Vec3<T> add(const Vec3<T>& o) const {
-		return Vec3<T>(x + o.x, y + o.y, z + o.z);
+	Vector3<T> add(const Vector3<T>& o) const {
+		return Vector3<T>(x + o.x, y + o.y, z + o.z);
 	}
 
-	Vec3<T> add2(float a, float b, float c) {
-		return Vec3<T>(x + a, y + b, z + c);
+	Vector3<T> add2(float a, float b, float c) {
+		return Vector3<T>(x + a, y + b, z + c);
 	}
 
-	Vec3<T> sub(const Vec3<T>& o) const {
-		return Vec3<T>(x - o.x, y - o.y, z - o.z);
+	Vector3<T> sub(const Vector3<T>& o) const {
+		return Vector3<T>(x - o.x, y - o.y, z - o.z);
 	}
 
-	Vec3<T> mul(const Vec3<T>& o) const {
-		return Vec3<T>(x * o.x, y * o.y, z * o.z);
+	Vector3<T> mul(const Vector3<T>& o) const {
+		return Vector3<T>(x * o.x, y * o.y, z * o.z);
 	}
 
-	Vec3<T> div(const Vec3<T>& o) const {
-		return Vec3<T>(x / o.x, y / o.y, z / o.z);
+	Vector3<T> div(const Vector3<T>& o) const {
+		return Vector3<T>(x / o.x, y / o.y, z / o.z);
 	}
 
-	Vec3<T> floor() const {
-		return Vec3<T>(floorf(x), floorf(y), floorf(z));
+	Vector3<T> floor() const {
+		return Vector3<T>(floorf(x), floorf(y), floorf(z));
 	};
-	Vec3<int> toInt() {
-		return Vec3<int>((int)x, (int)y, (int)z);
+	Vector3<int> toInt() {
+		return Vector3<int>((int)x, (int)y, (int)z);
 	}
 
-	Vec3<float> toFloat() const {
-		return Vec3<float>(static_cast<float>(x), static_cast<float>(y), static_cast<float>(z));
+	Vector3<float> toFloat() const {
+		return Vector3<float>(static_cast<float>(x), static_cast<float>(y), static_cast<float>(z));
 	}
 
 	float squaredlen() const {
@@ -124,29 +124,29 @@ struct Vec3 {
 		return std::sqrtf(squaredlen());
 	}
 
-	float dist(const Vec3<float>& v3) const {
+	float dist(const Vector3<float>& v3) const {
 		return this->sub(v3).magnitude();
 	}
-	Vec3<T> lerpTo(const Vec3<T>& other, float lerpFactor) const {
-		Vec3<T> result;
+	Vector3<T> lerpTo(const Vector3<T>& other, float lerpFactor) const {
+		Vector3<T> result;
 		result.x = x + lerpFactor * (other.x - x);
 		result.y = y + lerpFactor * (other.y - y);
 		result.z = z + lerpFactor * (other.z - z);
 		return result;
 	}
-	Vec3<T> lerp(const Vec3<T>& other, float tx, float ty, float tz) const {
-		Vec3<T> result;
+	Vector3<T> lerp(const Vector3<T>& other, float tx, float ty, float tz) const {
+		Vector3<T> result;
 		result.x = x + tx * (other.x - x);
 		result.y = y + ty * (other.y - y);
 		result.z = z + tz * (other.z - z);
 		return result;
 	}
 
-	Vec2<float> CalcAngle(const Vec3<float>& dst) {
-		Vec3<float> diff = dst.sub(*this);
+	Vector2<float> CalcAngle(const Vector3<float>& dst) {
+		Vector3<float> diff = dst.sub(*this);
 
 		diff.y = diff.y / diff.magnitude();
-		Vec2<float> angles;
+		Vector2<float> angles;
 		angles.x = asinf(diff.y) * -DEG_RAD;
 		angles.y = (float)-atan2f(diff.x, diff.z) * DEG_RAD;
 
@@ -154,25 +154,25 @@ struct Vec3 {
 	}
 
 	template<typename Y>
-	Vec3<Y> CastTo() const {
-		return Vec3<Y>((Y)x, (Y)y, (Y)z);
+	Vector3<Y> CastTo() const {
+		return Vector3<Y>((Y)x, (Y)y, (Y)z);
 	}
 
-	Vec3<T> normalize() const {
+	Vector3<T> normalize() const {
 		T length = std::sqrt(x * x + y * y + z * z);
-		return Vec3<T>(x / length, y / length, z / length);
+		return Vector3<T>(x / length, y / length, z / length);
 	}
 
-	Vec3<T> operator-(const Vec3<T>& other) const {
-		return Vec3<T>(x - other.x, y - other.y, z - other.z);
+	Vector3<T> operator-(const Vector3<T>& other) const {
+		return Vector3<T>(x - other.x, y - other.y, z - other.z);
 	}
 
-	T dot(const Vec3<T>& other) const {
+	T dot(const Vector3<T>& other) const {
 		return x * other.x + y * other.y + z * other.z;
 	}
 
-	Vec3<T> cross(const Vec3<T>& other) const {
-		return Vec3<T>(
+	Vector3<T> cross(const Vector3<T>& other) const {
+		return Vector3<T>(
 			y * other.z - z * other.y,
 			z * other.x - x * other.z,
 			x * other.y - y * other.x
@@ -182,15 +182,15 @@ struct Vec3 {
 
 namespace std {
 	template <>
-	struct hash<Vec3<int>> {
-		size_t operator()(const Vec3<int>& key) const {
+	struct hash<Vector3<int>> {
+		size_t operator()(const Vector3<int>& key) const {
 			return std::hash<int>()(key.x) ^ std::hash<int>()(key.y) ^ std::hash<int>()(key.z);
 		}
 	};
 }
 
 template<typename T>
-struct Vec4 {
+struct Vector4 {
 
 	union {
 		struct {
@@ -199,14 +199,14 @@ struct Vec4 {
 		T arr[4];
 	};
 
-	Vec4(T x = 0, T y = 0, T z = 0, T w = 0) {
+	Vector4(T x = 0, T y = 0, T z = 0, T w = 0) {
 		this->x = x;
 		this->y = y;
 		this->z = z;
 		this->w = w;
 	}
 
-	inline bool contains(const Vec2<float>& point) {
+	inline bool contains(const Vector2<float>& point) {
 		if (point.x < x || point.y < y)
 			return false;
 
@@ -217,12 +217,12 @@ struct Vec4 {
 };
 
 struct AABB {
-	Vec3<float> lower;
-	Vec3<float> upper;
-	Vec2<float> size;
+	Vector3<float> lower;
+	Vector3<float> upper;
+	Vector2<float> size;
 
-	Vec3<float> getCenter() {
-		return (lower.add(upper)).div(Vec3<float>(2.f, 2.f, 2.f));
+	Vector3<float> getCenter() {
+		return (lower.add(upper)).div(Vector3<float>(2.f, 2.f, 2.f));
 	}
 
 	bool myball(AABB aabb) {
@@ -241,23 +241,20 @@ struct AABB {
 		return aabb.upper.x > lower.x && upper.x > aabb.lower.x &&
 			aabb.upper.z > lower.z && upper.z > aabb.lower.z;
 	}
-	AABB expand(const Vec3<float>& amount) const {
-		AABB expanded = *this; // Kendi kopyas�n?olu�tur
+	AABB expand(const Vector3<float>& amount) const {
+		AABB expanded = *this; 
 		expanded.lower.x -= amount.x;
 		expanded.lower.y -= amount.y;
 		expanded.lower.z -= amount.z;
 		expanded.upper.x += amount.x;
 		expanded.upper.y += amount.y;
 		expanded.upper.z += amount.z;
-
-		// Yeni boyutu hesapla
 		expanded.size.x = expanded.upper.x - expanded.lower.x;
 		expanded.size.y = expanded.upper.y - expanded.lower.y;
-
-		return expanded; // Geni�letilmi?AABB'yi d�nd�r
+		return expanded;
 	}
 };
-typedef Vec3<int> BlockPos;
+typedef Vector3<int> BlockPos;
 
 namespace Math {
 	inline float lerp(float start, float end, float t) {
@@ -266,7 +263,7 @@ namespace Math {
 	inline float moveTowards(float current, float target, float maxDelta) {
 		float delta = target - current;
 		if (fabs(delta) <= maxDelta) {
-			return target; // Se o restante for menor que o incremento, vai direto para o target
+			return target;
 		}
 		return current + (delta > 0 ? maxDelta : -maxDelta);
 	}
@@ -281,7 +278,7 @@ namespace Math {
 		return rand() % (end - start + 1) + start;
 	}
 
-	inline static float calculateDistance(const Vec3<float>& vec) {
+	inline static float calculateDistance(const Vector3<float>& vec) {
 		return std::sqrt(vec.x * vec.x + vec.y * vec.y + vec.z * vec.z);
 	}
 

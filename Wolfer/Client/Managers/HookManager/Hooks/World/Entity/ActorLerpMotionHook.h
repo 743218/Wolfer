@@ -3,10 +3,10 @@
 
 class ActorLerpMotionHook : public FuncHook {
 private:
-	using func_t = void(__thiscall*)(Actor*, Vec3<float>*);
+	using func_t = void(__thiscall*)(Actor*, Vector3<float>*);
 	static inline func_t oFunc;
 
-	static void ActorLerpMotionCallback(Actor* _this, Vec3<float>* delta) {
+	static void ActorLerpMotionCallback(Actor* _this, Vector3<float>* delta) {
 
 		static Velocity* velocityMod = ModuleManager::getModule<Velocity>();
 		if (velocityMod->isEnabled() && g_Data.getLocalPlayer() == _this) {

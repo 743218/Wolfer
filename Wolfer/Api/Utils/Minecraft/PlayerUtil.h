@@ -21,7 +21,7 @@ namespace PlayerUtil {
 
 namespace MoveUtil {
 	bool isMoving();
-	Vec2<float> getMotion(const float& speed);
+	Vector2<float> getMotion(const float& speed);
 	float getAdjustedYaw();
 	void setSpeed(const float& speed);
 	inline void stopMotion() {
@@ -29,7 +29,7 @@ namespace MoveUtil {
 		g_Data.getLocalPlayer()->stateVector->velocity.z = 0.f;
 	}
 
-	inline Vec3<float>& getVelocity() {
+	inline Vector3<float>& getVelocity() {
 		return g_Data.getLocalPlayer()->stateVector->velocity;
 	}
 }

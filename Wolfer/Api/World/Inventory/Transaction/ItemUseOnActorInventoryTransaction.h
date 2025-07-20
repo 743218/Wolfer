@@ -15,8 +15,8 @@ public:
 	ActionType actionType;
 	int32_t slot;
 	NetworkItemStackDescriptor itemInHand;
-	Vec3<float> playerPos;
-	Vec3<float> clickPos;
+	Vector3<float> playerPos;
+	Vector3<float> clickPos;
 
 	static std::unique_ptr<ItemUseOnActorInventoryTransaction> make_unique() {
 		using func_t = std::unique_ptr<ItemUseOnActorInventoryTransaction>(__thiscall*)(ItemUseOnActorInventoryTransaction*);

@@ -45,7 +45,7 @@ void ModuleManager::init() {
 
 	// EXPLOIT
 
-	moduleList.push_back(new AutoGhost());
+	moduleList.push_back(new Phase());
 
 	std::sort(moduleList.begin(), moduleList.end(), [](Module* lhs, Module* rhs) {
 		return lhs->getModuleName() < rhs->getModuleName();
