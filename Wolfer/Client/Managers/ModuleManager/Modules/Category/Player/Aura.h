@@ -6,7 +6,7 @@ public:
 	Aura() : Module("Aura", "Attacks nearby entities", Category::PLAYER) {
 		registerSetting(new SliderSetting<float>("Reach", "Attack range", &range, 5.f, 3.f, 15.f));
 		registerSetting(new SliderSetting<int>("Delay", "Attack delay in ticks", &delay, 5, 0, 20));
-		registerSetting(new BoolSetting("Strafe", "Strafe around the target, because thats tuff", &strafe, false));
+		registerSetting(new BoolSetting("Strafe", "Strafe around the target", &strafe, false));
 	}
 
 	void onEnable() override {
@@ -14,38 +14,32 @@ public:
 	}
 
 	void onTick(GameMode* gm) override {
-		LocalPlayer* localPlayer = g_Data.getLocalPlayer();
-
-		if (!localPlayer) return;
-		Level* level = localPlayer->level;
-		if (!level) return;
+		auto* player = g_Data.getLocalPlayer();
+		if (!player || !player->level) return;
 
 		if (++tickCounter < delay) return;
 		tickCounter = 0;
 
-		for (auto& entity : level->getRuntimeActorList()) {
-			if (!entity || !TargetUtil::isTargetValid(entity, true, true)) continue;
+		Actor* closest = nullptr;
+		float minDist = range;
 
-			if (WorldUtil::distanceToEntity(localPlayer->getPos(), entity) <= range) {
-				targets.push_back(entity);
+		for (auto& entity : player->level->getRuntimeActorList()) {
+			if (!entity || !TargetUtil::isTargetValid(entity, false, true, range)) continue;
+			float dist = player->getPos().dist(entity->getPos());
+			if (dist <= minDist) {
+				minDist = dist;
+				closest = entity;
 			}
 		}
 
-		if (targets.empty()) return;
+		if (!closest) return;
 
-		Actor* target = targets[0];
-		if (!target) return;
-
-		Vector3<float> eyePos = localPlayer->getEyePos();
-		Vector3<float> targetPos = target->getEyePos();
-		rot = eyePos.CalcAngle(targetPos);
-
-		for (Actor* t : targets) {
-			localPlayer->gameMode->attack(t);
-			localPlayer->swing();
-		}
+		rot = player->getEyePos().CalcAngle(closest->getEyePos());
+		player->gameMode->attack(closest);
+		player->swing();
 
 		targets.clear();
+		targets.push_back(closest);
 		shouldRotate = true;
 	}
 
@@ -53,19 +47,17 @@ public:
 		if (!shouldRotate || !packet || packet->getId() != PacketID::PlayerAuthInput) return;
 		if (!targets.empty()) return;
 
-		PlayerAuthInputPacket* paip = static_cast<PlayerAuthInputPacket*>(packet);
-		paip->rotation.y = rot.y;
-		paip->headYaw = rot.y;
-		paip->rotation.x = rot.x;
+		auto* input = static_cast<PlayerAuthInputPacket*>(packet);
+		input->rotation.y = rot.y;
+		input->headYaw = rot.y;
+		input->rotation.x = rot.x;
 		shouldRotate = false;
 	}
 
-	void onUpdateRotation(LocalPlayer* localPlayer) override {
-		if (localPlayer && strafe) {
-			if (!targets.empty()) return;
-			localPlayer->rotation->presentRot = rot;
-			localPlayer->getActorHeadRotationComponent()->headYaw = rot.y; //fun fact! ALWAYS set getActorHeadRotation. if you dont you get a broken looking rotation. this makes it #fancy
-		}
+	void onUpdateRotation(LocalPlayer* player) override {
+		if (!player || !strafe || !targets.empty()) return;
+		player->rotation->presentRot = rot;
+		player->getActorHeadRotationComponent()->headYaw = rot.y;
 	}
 
 private:
