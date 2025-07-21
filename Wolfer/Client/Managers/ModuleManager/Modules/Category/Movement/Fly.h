@@ -18,8 +18,6 @@ public:
     void onTick(GameMode* gm) override {
         LocalPlayer* localPlayer = g_Data.getLocalPlayer();
 
-        if (!g_Data.canUseMoveKeys()) return;
-
         Vector3<float> motion(0.f, glide, 0.f);
 
         if (g_Data.isKeyDown(VK_SPACE)) motion.y += vSpeed;

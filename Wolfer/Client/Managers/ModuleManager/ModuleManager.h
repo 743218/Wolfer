@@ -7,10 +7,12 @@
 #include "Modules/Category/Movement/NoClip.h"
 #include "Modules/Category/Movement/Speed.h"
 #include "Modules/Category/Movement/Fly.h"
+#include "Modules/Category/Movement/AirJump.h"
 
 // RENDER
 #include "Modules/Category/Render/ChunkBorders.h"
 #include "Modules/Category/Render/StorageESP.h"
+#include "Modules/Category/Render/ItemESP.h"
 #include "Modules/Category/Render/ConicalHat.h"
 #include "Modules/Category/Render/Fullbright.h"
 #include "Modules/Category/Render/NoHurtCam.h"

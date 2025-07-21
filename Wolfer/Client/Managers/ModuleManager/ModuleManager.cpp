@@ -11,12 +11,14 @@ void ModuleManager::init() {
 	moduleList.push_back(new NoClip());
 	moduleList.push_back(new Speed());
 	moduleList.push_back(new Fly());
+	moduleList.push_back(new AirJump());
 
 	// RENDER
 	moduleList.push_back(new ChunkBorders());
 	moduleList.push_back(new ConicalHat());
 	moduleList.push_back(new Fullbright());
 	moduleList.push_back(new StorageESP());
+	moduleList.push_back(new ItemESP());
 	moduleList.push_back(new NoHurtCam());
 	moduleList.push_back(new NoRender());
 	moduleList.push_back(new NameTags());

@@ -6,6 +6,7 @@
 #include "Commands/EjectCommand.h"
 #include "Commands/UnbindCommand.h"
 #include "Commands/FriendCommand.h"
+#include "Commands/HelpCommand.h"
 
 class CommandManager {
 public:
