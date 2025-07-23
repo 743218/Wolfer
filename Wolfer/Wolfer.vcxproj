@@ -162,7 +162,6 @@
     <ClCompile Include="Client\Managers\HookManager\Hooks\FuncHook.cpp" />
     <ClCompile Include="Client\Managers\ModuleManager\ModuleManager.cpp" />
     <ClCompile Include="Client\Managers\ModuleManager\Modules\Category\Client\ClickGUI.cpp" />
-    <ClCompile Include="Client\Managers\ModuleManager\Modules\Category\Render\ItemESP.cpp" />
     <ClCompile Include="Client\Managers\ModuleManager\Modules\ModuleBase\Module.cpp" />
     <ClCompile Include="Client\Managers\NotificationManager\NotificationManager.cpp" />
     <ClCompile Include="dllmain.cpp" />
