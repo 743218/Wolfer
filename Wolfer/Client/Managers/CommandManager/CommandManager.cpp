@@ -3,6 +3,7 @@
 #include <sstream>
 
 void CommandManager::init() {
+	commandList.push_back(new HelpCommand());
 	commandList.push_back(new BindCommand());
 	commandList.push_back(new ConfigCommand());
 	commandList.push_back(new EjectCommand());

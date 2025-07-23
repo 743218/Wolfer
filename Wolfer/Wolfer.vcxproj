@@ -143,7 +143,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalDependencies>dwrite.lib;dxgi.lib;d2d1.lib;d3d11.lib;d3d12.lib;dxguid.lib;wininet.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>dwrite.lib;dxgi.lib;d2d1.lib;d3d11.lib;d3d12.lib;dxguid.lib;wininet.lib;windowsapp.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -154,6 +154,7 @@
     <ClCompile Include="Client\Managers\CommandManager\Commands\ConfigCommand.cpp" />
     <ClCompile Include="Client\Managers\CommandManager\Commands\EjectCommand.cpp" />
     <ClCompile Include="Client\Managers\CommandManager\Commands\FriendCommand.cpp" />
+    <ClCompile Include="Client\Managers\CommandManager\Commands\HelpCommand.cpp" />
     <ClCompile Include="Client\Managers\CommandManager\Commands\UnbindCommand.cpp" />
     <ClCompile Include="Client\Managers\ConfigManager\ConfigManager.cpp" />
     <ClCompile Include="Client\Managers\FriendManager\FriendManager.cpp" />
@@ -161,6 +162,7 @@
     <ClCompile Include="Client\Managers\HookManager\Hooks\FuncHook.cpp" />
     <ClCompile Include="Client\Managers\ModuleManager\ModuleManager.cpp" />
     <ClCompile Include="Client\Managers\ModuleManager\Modules\Category\Client\ClickGUI.cpp" />
+    <ClCompile Include="Client\Managers\ModuleManager\Modules\Category\Render\ItemESP.cpp" />
     <ClCompile Include="Client\Managers\ModuleManager\Modules\ModuleBase\Module.cpp" />
     <ClCompile Include="Client\Managers\NotificationManager\NotificationManager.cpp" />
     <ClCompile Include="dllmain.cpp" />
@@ -192,6 +194,7 @@
     <ClInclude Include="Client\Managers\CommandManager\Commands\ConfigCommand.h" />
     <ClInclude Include="Client\Managers\CommandManager\Commands\EjectCommand.h" />
     <ClInclude Include="Client\Managers\CommandManager\Commands\FriendCommand.h" />
+    <ClInclude Include="Client\Managers\CommandManager\Commands\HelpCommand.h" />
     <ClInclude Include="Client\Managers\CommandManager\Commands\UnbindCommand.h" />
     <ClInclude Include="Client\Managers\ConfigManager\ConfigManager.h" />
     <ClInclude Include="Client\Managers\FriendManager\FriendManager.h" />
@@ -238,6 +241,7 @@
     <ClInclude Include="Client\Managers\ModuleManager\Modules\Category\Player\ChestStealer.h" />
     <ClInclude Include="Client\Managers\ModuleManager\Modules\Category\Player\SpinAttack.h" />
     <ClInclude Include="Client\Managers\ModuleManager\Modules\Category\Misc\Timer.h" />
+    <ClInclude Include="Client\Managers\ModuleManager\Modules\Category\Movement\AirJump.h" />
     <ClInclude Include="Client\Managers\ModuleManager\Modules\Category\Movement\Fly.h" />
     <ClInclude Include="Client\Managers\ModuleManager\Modules\Category\Movement\Jetpack.h" />
     <ClInclude Include="Client\Managers\ModuleManager\Modules\Category\Movement\NoClip.h" />
@@ -259,6 +263,7 @@
     <ClInclude Include="Client\Managers\ModuleManager\Modules\Category\Render\NoHurtCam.h" />
     <ClInclude Include="Client\Managers\ModuleManager\Modules\Category\Render\NoRender.h" />
     <ClInclude Include="Client\Managers\ModuleManager\Modules\Category\Render\StorageESP.h" />
+    <ClInclude Include="Client\Managers\ModuleManager\Modules\Category\Render\ItemESP.h" />
     <ClInclude Include="Client\Managers\ModuleManager\Modules\Category\Render\Swing.h" />
     <ClInclude Include="Client\Managers\ModuleManager\Modules\Category\Render\Zoom.h" />
     <ClInclude Include="Client\Managers\ModuleManager\Modules\Category\Misc\Disabler.h" />
