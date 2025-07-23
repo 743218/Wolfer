@@ -44,8 +44,9 @@ void ModuleManager::init() {
 	moduleList.push_back(new ClickGUI());
 
 	// EXPLOIT
-
+	moduleList.push_back(new InventoryDesync());
 	moduleList.push_back(new Phase());
+	moduleList.push_back(new InstaUse());
 
 	std::sort(moduleList.begin(), moduleList.end(), [](Module* lhs, Module* rhs) {
 		return lhs->getModuleName() < rhs->getModuleName();

@@ -39,6 +39,8 @@
 
 // EXPLOIT
 #include "Modules/Category/Exploit/Phase.h"
+#include "Modules/Category/Exploit/InventoryDesync.h"
+#include "Modules/Category/Exploit/InstaUse.h"
 
 class ModuleManager {
 public:

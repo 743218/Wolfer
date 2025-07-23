@@ -10,8 +10,8 @@ private:
 
 public:
     Fly() : Module("Fly", "Fly with horizontal and vertical speed", Category::MOVEMENT) {
-        registerSetting(new SliderSetting<float>("Horizontal", "Horizontal fly speed", &hSpeed, 1.f, 0.1f, 10.f));
-        registerSetting(new SliderSetting<float>("Vertical", "Vertical fly speed", &vSpeed, 0.5f, 0.1f, 5.f));
+        registerSetting(new SliderSetting<float>("Horizontal", "Horizontal fly speed", &hSpeed, 1.f, 0.1f, 4.f));
+        registerSetting(new SliderSetting<float>("Vertical", "Vertical fly speed", &vSpeed, 0.5f, 0.1f, 4.f));
         registerSetting(new SliderSetting<float>("Glide", "Constant downward glide force", &glide, -0.02f, -1.0f, 0.0f));
     }
 
