@@ -27,7 +27,7 @@ public:
 		Actor* closest = nullptr;
 		float minDist = range;
 
-		for (auto& entity : player->level->getRuntimeActorList()) {
+		for (auto& entity : ActorUtils::getActorList()) {
 			if (!entity || !TargetUtil::isTargetValid(entity, mobs, true, range)) continue;
 			float dist = player->getPos().dist(entity->getPos());
 			if (dist < minDist) {

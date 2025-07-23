@@ -147,6 +147,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Api\Utils\Minecraft\ActorUtils.cpp" />
     <ClCompile Include="Client\Client.cpp" />
     <ClCompile Include="Client\Managers\CommandManager\CommandManager.cpp" />
     <ClCompile Include="Client\Managers\CommandManager\Commands\BindCommand.cpp" />
@@ -186,6 +187,7 @@
     <Library Include="Libs\minhook\minhook.lib" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Api\Utils\Minecraft\ActorUtils.h" />
     <ClInclude Include="Client\Client.h" />
     <ClInclude Include="Client\Managers\CommandManager\CommandManager.h" />
     <ClInclude Include="Client\Managers\CommandManager\Commands\BindCommand.h" />

@@ -48,7 +48,7 @@ public:
 
         NameTagsTransform transform;
 
-        for (auto& entity : level->getRuntimeActorList()) {
+        for (auto& entity : ActorUtils::getActorList(mobTags, false)) {
             uint32_t entityId = entity->getActorTypeComponent()->id;
             if (TargetUtil::isTargetValid(entity, mobTags, false) || (itemTags && entityId == 64) || (self && entity == localPlayer)) {
                 Vector2<float> textPos;

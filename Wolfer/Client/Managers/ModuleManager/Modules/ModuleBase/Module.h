@@ -9,6 +9,7 @@
 #include "../../../../../Api/Utils/Minecraft/PlayerUtil.h"
 #include "../../../../../Api/Utils/Minecraft/TargetUtil.h"
 #include "../../../../../Api/Utils/Minecraft/WorldUtil.h"
+#include "../../../../../Api/Utils/Minecraft/ActorUtils.h"
 #include "../../../../../Libs/json.hpp"
 
 #include "../../../HookManager/Hooks/Game/ContainerTickController.h"
