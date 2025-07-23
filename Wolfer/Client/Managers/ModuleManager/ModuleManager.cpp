@@ -53,7 +53,7 @@ void ModuleManager::init() {
 	std::sort(moduleList.begin(), moduleList.end(), [](Module* lhs, Module* rhs) {
 		return lhs->getModuleName() < rhs->getModuleName();
 	});
-
+	//
 	getModule<ClickGUI>()->InitClickGUI();
 }
 
