@@ -60,13 +60,13 @@ private:
 	}
 
 private:
-	WolferColor mainColor = WolferColor(255, 100, 100, 75);
+	WolferColor mainColor = WolferColor(255, 100, 255, 125);
 	float blurStrength = 5.f;
 	bool showDescription = true;
 public:
 	ClickGUI() : Module("ClickGUI", "Display all modules", Category::CLIENT, VK_INSERT) {
 		registerSetting(new ColorSetting("Color", "NULL", &mainColor, mainColor));
-		registerSetting(new SliderSetting<float>("Blur", "Background blur intensity", &blurStrength, 4.f, 0.f, 20.f));
+		registerSetting(new SliderSetting<float>("Blur", "Background blur intensity", &blurStrength, 12.f, 0.f, 20.f));
 		registerSetting(new BoolSetting("Description", "Show Description", &showDescription, true));
 	}
 
@@ -175,17 +175,17 @@ public:
 	void InitClickGUI() {
 		setEnabled(false);
 
-		Vector2<float> startPos = Vector2<float>(25.f, 35.f);
+		Vector2<float> startPos = Vector2<float>(175.f, 75.f);
 		windowList.push_back(new ClickWindow("Movement", startPos, Category::MOVEMENT));
-		startPos.x += 150.f;
+		startPos.x += 175.f;
 		windowList.push_back(new ClickWindow("Render", startPos, Category::RENDER));
-		startPos.x += 150.f;
+		startPos.x += 175.f;
 		windowList.push_back(new ClickWindow("Player", startPos, Category::PLAYER));
-		startPos.x += 150.f;
+		startPos.x += 175.f;
 		windowList.push_back(new ClickWindow("Misc", startPos, Category::MISC));
-		startPos.x += 150.f;
+		startPos.x += 175.f;
 		windowList.push_back(new ClickWindow("Client", startPos, Category::CLIENT));
-		startPos.x += 150.f;
+		startPos.x += 175.f;
 		windowList.push_back(new ClickWindow("Exploit", startPos, Category::EXPLOIT));
 
 		initialized = true;

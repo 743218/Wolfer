@@ -312,3 +312,7 @@ void MCR::drawTextInWorld(const Vector3<float>& pos, const std::string& textStr,
 		drawText(textPos, textStr, color, textSize);
 	}
 }
+
+void MCR::drawWorldToScreen3dBox(const AABB& aabb, const WolferColor& color, const WolferColor& lineColor, float scale) {
+//fuck this
+}

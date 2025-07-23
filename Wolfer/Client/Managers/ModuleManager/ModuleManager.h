@@ -75,4 +75,5 @@ public:
 	static void onLoadConfig(void* conf);
 	static void onSaveConfig(void* conf);
 	static void onContainerTick(ContainerScreenController* controller);
+	static void onAttack(Actor* actor, bool& cancel);
 };

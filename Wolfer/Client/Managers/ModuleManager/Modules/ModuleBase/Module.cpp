@@ -224,3 +224,7 @@ void Module::onSaveConfig(void* confVoid) {
 
 	(*conf)[modName] = obj;
 }
+
+void Module::onAttack(Actor* actor, bool& cancel) {
+
+}

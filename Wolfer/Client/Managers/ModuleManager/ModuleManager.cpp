@@ -204,3 +204,13 @@ void ModuleManager::onSaveConfig(void* conf) {
 		mod->onSaveConfig(conf);
 	}
 }
+
+void ModuleManager::onAttack(Actor* actor, bool& cancel) {
+	if (!Client::isInitialized()) return;
+	for (auto& mod : moduleList) {
+		if (mod->isEnabled() || mod->runOnBackground()) {
+			mod->onAttack(actor, cancel);
+		}
+		if (cancel) break;
+	}
+}

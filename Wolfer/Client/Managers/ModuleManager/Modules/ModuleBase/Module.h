@@ -94,4 +94,5 @@ public:
 	virtual void onLoadConfig(void* conf);
 	virtual void onSaveConfig(void* conf);
 	virtual void onContainerTick(ContainerScreenController* controller);
+	virtual void onAttack(Actor* actor, bool& cancel);
 };

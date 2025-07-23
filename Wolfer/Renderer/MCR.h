@@ -48,4 +48,5 @@ namespace MCR {
 	void drawBox3dFilled(const AABB& aabb, const WolferColor& color, const WolferColor& lineColor, float scale = 1.0f);
 	void drawTextInWorld(const Vector3<float>& pos, const std::string& textStr, const WolferColor& color, float textSize = 1.f);
 	bool worldToScreen(const Vector3<float>& pos, Vector2<float>& out);
+	void drawWorldToScreen3dBox(const AABB& aabb, const WolferColor& color, const WolferColor& lineColor, float scale);
 }

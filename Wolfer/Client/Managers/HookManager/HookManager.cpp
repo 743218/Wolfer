@@ -30,6 +30,24 @@
 #include "Hooks/Game/ContainerScreenHook.h"
 #include <kiero.h>
 
+class AttackHook : public FuncHook {
+private:
+	using func_t = bool(__thiscall*)(GameMode*, Actor*);
+	static inline func_t oFunc;
+
+	static bool callback(GameMode* _this, Actor* _actor) {
+		bool cancel = false;
+		ModuleManager::onAttack(_actor, cancel);
+		if (cancel) return false;
+		return oFunc(_this, _actor);
+	}
+public:
+	AttackHook() {
+		OriginFunc = (void*)&oFunc;
+		func = (void*)&callback;
+	}
+};
+
 void HookManager::init() {
 	MH_Initialize();
 
@@ -79,6 +97,7 @@ void HookManager::init() {
 		RequestHook<StartDestroyBlockHook>(GameModeVTable, 1);
 		RequestHook<StopDestroyBlockHook>(GameModeVTable, 4);
 		RequestHook<GetPickRangeHook>(GameModeVTable, 10);
+		RequestHook<AttackHook>(GameModeVTable, 14);
 	}
 
 	{

@@ -7,6 +7,8 @@ public:
 		registerSetting(new SliderSetting<float>("Reach", "Attack range", &range, 5.f, 3.f, 15.f));
 		registerSetting(new SliderSetting<int>("Delay", "Attack delay in ticks", &delay, 5, 0, 20));
 		registerSetting(new BoolSetting("Strafe", "Strafe around the target", &strafe, false));
+		registerSetting(new BoolSetting("Mobs", "Attack mobs", &mobs, false));
+		registerSetting(new BoolSetting("Lifeboat", "Does more damage on lifeboat, apparently.", &lifeboat, false));
 	}
 
 	void onEnable() override {
@@ -24,7 +26,7 @@ public:
 		float minDist = range;
 
 		for (auto& entity : player->level->getRuntimeActorList()) {
-			if (!entity || !TargetUtil::isTargetValid(entity, false, true, range)) continue;
+			if (!entity || !TargetUtil::isTargetValid(entity, mobs, true, range)) continue;
 			float dist = player->getPos().dist(entity->getPos());
 			if (dist <= minDist) {
 				minDist = dist;
@@ -60,6 +62,16 @@ public:
 		player->getActorHeadRotationComponent()->headYaw = rot.y;
 	}
 
+	void onAttack(Actor* actor, bool& cancel) override {
+		if (!actor || !g_Data.getLocalPlayer() || !lifeboat) return;
+		Vector3<float> localPos = g_Data.getLocalPlayer()->getPos();
+
+		g_Data.getLocalPlayer()->setSprinting(false);
+		g_Data.getLocalPlayer()->setPos(Vector3<float>(localPos.x, localPos.y + 3.f, localPos.z));
+		g_Data.getLocalPlayer()->setPos(Vector3<float>(localPos.x, localPos.y - 3.f, localPos.z));
+		g_Data.getLocalPlayer()->setSprinting(true);
+	}
+
 private:
 	std::vector<Actor*> targets;
 	Vector2<float> rot{};
@@ -68,4 +80,6 @@ private:
 	int tickCounter = 0;
 	bool shouldRotate = false;
 	bool strafe = false;
+	bool mobs = false;
+	bool lifeboat = false;
 };
