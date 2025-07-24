@@ -9,6 +9,7 @@ void CommandManager::init() {
 	commandList.push_back(new EjectCommand());
 	commandList.push_back(new UnbindCommand());
 	commandList.push_back(new FriendCommand());
+	commandList.push_back(new SetPosCommand());
 }
 
 void CommandManager::shutdown() {

@@ -7,6 +7,7 @@
 #include "Commands/UnbindCommand.h"
 #include "Commands/FriendCommand.h"
 #include "Commands/HelpCommand.h"
+#include "Commands/SetPosCommand.h"
 
 class CommandManager {
 public:

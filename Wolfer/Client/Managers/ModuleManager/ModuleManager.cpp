@@ -11,6 +11,7 @@ void ModuleManager::init() {
 	moduleList.push_back(new NoClip());
 	moduleList.push_back(new Speed());
 	moduleList.push_back(new Fly());
+	moduleList.push_back(new SMTeleport());
 	moduleList.push_back(new AirJump());
 
 	// RENDER

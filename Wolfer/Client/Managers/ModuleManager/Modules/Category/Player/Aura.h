@@ -83,9 +83,8 @@ public:
 	void onAttack(Actor* actor, bool& cancel) override {
 		if (!actor || !g_Data.getLocalPlayer() || !lifeboat) return;
 		auto* lp = g_Data.getLocalPlayer();
-		lp->setFallDistance(1.f);
-		lp->setSprinting(false);
 		lp->setSprinting(true);
+		lp->stateVector->oldPos.y -= 0.001f;
 	}
 
 private:

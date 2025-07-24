@@ -14,7 +14,7 @@ public:
 
     void onTick(GameMode* gm) override {
         LocalPlayer* localPlayer = g_Data.getLocalPlayer();
-
+        localPlayer->stateVector->velocity.y = 0.f;
         if (!g_Data.canUseMoveKeys()) return;
 
         Vector3<float> currentPos = localPlayer->getPos();
