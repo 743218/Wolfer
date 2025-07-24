@@ -33,6 +33,7 @@ void ModuleManager::init() {
 	moduleList.push_back(new PopCounter());
 	moduleList.push_back(new BlockReach());
 	moduleList.push_back(new Scaffold());
+	moduleList.push_back(new ServerRotations());
 	moduleList.push_back(new Offhand());
 	moduleList.push_back(new Aura());
 
@@ -56,6 +57,7 @@ void ModuleManager::init() {
 	});
 	//
 	getModule<ClickGUI>()->InitClickGUI();
+	getModule<ServerRotations>()->setEnabled(true);
 }
 
 void ModuleManager::shutdown() {

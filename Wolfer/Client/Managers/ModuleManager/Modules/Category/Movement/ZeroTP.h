@@ -11,7 +11,7 @@ private:
 
 public:
     SMTeleport() : Module("SMTeleport", "Smoothly teleports to a target using setPos()", Category::MOVEMENT) {
-        registerSetting(new SliderSetting<float>("Speed", "Movement speed", &speed, 1.5f, 0.1f, 3.f));
+        registerSetting(new SliderSetting<float>("Zoomy", "Movement speed", &speed, 1.5f, 0.1f, 3.f));
         registerSetting(new SliderSetting<float>("Threshold", "Arrival distance", &arrivalThreshold, 1.0f, 0.1f, 5.0f));
     }
 
@@ -22,8 +22,8 @@ public:
 
         Minecraft* mc = g_Data.clientInstance->minecraft;
         if (mc != nullptr) {
-            *mc->minecraftTimer = 75000.f;
-            *mc->minecraftRenderTimer = 75000.f;
+            *mc->minecraftTimer = 725000.f;
+            *mc->minecraftRenderTimer = 725000.f;
             timerSet = true;
         }
     }

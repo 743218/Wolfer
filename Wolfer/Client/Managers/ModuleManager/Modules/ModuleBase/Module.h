@@ -11,7 +11,7 @@
 #include "../../../../../Api/Utils/Minecraft/WorldUtil.h"
 #include "../../../../../Api/Utils/Minecraft/ActorUtils.h"
 #include "../../../../../Libs/json.hpp"
-
+#include "../../Global.h"
 #include "../../../HookManager/Hooks/Game/ContainerTickController.h"
 #include "Settings/Setting.h"
 #include "Settings/BoolSetting.h"

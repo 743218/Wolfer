@@ -260,6 +260,12 @@ namespace Math {
 	inline float lerp(float start, float end, float t) {
 		return start + ((end - start) * t);
 	}
+
+	inline float lerpAngle(float a, float b, float t) {
+		float delta = fmodf(b - a + 540.0f, 360.0f) - 180.0f;
+		return a + delta * t;
+	}
+
 	inline float moveTowards(float current, float target, float maxDelta) {
 		float delta = target - current;
 		if (fabs(delta) <= maxDelta) {

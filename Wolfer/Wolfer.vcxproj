@@ -234,6 +234,7 @@
     <ClInclude Include="Client\Managers\HookManager\Hooks\World\GameMode\StartDestroyBlockHook.h" />
     <ClInclude Include="Client\Managers\HookManager\Hooks\World\GameMode\StopDestroyBlockHook.h" />
     <ClInclude Include="Client\Managers\HookManager\Hooks\World\Level\LevelTickHook.h" />
+    <ClInclude Include="Client\Managers\ModuleManager\Global.h" />
     <ClInclude Include="Client\Managers\ModuleManager\Guide.h" />
     <ClInclude Include="Client\Managers\ModuleManager\ModuleManager.h" />
     <ClInclude Include="Client\Managers\ModuleManager\Modules\Category\Client\Hud.h" />
@@ -243,6 +244,7 @@
     <ClInclude Include="Client\Managers\ModuleManager\Modules\Category\Movement\ZeroTP.h" />
     <ClInclude Include="Client\Managers\ModuleManager\Modules\Category\Player\Aura.h" />
     <ClInclude Include="Client\Managers\ModuleManager\Modules\Category\Player\ChestStealer.h" />
+    <ClInclude Include="Client\Managers\ModuleManager\Modules\Category\Player\ServerRotations.h" />
     <ClInclude Include="Client\Managers\ModuleManager\Modules\Category\Player\SpinAttack.h" />
     <ClInclude Include="Client\Managers\ModuleManager\Modules\Category\Misc\Timer.h" />
     <ClInclude Include="Client\Managers\ModuleManager\Modules\Category\Movement\AirJump.h" />

@@ -29,6 +29,7 @@
 #include "Modules/Category/Player/SpinAttack.h"
 #include "Modules/Category/Player/BlockReach.h"
 #include "Modules/Category/Player/Scaffold.h"
+#include "Modules/Category/Player/ServerRotations.h"
 #include "Modules/Category/Player/Offhand.h"
 #include "Modules/Category/Player/Aura.h"
 

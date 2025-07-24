@@ -42,11 +42,9 @@ public:
 		}
 
 		target = closest;
-		rot = player->getEyePos().CalcAngle(target->getEyePos());
-
+		targetRot = player->getEyePos().CalcAngle(target->getEyePos());
 		player->gameMode->attack(target);
 		player->swing();
-
 		shouldRotate = true;
 	}
 
@@ -61,9 +59,12 @@ public:
 		}
 
 		auto* input = reinterpret_cast<PlayerAuthInputPacket*>(packet);
-		input->rotation.x = rot.x;
-		input->rotation.y = rot.y;
-		input->headYaw = rot.y;
+
+		{
+			input->rotation.x = targetRot.x;
+			input->rotation.y = targetRot.y;
+			input->headYaw = targetRot.y;
+		}
 
 		shouldRotate = false;
 	}
@@ -76,8 +77,8 @@ public:
 			return;
 		}
 
-		player->rotation->presentRot = rot;
-		player->getActorHeadRotationComponent()->headYaw = rot.y;
+		player->getActorHeadRotationComponent()->headYaw = targetRot.y;
+		player->rotation->presentRot = targetRot;
 	}
 
 	void onAttack(Actor* actor, bool& cancel) override {
@@ -89,7 +90,7 @@ public:
 
 private:
 	Actor* target = nullptr;
-	Vector2<float> rot{};
+	Vector2<float> targetRot{};
 	float range = 5.f;
 	int delay = 5;
 	int tickCounter = 0;
