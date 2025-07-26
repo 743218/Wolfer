@@ -20,6 +20,8 @@ private:
 			return 0;
 		}
 
+		clickGuiMod->onKeyUpdate((int)key, isDown);
+
 		if (g_Data.canUseMoveKeys()) {
 			ModuleManager::onKeyUpdate((int)key, isDown);
 		}
