@@ -18,75 +18,63 @@ private:
     bool strict = false;
 
     Vector3<int> getBlockUnderFeet(LocalPlayer* player) {
-        if (!player) return Vector3<int>{ 0, -1337, 0 };
+        if (!player) return Vector3<int>{0, 0, 0};
 
         auto pos = player->getPos();
-        auto vel = player->stateVector ? player->stateVector->velocity : Vector3<float>{ 0.f, 0.f, 0.f };
+        auto vel = player->stateVector->velocity;
 
         float x = vel.x, z = vel.z;
-        float spd = std::sqrt(x * x + z * z);
+        float spd = sqrt(x * x + z * z);
         if (spd > 0.01f) {
             pos.x += (x / spd) * 0.3f;
             pos.z += (z / spd) * 0.3f;
         }
 
-        int px = static_cast<int>(std::floor(pos.x));
-        int py = static_cast<int>(std::floor(pos.y - 2.0f));
-        int pz = static_cast<int>(std::floor(pos.z));
+        int px = (int)floor(pos.x);
+        int py = (int)floor(pos.y - 2.0f);
+        int pz = (int)floor(pos.z);
 
         Vector3<int> foot = { px, py, pz };
 
-        auto region = g_Data.getClientInstance()->getRegion();
-        if (!region) return Vector3<int>{ 0, -1337, 0 };
-
-        auto b = region->getBlock(foot);
+        auto r = g_Data.getClientInstance()->getRegion();
+        auto b = r->getBlock(foot);
         if (b && b->blockLegacy && b->blockLegacy->blockId == 0) {
             for (int i = 0; i < 6; i++) {
                 int ox = px, oy = py, oz = pz;
                 if (i == 0) oy--;
-                else if (i == 1) oy++;
-                else if (i == 2) oz--;
-                else if (i == 3) oz++;
-                else if (i == 4) ox--;
-                else if (i == 5) ox++;
-
-                auto neighbor = region->getBlock({ ox, oy, oz });
-                if (neighbor && neighbor->blockLegacy && neighbor->blockLegacy->blockId != 0) {
-                    return foot;
-                }
+                if (i == 1) oy++;
+                if (i == 2) oz--;
+                if (i == 3) oz++;
+                if (i == 4) ox--;
+                if (i == 5) ox++;
+                auto n = r->getBlock({ ox, oy, oz });
+                if (n && n->blockLegacy && n->blockLegacy->blockId != 0) return foot;
             }
         }
-        else {
-            return Vector3<int>{ 0, -1337, 0 };
-        }
+        else return { 0, -1337, 0 };
 
-        for (int dx = -1; dx <= 1; dx++) {
+        for (int dx = -1; dx <= 1; dx++)
             for (int dz = -1; dz <= 1; dz++) {
                 if (dx == 0 && dz == 0) continue;
-
                 int cx = px + dx, cz = pz + dz;
-                Vector3<int> checkPos = { cx, py, cz };
-                auto fb = region->getBlock(checkPos);
+                auto check = Vector3<int>{ cx, py, cz };
+                auto fb = r->getBlock(check);
                 if (fb && fb->blockLegacy && fb->blockLegacy->blockId == 0) {
                     for (int i = 0; i < 6; i++) {
                         int ox = cx, oy = py, oz = cz;
                         if (i == 0) oy--;
-                        else if (i == 1) oy++;
-                        else if (i == 2) oz--;
-                        else if (i == 3) oz++;
-                        else if (i == 4) ox--;
-                        else if (i == 5) ox++;
-
-                        auto neighbor = region->getBlock({ ox, oy, oz });
-                        if (neighbor && neighbor->blockLegacy && neighbor->blockLegacy->blockId != 0) {
-                            return checkPos;
-                        }
+                        if (i == 1) oy++;
+                        if (i == 2) oz--;
+                        if (i == 3) oz++;
+                        if (i == 4) ox--;
+                        if (i == 5) ox++;
+                        auto n = r->getBlock({ ox, oy, oz });
+                        if (n && n->blockLegacy && n->blockLegacy->blockId != 0) return check;
                     }
                 }
             }
-        }
 
-        return Vector3<int>{ 0, -1337, 0 };
+        return { 0, -1337, 0 };
     }
 
     int findBlockHotbarSlot(LocalPlayer* player) {
@@ -183,7 +171,10 @@ private:
     }
 
 public:
-    Scaffold() : Module("Scaffold", "Automatically places blocks under the player", Category::PLAYER), lastPlaceTime(0), delay(100), renderAlpha(0.0f), currentRot{ 0.f, 0.f }, strict(false) {}
+    Scaffold() : Module("Scaffold", "Automatically places blocks under the playera", Category::PLAYER), lastPlaceTime(0), delay(100), renderAlpha(0.0f), currentRot{ 0.f, 0.f }, strict(false) {
+        registerSetting(new SliderSetting<int>("Delay", "Delay between block placements (ms)", &delay, 0, 0, 1000));
+        registerSetting(new BoolSetting("Strict", "Strict rotations", &strict, false));
+    }
 
     void onTick(GameMode* gm) override {
         LocalPlayer* player = g_Data.getLocalPlayer();
