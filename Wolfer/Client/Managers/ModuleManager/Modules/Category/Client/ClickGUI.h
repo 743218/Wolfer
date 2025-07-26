@@ -60,7 +60,7 @@ private:
 	}
 
 private:
-	WolferColor mainColor = WolferColor(255, 100, 255, 125);
+	WolferColor mainColor = WolferColor(175, 0, 0, 175);
 	float blurStrength = 5.f;
 	bool showDescription = true;
 public:
@@ -73,7 +73,9 @@ public:
 	~ClickGUI();
 
 	void onDisable() override {
-		g_Data.clientInstance->grabMouse();
+		if (g_Data.getLocalPlayer()) {
+			g_Data.clientInstance->grabMouse();
+		}
 
 		isLeftClickDown = false;
 		isRightClickDown = false;
@@ -177,19 +179,24 @@ public:
 
 		Vector2<float> startPos = Vector2<float>(175.f, 75.f);
 		windowList.push_back(new ClickWindow("Movement", startPos, Category::MOVEMENT));
-		startPos.x += 195.f;
+		startPos.x += 210.f;
 		windowList.push_back(new ClickWindow("Render", startPos, Category::RENDER));
-		startPos.x += 195.f;
+		startPos.x += 210.f;
 		windowList.push_back(new ClickWindow("Player", startPos, Category::PLAYER));
-		startPos.x += 195.f;
+		startPos.x += 210.f;
 		windowList.push_back(new ClickWindow("Misc", startPos, Category::MISC));
-		startPos.x += 195.f;
+		startPos.x += 210.f;
 		windowList.push_back(new ClickWindow("Client", startPos, Category::CLIENT));
-		startPos.x += 195.f;
+		startPos.x += 210.f;
 		windowList.push_back(new ClickWindow("Exploit", startPos, Category::EXPLOIT));
 
 		initialized = true;
 	}
+
+	struct NetworkNode {
+		Vector2<float> position;
+		Vector2<float> velocity;
+	};
 
 	void Render() {
 		if (!initialized)
@@ -220,6 +227,87 @@ public:
 			D2D::addBlur(Vector4<float>(0.f, 0.f, screenSize.x, screenSize.y), blurStrength * openAnim);
 		D2D::fillRectangle(Vector4<float>(0.f, 0.f, screenSize.x, screenSize.y), WolferColor(0, 0, 0, (int)(110 * openAnim)));
 
+		static std::vector<NetworkNode> nodeNetwork;
+		static std::vector<Vector2<float>> nodeStart;
+		static std::vector<Vector2<float>> nodeEnd;
+		static std::vector<float> nodeTimers;
+		static std::vector<float> nodeDurations;
+		static bool nodeNetworkInitialized = false;
+
+		const int numNodes = 210;
+		const float nodeRadius = 2.9f;
+		const float linkDistance = 130.f;
+		const float rainbowSeconds = 13.f;
+		const float saturation = 0.9f;
+		const float brightness = 1.f;
+
+		if (!nodeNetworkInitialized) {
+			nodeNetwork.clear();
+			nodeStart.clear();
+			nodeEnd.clear();
+			nodeTimers.clear();
+			nodeDurations.clear();
+			for (int i = 0; i < numNodes; i++) {
+				Vector2<float> start(rand() % (int)screenSize.x, rand() % (int)screenSize.y);
+				Vector2<float> end(rand() % (int)screenSize.x, rand() % (int)screenSize.y);
+				float duration = 12.f + ((rand() % 1000) / 1000.f) * 8.f;
+				nodeNetwork.push_back({ start, Vector2<float>(0.f, 0.f) });
+				nodeStart.push_back(start);
+				nodeEnd.push_back(end);
+				nodeTimers.push_back(0.f);
+				nodeDurations.push_back(duration);
+			}
+			nodeNetworkInitialized = true;
+		}
+
+		for (int i = 0; i < numNodes; i++) {
+			nodeTimers[i] += deltaTime;
+			float duration = nodeDurations[i];
+			float t = nodeTimers[i] / duration;
+
+			if (t >= 1.f) {
+				nodeStart[i] = nodeNetwork[i].position;
+				nodeEnd[i] = Vector2<float>(rand() % (int)screenSize.x, rand() % (int)screenSize.y);
+				nodeTimers[i] = 0.f;
+				nodeDurations[i] = 12.f + ((rand() % 1000) / 1000.f) * 8.f;
+				t = 0.f;
+			}
+
+			Vector2<float> a = nodeStart[i];
+			Vector2<float> b = nodeEnd[i];
+			Vector2<float> pos = Vector2<float>(
+				a.x + (b.x - a.x) * t,
+				a.y + (b.y - a.y) * t + sinf(t * 3.1415f) * 6.f
+			);
+			nodeNetwork[i].position = pos;
+		}
+
+		for (int i = 0; i < numNodes; i++) {
+			Vector2<float> posA = nodeNetwork[i].position;
+			float hueA = posA.x / screenSize.x;
+			if (hueA < 0.f) hueA = 0.f;
+			if (hueA > 1.f) hueA = 1.f;
+			WolferColor nodeColor = Colors::getRainbowColor(rainbowSeconds, saturation, brightness, hueA * rainbowSeconds);
+			D2D::fillCircle(posA, nodeColor, nodeRadius);
+
+			for (int j = i + 1; j < numNodes; j++) {
+				Vector2<float> posB = nodeNetwork[j].position;
+				float dx = posA.x - posB.x;
+				float dy = posA.y - posB.y;
+				float dist = sqrtf(dx * dx + dy * dy);
+				if (dist < linkDistance) {
+					float alpha = 1.f - (dist / linkDistance);
+					float midX = (posA.x + posB.x) * 0.5f;
+					float midHue = midX / screenSize.x;
+					if (midHue < 0.f) midHue = 0.f;
+					if (midHue > 1.f) midHue = 1.f;
+					WolferColor linkColor = Colors::getRainbowColor(rainbowSeconds, saturation, brightness, midHue * rainbowSeconds);
+					linkColor.a = static_cast<int>(alpha * 100.f);
+					D2D::drawLine(posA, posB, linkColor, 1.f);
+				}
+			}
+		}
+
 		for (auto& window : windowList) {
 			if (window == draggingWindowPtr) {
 				window->pos = window->pos.add(mouseDelta);
@@ -230,7 +318,7 @@ public:
 
 			Vector4<float> headerRectPos = Vector4<float>(window->pos.x,
 				window->pos.y,
-				window->pos.x + (int)(186.f * fontPercent) + (textPaddingX * 2.f),
+				window->pos.x + (int)(202.f) + (textPaddingX * 2.f),
 				window->pos.y + textHeight + (textPaddingY * 2.f));
 
 			Vector2<float> headerTextPos = Vector2<float>(
@@ -291,7 +379,7 @@ public:
 
 				float wbgPaddingX = 2.f * textSize * fontPercent;
 				Vector4<float> wbgRectPos = Vector4<float>(headerRectPos.x + wbgPaddingX, headerRectPos.w, headerRectPos.z - wbgPaddingX, headerRectPos.w + yHeight);
-				D2D::fillRectangle(wbgRectPos, WolferColor(0, 0, 0, 75));
+				D2D::fillRectangle(wbgRectPos, WolferColor(0, 0, 0, 145));
 
 				float yOffset = headerRectPos.w + moduleSpace;
 				for (auto& mod : window->moduleList) {
@@ -320,7 +408,7 @@ public:
 
 					updateSelectedAnimRect(mRectPos, mod->selectedAnim);
 
-					D2D::fillRectangle(mRectPos, mod->isEnabled() ? mainColor : WolferColor(0, 0, 0, 35));
+					D2D::fillRectangle(mRectPos, mod->isEnabled() ? mainColor : WolferColor(32, 32, 32, 200));
 					D2D::drawText(mTextPos, mod->getModuleName(), mod->isEnabled() ? WolferColor(255, 255, 255) : Colors::lerp(WolferColor(175, 175, 175), WolferColor(255, 255, 255), mod->selectedAnim), textSize);
 					D2D::fillRectangle(mRectPos, WolferColor(255, 255, 255, (int)(45 * mod->selectedAnim)));
 

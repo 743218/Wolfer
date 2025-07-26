@@ -243,7 +243,12 @@
     <ClInclude Include="Client\Managers\ModuleManager\Modules\Category\Exploit\InventoryDesync.h" />
     <ClInclude Include="Client\Managers\ModuleManager\Modules\Category\Exploit\InventoryDesync2.h" />
     <ClInclude Include="Client\Managers\ModuleManager\Modules\Category\Exploit\Phase.h" />
+    <ClInclude Include="Client\Managers\ModuleManager\Modules\Category\Misc\AutoLog.h" />
+    <ClInclude Include="Client\Managers\ModuleManager\Modules\Category\Misc\DeviceIDSpoofer.h" />
+    <ClInclude Include="Client\Managers\ModuleManager\Modules\Category\Misc\HubLClick.h" />
+    <ClInclude Include="Client\Managers\ModuleManager\Modules\Category\Misc\HubRClick.h" />
     <ClInclude Include="Client\Managers\ModuleManager\Modules\Category\Misc\PacketFixer.h" />
+    <ClInclude Include="Client\Managers\ModuleManager\Modules\Category\Movement\PlayerTP.h" />
     <ClInclude Include="Client\Managers\ModuleManager\Modules\Category\Movement\SMTeleport.h" />
     <ClInclude Include="Client\Managers\ModuleManager\Modules\Category\Player\Aura.h" />
     <ClInclude Include="Client\Managers\ModuleManager\Modules\Category\Player\ChestStealer.h" />

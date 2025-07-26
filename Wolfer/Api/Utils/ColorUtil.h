@@ -7,7 +7,7 @@
 #include <math.h>
 #include <d2d1.h>
 
-#include "../Api/Core/mce.h"
+#include "../Core/mce.h"
 #include "TimerUtil.h"
 
 struct WolferColor {

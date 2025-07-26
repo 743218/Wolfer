@@ -9,6 +9,7 @@
 #include "Modules/Category/Movement/Fly.h"
 #include "Modules/Category/Movement/SMTeleport.h"
 #include "Modules/Category/Movement/AirJump.h"
+#include "Modules/Category/Movement/PlayerTP.h"
 
 // RENDER
 #include "Modules/Category/Render/ChunkBorders.h"
@@ -39,6 +40,10 @@
 #include "Modules/Category/Misc/NoPacket.h"
 #include "Modules/Category/Misc/Timer.h"
 #include "Modules/Category/Misc/PacketFixer.h"
+#include "Modules/Category/Misc/HubRClick.h"
+#include "Modules/Category/Misc/AutoLog.h"
+#include "Modules/Category/Misc/DeviceIDSpoofer.h"
+#include "Modules/Category/Misc/HubLClick.h"
 
 // CLIENT
 #include "Modules/Category/Client/CustomFont.h"

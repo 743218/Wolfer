@@ -17,9 +17,6 @@ private:
     int renderMode = 2;
     int opacity = 125;
     bool displayArmor = true;
-    bool self = true;
-    bool mobTags = false;
-    bool itemTags = false;
     WolferColor rectColor = WolferColor(255, 255, 255, 255);
     std::queue<NameTagsTransform> transformList;
 
@@ -28,9 +25,6 @@ public:
         registerSetting(new EnumSetting("Mode", "NULL", { "None", "Underline", "Outline" }, &renderMode, 2));
         registerSetting(new SliderSetting<int>("Opacity", "NULL", &opacity, 125, 0, 255));
         registerSetting(new BoolSetting("Armor", "Display armor", &displayArmor, true));
-        registerSetting(new BoolSetting("Self", "Render nametags for local player", &self, true));
-        registerSetting(new BoolSetting("Mobs", "Render nametags for mobs", &mobTags, false));
-        registerSetting(new BoolSetting("Items", "Render nametags for items", &itemTags, false));
         registerSetting(new ColorSetting("Rect Color", "NULL", &rectColor, rectColor));
     }
 
@@ -48,88 +42,81 @@ public:
 
         NameTagsTransform transform;
 
-        for (auto& entity : ActorUtils::getActorList(mobTags, false)) {
-            uint32_t entityId = entity->getActorTypeComponent()->id;
-            if (TargetUtil::isTargetValid(entity, mobTags, false) || (itemTags && entityId == 64) || (self && entity == localPlayer)) {
-                Vector2<float> textPos;
-                Vector3<float> entityPos = entity->getEyePos();
+        for (auto& entity : ActorUtils::getActorList(false, false)) {
+            if (!TargetUtil::isTargetValid(entity, false, false, 120.f)) continue;
 
-                if (entityId != 319)
-                    entityPos.y += entity->aabbShape->height;
+            Vector2<float> textPos;
+            Vector3<float> entityPos = entity->getEyePos();
 
-                float renderOffsetY = 0.75f;
+            if (entity->getActorTypeComponent()->id != 319)
+                entityPos.y += entity->aabbShape->height;
 
-                if (MCR::worldToScreen(entityPos.add(Vector3<float>(0.f, renderOffsetY, 0.f)), textPos)) {
-                    float dist = origin.dist(entityPos);
-                    float textSize = fmax(0.5f, fmin(2.f, 3.f / dist));
-                    float textPaddingX = 2.f * textSize;
-                    float textPaddingY = 1.f * textSize;
+            float renderOffsetY = 0.75f;
 
-                    std::string entityName = WorldUtil::getEntityNameTags(entity);
+            if (MCR::worldToScreen(entityPos.add(Vector3<float>(0.f, renderOffsetY, 0.f)), textPos)) {
+                float dist = origin.dist(entityPos);
+                float textSize = fmax(0.5f, fmin(2.f, 3.f / dist));
+                float textPaddingX = 2.f * textSize;
+                float textPaddingY = 1.f * textSize;
 
-                    float textWidth = MCR::getTextWidth(entityName, textSize);
-                    float textHeight = 9.f * textSize;
+                std::string entityName = WorldUtil::getEntityNameTags(entity);
 
-                    textPos.x -= textWidth / 2.f;
-                    textPos.y -= textHeight / 2.f;
+                float textWidth = MCR::getTextWidth(entityName, textSize);
+                float textHeight = 9.f * textSize;
 
-                    Vector4<float> rectPos = Vector4<float>(textPos.x - textPaddingX,
-                        textPos.y - textPaddingY,
-                        textPos.x + textWidth + textPaddingX,
-                        textPos.y + textHeight + textPaddingY);
+                textPos.x -= textWidth / 2.f;
+                textPos.y -= textHeight / 2.f;
 
-                    bool shouldRender = true;
-                    if (entity == localPlayer && g_Data.viewPerspectiveMode == 0)
-                        shouldRender = false;
+                Vector4<float> rectPos = Vector4<float>(textPos.x - textPaddingX,
+                    textPos.y - textPaddingY,
+                    textPos.x + textWidth + textPaddingX,
+                    textPos.y + textHeight + textPaddingY);
 
-                    if (shouldRender) {
-                        NameTagRenderData renderData;
-                        renderData.screenPos = Vector2<float>(textPos.x + (textWidth / 2.f), rectPos.y);
-                        renderData.text = entityName;
-                        renderData.scale = textSize;
-                        transform.renderList.push_back(renderData);
+                NameTagRenderData renderData;
+                renderData.screenPos = Vector2<float>(textPos.x + (textWidth / 2.f), rectPos.y);
+                renderData.text = entityName;
+                renderData.scale = textSize;
+                transform.renderList.push_back(renderData);
 
-                        if (displayArmor) {
-                            float scale = 0.85f * textSize;
-                            float spacing = 15.f * scale;
+                if (displayArmor) {
+                    float scale = 0.85f * textSize;
+                    float spacing = 15.f * scale;
 
-                            Vector2<float> armorHudPos = Vector2<float>((rectPos.x + rectPos.z) / 2.f, rectPos.y - 17.f * scale);
+                    Vector2<float> armorHudPos = Vector2<float>((rectPos.x + rectPos.z) / 2.f, rectPos.y - 17.f * scale);
 
-                            ItemStack* armorItemStack[6] = { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr };
+                    ItemStack* armorItemStack[6] = { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr };
 
-                            ItemStack* offhandItem = entity->getOffhandSlot();
-                            if (offhandItem->isValid()) {
-                                armorItemStack[0] = offhandItem;
-                                armorHudPos.x -= (spacing / 2.f);
+                    ItemStack* offhandItem = entity->getOffhandSlot();
+                    if (offhandItem->isValid()) {
+                        armorItemStack[0] = offhandItem;
+                        armorHudPos.x -= (spacing / 2.f);
+                    }
+
+                    for (int i = 0; i < 4; i++) {
+                        ItemStack* stack = entity->getArmor(i);
+                        if (stack->isValid()) {
+                            armorItemStack[i + 1] = stack;
+                            armorHudPos.x -= (spacing / 2.f);
+                        }
+                    }
+
+                    ItemStack* holdingItem = entity->getCarriedItem();
+                    if (holdingItem->isValid()) {
+                        armorItemStack[5] = holdingItem;
+                        armorHudPos.x -= (spacing / 2.f);
+                    }
+
+                    for (int i = 0; i < 6; i++) {
+                        if (armorItemStack[i] != nullptr) {
+                            MCR::drawItem(armorHudPos, armorItemStack[i], scale, true);
+                            uint8_t itemCount = armorItemStack[i]->mCount;
+                            if (itemCount > 1) {
+                                Vector2<float> itemCountPos = Vector2<float>(armorHudPos.x + (17.f * scale), armorHudPos.y + (8.f * scale));
+                                std::string itemCountText = std::to_string(itemCount);
+                                itemCountPos.x -= MCR::getTextWidth(itemCountText, scale);
+                                MCR::drawText(itemCountPos, itemCountText, WolferColor(255, 255, 255), scale);
                             }
-
-                            for (int i = 0; i < 4; i++) {
-                                ItemStack* stack = entity->getArmor(i);
-                                if (stack->isValid()) {
-                                    armorItemStack[i + 1] = stack;
-                                    armorHudPos.x -= (spacing / 2.f);
-                                }
-                            }
-
-                            ItemStack* holdingItem = entity->getCarriedItem();
-                            if (holdingItem->isValid()) {
-                                armorItemStack[5] = holdingItem;
-                                armorHudPos.x -= (spacing / 2.f);
-                            }
-
-                            for (int i = 0; i < 6; i++) {
-                                if (armorItemStack[i] != nullptr) {
-                                    MCR::drawItem(armorHudPos, armorItemStack[i], scale, true);
-                                    uint8_t itemCount = armorItemStack[i]->mCount;
-                                    if (itemCount > 1) {
-                                        Vector2<float> itemCountPos = Vector2<float>(armorHudPos.x + (17.f * scale), armorHudPos.y + (8.f * scale));
-                                        std::string itemCountText = std::to_string(itemCount);
-                                        itemCountPos.x -= MCR::getTextWidth(itemCountText, scale);
-                                        MCR::drawText(itemCountPos, itemCountText, WolferColor(255, 255, 255), scale);
-                                    }
-                                    armorHudPos.x += spacing;
-                                }
-                            }
+                            armorHudPos.x += spacing;
                         }
                     }
                 }

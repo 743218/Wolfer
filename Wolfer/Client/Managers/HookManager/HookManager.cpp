@@ -33,17 +33,80 @@
 class AttackHook : public FuncHook {
 private:
 	using func_t = bool(__thiscall*)(GameMode*, Actor*);
-	static inline func_t oFunc;
+	static inline func_t oFunc = nullptr;
 
 	static bool callback(GameMode* _this, Actor* _actor) {
+		if (!_this || !_actor) return false; 
+
 		bool cancel = false;
 		ModuleManager::onAttack(_actor, cancel);
 		if (cancel) return false;
-		return oFunc(_this, _actor);
+
+		if (oFunc)
+			return oFunc(_this, _actor);
+		return false;
 	}
 public:
 	AttackHook() {
-		OriginFunc = (void*)&oFunc;
+		OriginFunc = reinterpret_cast<void*>(&oFunc);
+		func = reinterpret_cast<void*>(&callback);
+	}
+
+	static void setOriginal(func_t orig) {
+		oFunc = orig;
+	}
+};
+
+class ConnectionRequestCreateHook : public FuncHook {
+private:
+	using func_t = void(__fastcall*)(
+		__int64*, __int64, __int64, __int64, __int64, __int64, __int64,
+		__int64, __int64, __int64, std::string*, int, int, int, __int64,
+		char, char, __int64, int, std::string*, std::string*, bool,
+		__int64, __int64, __int64, char);
+
+	static inline func_t oFunc;
+
+	static std::string GenerateRandomDeviceID() {
+		static const char charset[] =
+			"0123456789"
+			"ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+			"abcdefghijklmnopqrstuvwxyz";
+
+		const size_t maxSize = 102 * 102;
+		std::string result;
+		result.reserve(maxSize);
+
+		for (size_t i = 0; i < maxSize; ++i) {
+			result += charset[rand() % (sizeof(charset) - 1)];
+		}
+
+		return result;
+	}
+
+	static void callback(
+		__int64* a1, __int64 a2, __int64 a3, __int64 a4, __int64 a5,
+		__int64 a6, __int64 a7, __int64 a8, __int64 a9, __int64 a10,
+		std::string* deviceId, int a12, int a13, int a14, __int64 a15,
+		char a16, char a17, __int64 a18, int a19,
+		std::string* platformUserId, std::string* thirdPartyName,
+		bool thirdPartyNameOnly, __int64 a23, __int64 a24,
+		__int64 a25, char a26)
+	{
+		if (deviceId && ModuleManager::getModule<DeviceIDSpoofer>()->isEnabled()) {
+			*deviceId = GenerateRandomDeviceID();
+		}
+
+		oFunc(
+			a1, a2, a3, a4, a5, a6, a7, a8, a9, a10,
+			deviceId, a12, a13, a14, a15, a16, a17, a18, a19,
+			platformUserId, thirdPartyName, thirdPartyNameOnly,
+			a23, a24, a25, a26);
+	}
+
+public:
+	ConnectionRequestCreateHook() {
+		OriginFunc = (void**)&oFunc;
 		func = (void*)&callback;
 	}
 };
@@ -63,6 +126,8 @@ void HookManager::init() {
 	RequestHook<RenderHitSelectHook>(Addresses::LevelRendererPlayer_renderHitSelect);
 	RequestHook<RenderLevelHook>(Addresses::LevelRenderer_renderLevel);
 	RequestHook<SetUpAndRenderHook>(Addresses::ScreenView_setUpAndRender);
+	uintptr_t connReqCreateAddr = Memory::findSig("40 55 53 56 57 41 54 41 55 41 56 41 57 48 8D AC 24 ? ? ? ? 48 81 EC ? ? ? ? 0F 29 B4 24 ? ? ? ? 48 8B 05 ? ? ? ? 48 33 C4 48 89 85 ? ? ? ? 49 8B D9 48 89 55");
+	RequestHook<ConnectionRequestCreateHook>(connReqCreateAddr);
 
 	uintptr_t containerScreenTickAddr = Memory::findSig("48 8B C4 48 89 58 ?? 48 89 68 ?? 48 89 70 ?? 57 41 56 41 57 48 81 EC ?? ?? ?? ?? 0F 29 70 D8 4C");
 	RequestHook<ContainerScreenTickHook>(containerScreenTickAddr);

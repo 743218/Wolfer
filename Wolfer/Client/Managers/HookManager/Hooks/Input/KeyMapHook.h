@@ -10,13 +10,19 @@ private:
 	static __int64 KeyInputCallback(uint64_t key, bool isDown) {
 
 		static ClickGUI* clickGuiMod = ModuleManager::getModule<ClickGUI>();
-		if (clickGuiMod->isEnabled()) {
-			clickGuiMod->onKeyUpdate((int)key, isDown);
+		if (clickGuiMod != nullptr && clickGuiMod->getKeybind() == key) {
+			if (clickGuiMod->isHoldMode()) {
+				clickGuiMod->setEnabled(isDown);
+			}
+			else if (isDown) {
+				clickGuiMod->toggle();
+			}
 			return 0;
 		}
 
-		if (g_Data.canUseMoveKeys()) 
+		if (g_Data.canUseMoveKeys()) {
 			ModuleManager::onKeyUpdate((int)key, isDown);
+		}
 
 		return oFunc(key, isDown);
 	}

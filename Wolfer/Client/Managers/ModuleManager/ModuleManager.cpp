@@ -11,6 +11,7 @@ void ModuleManager::init() {
 	moduleList.push_back(new NoClip());
 	moduleList.push_back(new Speed());
 	moduleList.push_back(new Fly());
+	moduleList.push_back(new PlayerTP());
 	moduleList.push_back(new SMTeleport());
 	moduleList.push_back(new AirJump());
 
@@ -42,7 +43,11 @@ void ModuleManager::init() {
 	moduleList.push_back(new NoPacket());
 	moduleList.push_back(new Timer());
 	moduleList.push_back(new Disabler());
+	moduleList.push_back(new AutoLog());
+	moduleList.push_back(new DeviceIDSpoofer());
 	moduleList.push_back(new PacketFixer());
+	moduleList.push_back(new HubRClick());
+	moduleList.push_back(new HubLClick());
 
 	// CLIENT
 	moduleList.push_back(new CustomFont());
@@ -61,7 +66,7 @@ void ModuleManager::init() {
 	});
 	//
 	getModule<ClickGUI>()->InitClickGUI();
-	getModule<FancyRotations>()->setEnabled(true);
+	getModule<Hud>()->setEnabled(true);
 }
 
 void ModuleManager::shutdown() {
