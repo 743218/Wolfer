@@ -1,9 +1,9 @@
 #pragma once
 #include "../../ModuleBase/Module.h"
 
-class ServerRotations : public Module {
+class FancyRotations : public Module {
 public:
-	ServerRotations() : Module("ServerRotations", "Lerps global rotation to our rotation and sets our rotation to it", Category::MISC) {}
+	FancyRotations() : Module("FancyRotations", "Lerps global rotation to our rotation and sets our rotation to it", Category::MISC) {}
 
 	static float normalizeAngle(float angle) {
 		while (angle > 180.f) angle -= 360.f;
@@ -28,7 +28,7 @@ public:
 		currentGlobalRot.y = normalizeAngle(currentGlobalRot.y);
 
 		const float bodyLerpSpeed = 0.35f;
-		const float headLerpSpeed = 0.10f;
+		const float headLerpSpeed = 0.15f;
 
 		Vector2<float> newRot;
 		newRot.x = Math::lerp(currentGlobalRot.x, localPitch, bodyLerpSpeed);

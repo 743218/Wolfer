@@ -241,10 +241,10 @@
     <ClInclude Include="Client\Managers\ModuleManager\Modules\Category\Exploit\InstaUse.h" />
     <ClInclude Include="Client\Managers\ModuleManager\Modules\Category\Exploit\InventoryDesync.h" />
     <ClInclude Include="Client\Managers\ModuleManager\Modules\Category\Exploit\Phase.h" />
-    <ClInclude Include="Client\Managers\ModuleManager\Modules\Category\Movement\ZeroTP.h" />
+    <ClInclude Include="Client\Managers\ModuleManager\Modules\Category\Movement\SMTeleport.h" />
     <ClInclude Include="Client\Managers\ModuleManager\Modules\Category\Player\Aura.h" />
     <ClInclude Include="Client\Managers\ModuleManager\Modules\Category\Player\ChestStealer.h" />
-    <ClInclude Include="Client\Managers\ModuleManager\Modules\Category\Player\ServerRotations.h" />
+    <ClInclude Include="Client\Managers\ModuleManager\Modules\Category\Player\FancyRotations.h" />
     <ClInclude Include="Client\Managers\ModuleManager\Modules\Category\Player\SpinAttack.h" />
     <ClInclude Include="Client\Managers\ModuleManager\Modules\Category\Misc\Timer.h" />
     <ClInclude Include="Client\Managers\ModuleManager\Modules\Category\Movement\AirJump.h" />

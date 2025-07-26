@@ -7,7 +7,7 @@
 #include "Modules/Category/Movement/NoClip.h"
 #include "Modules/Category/Movement/Speed.h"
 #include "Modules/Category/Movement/Fly.h"
-#include "Modules/Category/Movement/ZeroTP.h"
+#include "Modules/Category/Movement/SMTeleport.h"
 #include "Modules/Category/Movement/AirJump.h"
 
 // RENDER
@@ -29,7 +29,7 @@
 #include "Modules/Category/Player/SpinAttack.h"
 #include "Modules/Category/Player/BlockReach.h"
 #include "Modules/Category/Player/Scaffold.h"
-#include "Modules/Category/Player/ServerRotations.h"
+#include "Modules/Category/Player/FancyRotations.h"
 #include "Modules/Category/Player/Offhand.h"
 #include "Modules/Category/Player/Aura.h"
 
