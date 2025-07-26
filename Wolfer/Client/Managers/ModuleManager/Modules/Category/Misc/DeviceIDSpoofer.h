@@ -3,6 +3,6 @@
 
 class DeviceIDSpoofer : public Module {
 public:
-    DeviceIDSpoofer() : Module("DeviceIDSpoofer", "Spoof your fucking id", Category::PLAYER) {
+    DeviceIDSpoofer() : Module("DeviceIDSpoofer", "Spoof your fucking id", Category::MISC) {
     }
 };
