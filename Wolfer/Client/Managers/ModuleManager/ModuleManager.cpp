@@ -32,6 +32,7 @@ void ModuleManager::init() {
 	moduleList.push_back(new SpinAttack());
 	moduleList.push_back(new PopCounter());
 	moduleList.push_back(new BlockReach());
+	moduleList.push_back(new Switcher());
 	moduleList.push_back(new Scaffold());
 	moduleList.push_back(new FancyRotations());
 	moduleList.push_back(new Offhand());
@@ -41,6 +42,7 @@ void ModuleManager::init() {
 	moduleList.push_back(new NoPacket());
 	moduleList.push_back(new Timer());
 	moduleList.push_back(new Disabler());
+	moduleList.push_back(new PacketFixer());
 
 	// CLIENT
 	moduleList.push_back(new CustomFont());
@@ -49,7 +51,9 @@ void ModuleManager::init() {
 
 	// EXPLOIT
 	moduleList.push_back(new InventoryDesync());
+	moduleList.push_back(new ClientSideInventory());
 	moduleList.push_back(new Phase());
+	moduleList.push_back(new InventoryDesync2());
 	moduleList.push_back(new InstaUse());
 
 	std::sort(moduleList.begin(), moduleList.end(), [](Module* lhs, Module* rhs) {

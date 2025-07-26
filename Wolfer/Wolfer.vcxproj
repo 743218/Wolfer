@@ -238,9 +238,12 @@
     <ClInclude Include="Client\Managers\ModuleManager\Guide.h" />
     <ClInclude Include="Client\Managers\ModuleManager\ModuleManager.h" />
     <ClInclude Include="Client\Managers\ModuleManager\Modules\Category\Client\Hud.h" />
+    <ClInclude Include="Client\Managers\ModuleManager\Modules\Category\Exploit\ClientSideInventory.h" />
     <ClInclude Include="Client\Managers\ModuleManager\Modules\Category\Exploit\InstaUse.h" />
     <ClInclude Include="Client\Managers\ModuleManager\Modules\Category\Exploit\InventoryDesync.h" />
+    <ClInclude Include="Client\Managers\ModuleManager\Modules\Category\Exploit\InventoryDesync2.h" />
     <ClInclude Include="Client\Managers\ModuleManager\Modules\Category\Exploit\Phase.h" />
+    <ClInclude Include="Client\Managers\ModuleManager\Modules\Category\Misc\PacketFixer.h" />
     <ClInclude Include="Client\Managers\ModuleManager\Modules\Category\Movement\SMTeleport.h" />
     <ClInclude Include="Client\Managers\ModuleManager\Modules\Category\Player\Aura.h" />
     <ClInclude Include="Client\Managers\ModuleManager\Modules\Category\Player\ChestStealer.h" />
@@ -255,6 +258,7 @@
     <ClInclude Include="Client\Managers\ModuleManager\Modules\Category\Player\AntiCrystal.h" />
     <ClInclude Include="Client\Managers\ModuleManager\Modules\Category\Player\PopCounter.h" />
     <ClInclude Include="Client\Managers\ModuleManager\Modules\Category\Player\Scaffold.h" />
+    <ClInclude Include="Client\Managers\ModuleManager\Modules\Category\Player\Switcher.h" />
     <ClInclude Include="Client\Managers\ModuleManager\Modules\Category\Render\AutoEmote.h" />
     <ClInclude Include="Client\Managers\ModuleManager\Modules\Category\Render\ConicalHat.h" />
     <ClInclude Include="Client\Managers\ModuleManager\Modules\Category\Render\Nametags.h" />

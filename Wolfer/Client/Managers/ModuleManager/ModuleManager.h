@@ -29,6 +29,7 @@
 #include "Modules/Category/Player/SpinAttack.h"
 #include "Modules/Category/Player/BlockReach.h"
 #include "Modules/Category/Player/Scaffold.h"
+#include "Modules/Category/Player/Switcher.h"
 #include "Modules/Category/Player/FancyRotations.h"
 #include "Modules/Category/Player/Offhand.h"
 #include "Modules/Category/Player/Aura.h"
@@ -37,6 +38,7 @@
 #include "Modules/Category/Misc/Disabler.h"
 #include "Modules/Category/Misc/NoPacket.h"
 #include "Modules/Category/Misc/Timer.h"
+#include "Modules/Category/Misc/PacketFixer.h"
 
 // CLIENT
 #include "Modules/Category/Client/CustomFont.h"
@@ -45,6 +47,8 @@
 #include "Modules/Category/Exploit/Phase.h"
 #include "Modules/Category/Exploit/InventoryDesync.h"
 #include "Modules/Category/Exploit/InstaUse.h"
+#include "Modules/Category/Exploit/ClientSideInventory.h"
+#include "Modules/Category/Exploit/InventoryDesync2.h"
 
 class ModuleManager {
 public:

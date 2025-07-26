@@ -64,7 +64,7 @@ private:
 	float blurStrength = 5.f;
 	bool showDescription = true;
 public:
-	ClickGUI() : Module("ClickGUI", "Display all modules", Category::CLIENT, VK_INSERT) {
+	ClickGUI() : Module("Gui", "Display all modules", Category::CLIENT, VK_INSERT) {
 		registerSetting(new ColorSetting("Color", "NULL", &mainColor, mainColor));
 		registerSetting(new SliderSetting<float>("Blur", "Background blur intensity", &blurStrength, 12.f, 0.f, 20.f));
 		registerSetting(new BoolSetting("Description", "Show Description", &showDescription, true));
@@ -177,15 +177,15 @@ public:
 
 		Vector2<float> startPos = Vector2<float>(175.f, 75.f);
 		windowList.push_back(new ClickWindow("Movement", startPos, Category::MOVEMENT));
-		startPos.x += 175.f;
+		startPos.x += 195.f;
 		windowList.push_back(new ClickWindow("Render", startPos, Category::RENDER));
-		startPos.x += 175.f;
+		startPos.x += 195.f;
 		windowList.push_back(new ClickWindow("Player", startPos, Category::PLAYER));
-		startPos.x += 175.f;
+		startPos.x += 195.f;
 		windowList.push_back(new ClickWindow("Misc", startPos, Category::MISC));
-		startPos.x += 175.f;
+		startPos.x += 195.f;
 		windowList.push_back(new ClickWindow("Client", startPos, Category::CLIENT));
-		startPos.x += 175.f;
+		startPos.x += 195.f;
 		windowList.push_back(new ClickWindow("Exploit", startPos, Category::EXPLOIT));
 
 		initialized = true;
@@ -230,7 +230,7 @@ public:
 
 			Vector4<float> headerRectPos = Vector4<float>(window->pos.x,
 				window->pos.y,
-				window->pos.x + (int)(150.f * fontPercent) + (textPaddingX * 2.f),
+				window->pos.x + (int)(186.f * fontPercent) + (textPaddingX * 2.f),
 				window->pos.y + textHeight + (textPaddingY * 2.f));
 
 			Vector2<float> headerTextPos = Vector2<float>(
