@@ -24,7 +24,6 @@ DWORD WINAPI initClient(LPVOID lpParameter) {
     setWindowTitle(L"Wolfer");
 
     while (Client::isInitialized()) {
-        ModuleManager::onClientTick();
         Sleep(5);
     }
 
