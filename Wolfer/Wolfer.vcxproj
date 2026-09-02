@@ -257,6 +257,7 @@
     <ClInclude Include="Client\Managers\ModuleManager\Modules\Category\Misc\Timer.h" />
     <ClInclude Include="Client\Managers\ModuleManager\Modules\Category\Movement\AirJump.h" />
     <ClInclude Include="Client\Managers\ModuleManager\Modules\Category\Movement\Fly.h" />
+    <ClInclude Include="Client\Managers\ModuleManager\Modules\Category\Movement\NoSlow.h" />
     <ClInclude Include="Client\Managers\ModuleManager\Modules\Category\Movement\Jetpack.h" />
     <ClInclude Include="Client\Managers\ModuleManager\Modules\Category\Movement\NoClip.h" />
     <ClInclude Include="Client\Managers\ModuleManager\Modules\Category\Movement\Speed.h" />
