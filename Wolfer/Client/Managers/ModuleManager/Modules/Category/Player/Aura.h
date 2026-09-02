@@ -4,11 +4,11 @@
 class Aura : public Module {
 public:
 	Aura() : Module("Aura", "Attacks nearby entities", Category::PLAYER) {
-		registerSetting(new SliderSetting<float>("Reach", "Attack range", &range, 5.f, 3.f, 15.f));
+		registerSetting(new SliderSetting<float>("Reach", "Attack range", &range, 5.f, 3.f, 35.f));
 		registerSetting(new SliderSetting<int>("Delay", "Attack delay in ticks", &delay, 5, 0, 20));
-		registerSetting(new BoolSetting("Strafe", "Strafe around the target", &strafe, false));
+		registerSetting(new SliderSetting<int>("Hit Attempts", "How many times to attack the target.", &hitAttempts, 1, 0, 10));
+		registerSetting(new EnumSetting("Rotation", "The rotation to the target target", { "None", "Silent", "Strafe" }, &strafe, strafe));
 		registerSetting(new BoolSetting("Mobs", "Attack mobs", &mobs, false));
-		registerSetting(new BoolSetting("2b2tpe", "Does more damage on 2b2tpe", &i2b2tPE, true));
 	}
 
 	void onEnable() override {
@@ -43,16 +43,19 @@ public:
 
 		target = closest;
 		targetRot = player->getEyePos().CalcAngle(target->getEyePos());
-		if (!i2b2tPE) {
-			player->gameMode->attack(target);
-			player->swing();
+
+		for (int i = 0; i < hitAttempts; i++) {
+	    	player->gameMode->attack(target);
 		}
+		player->swing(); //Servers on bedrock don't care if you swing or not. There's no point in the wasted packets. We only need to do this one time.
+		
 		shouldRotate = true;
 	}
 
 	void onSendPacket(Packet* packet) override {
 		if (!packet || packet->getId() != PacketID::PlayerAuthInput) return;
-
+		if (strafe == 0) return;
+		
 		auto* player = g_Data.getLocalPlayer();
 		if (!shouldRotate || !target || !TargetUtil::isTargetValid(target, mobs, true, range) || !player) {
 			target = nullptr;
@@ -70,7 +73,7 @@ public:
 	}
 
 	void onUpdateRotation(LocalPlayer* player) override {
-		if (!player || !target || !strafe) return;
+		if (!player || !target || strafe != 2) return;
 
 		if (!TargetUtil::isTargetValid(target, mobs, true, range)) {
 			target = nullptr;
@@ -82,25 +85,17 @@ public:
 	}
 
 	void onLevelTick(Level* level) override {
-		if (i2b2tPE) {
-			auto* player = g_Data.getLocalPlayer();
-			if (!player || !target) return;
-			if (!TargetUtil::isTargetValid(target, mobs, true, range)) {
-				target = nullptr;
-				return;
-			}
-			player->gameMode->attack(target);
-			player->rotation->presentRot.x -= 0.02f * target->getPos().y;
-		}
+
 	}
 private:
 	Actor* target = nullptr;
 	Vector2<float> targetRot{};
 	float range = 5.f;
+	int hitAttempts = 1;
 	int delay = 5;
 	int tickCounter = 0;
 	bool shouldRotate = false;
-	bool strafe = false;
+	int strafe = 0;
 	bool mobs = false;
 	bool i2b2tPE = false;
 };
