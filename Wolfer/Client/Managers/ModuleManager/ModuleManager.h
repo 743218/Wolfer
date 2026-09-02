@@ -7,6 +7,7 @@
 #include "Modules/Category/Movement/NoClip.h"
 #include "Modules/Category/Movement/Speed.h"
 #include "Modules/Category/Movement/Fly.h"
+#include "Modules/Category/Movement/NoSlow.h"
 #include "Modules/Category/Movement/SMTeleport.h"
 #include "Modules/Category/Movement/AirJump.h"
 #include "Modules/Category/Movement/PlayerTP.h"
