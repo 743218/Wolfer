@@ -335,6 +335,7 @@ public:
 	}
 
 	void swapSlots(const std::string& container1, int slot1, const std::string& container2, int slot2) {
+		if (!this) return;
 		this->handleSwap(container1, slot1, container2, slot2);
 	}
 
