@@ -7,7 +7,9 @@ private:
 	static inline func_t oFunc;
 
 	static void PlayerSlowDownCallback(__int64 a1, __int64 a2, __int64 a3) {
-
+		if (ModuleManager::getModule<NoSlow>()->isEnabled()) {
+			return;
+		}
 		oFunc(a1, a2, a3);
 	}
 public:
