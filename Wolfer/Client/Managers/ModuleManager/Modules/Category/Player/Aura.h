@@ -9,11 +9,13 @@ public:
 		registerSetting(new SliderSetting<int>("Hit Attempts", "How many times to attack the target.", &hitAttempts, 1, 0, 10));
 		registerSetting(new EnumSetting("Rotation", "The rotation to the target target", { "None", "Silent", "Strafe" }, &strafe, strafe));
 		registerSetting(new BoolSetting("Mobs", "Attack mobs", &mobs, false));
+		registerSetting(new BoolSetting("Criticals", "Attempt to always critical hit", &crits, false));
 	}
 
 	void onEnable() override {
 		tickCounter = delay;
 		target = nullptr;
+		critvalglide = 0.f;
 		shouldRotate = false;
 	}
 
@@ -69,6 +71,12 @@ public:
 		input->rotation.y = targetRot.y;
 		input->headYaw = targetRot.y;
 
+		if (crits) {
+			if (critvalglide > 0.05f) critvalglide = 0.f;
+			input->position.y -= critvalglide;
+			critvalglide += 0.01f;
+		}
+		
 		shouldRotate = false;
 	}
 
@@ -91,6 +99,8 @@ private:
 	Actor* target = nullptr;
 	Vector2<float> targetRot{};
 	float range = 5.f;
+	float critvalglide = 0.f;
+	bool crits = =false;
 	int hitAttempts = 1;
 	int delay = 5;
 	int tickCounter = 0;
