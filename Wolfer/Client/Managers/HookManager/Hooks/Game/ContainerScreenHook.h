@@ -7,7 +7,7 @@ private:
 	using func_t = __int64(__fastcall*)(ContainerScreenController*);
 	static inline func_t oFunc;
 	static __int64 callback(ContainerScreenController* _this) {
-		if (g_Data.getLocalPlayer()) {
+		if (g_Data.getLocalPlayer() && _this) {
 			ModuleManager::onContainerTick(_this);
 		}
 		return oFunc(_this);
