@@ -41,7 +41,7 @@ public:
         if (!fast) tickInternal();
     }
 
-    void onClientTick() override {
+    void onLevelRender() override { //onClientTick is not in the game thread.
         if (fast) tickInternal();
     }
 };
