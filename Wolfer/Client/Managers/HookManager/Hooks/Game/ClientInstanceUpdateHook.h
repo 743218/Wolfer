@@ -8,6 +8,7 @@ private:
 
 	static __int64 ClientInstance_UpdateCallback(ClientInstance* _this, bool a2) {
 		g_Data.clientInstance = _this;
+		ModuleManager::onClientTick();
 		return oFunc(_this, a2);
 	}
 public:
