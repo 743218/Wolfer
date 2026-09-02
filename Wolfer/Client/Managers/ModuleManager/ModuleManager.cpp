@@ -12,6 +12,7 @@ void ModuleManager::init() {
 	moduleList.push_back(new Speed());
 	moduleList.push_back(new Fly());
 	moduleList.push_back(new PlayerTP());
+	moduleList.push_back(new NoSlow());
 	moduleList.push_back(new SMTeleport());
 	moduleList.push_back(new AirJump());
 
