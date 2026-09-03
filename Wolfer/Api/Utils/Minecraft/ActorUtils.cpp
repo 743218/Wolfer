@@ -4,19 +4,9 @@
 #include "../../World/Actor.h"
 #include "TargetUtil.h"
 
-class ActorOwnerComponent
-{
-public:
-    class Actor* mActor;
-};
-
-struct ActorUniqueIDComponent {
-    uint64_t mUniqueID;
-};
-
 std::vector<Actor*> ActorUtils::getActorList(bool mobs, bool friendCheck) {
     std::vector<Actor*> result;
-
+    
     Actor* localPlayer = g_Data.getClientInstance()->getLocalPlayer();
     if (!localPlayer) return result;
 
@@ -30,6 +20,8 @@ std::vector<Actor*> ActorUtils::getActorList(bool mobs, bool friendCheck) {
         auto& type = view.get<ActorTypeComponent>(entity);
 
         if (!owner.mActor) continue;
+        if (mActor > 0x10000000) continue;
+
         if (!TargetUtil::isTargetValid(owner.mActor, mobs, friendCheck)) continue;
 
         result.push_back(owner.mActor);
