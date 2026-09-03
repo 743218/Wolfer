@@ -28,6 +28,8 @@
 #include "Components/StateVectorComponent.h"
 #include "Components/FallDistanceComponent.h"
 #include "Components/MaxAutoStepComponent.h"
+#include "Components/ActorOwnerComponent.h"
+#include "Components/ActorUniqueIDComponent.h"
 
 #include "EntityIdTraits.h"
 #include "EntityID.h"
