@@ -727,6 +727,8 @@
     <ClInclude Include="Api\World\Components\ActorEquipmentComponent.h" />
     <ClInclude Include="Api\World\Components\ActorHeadRotationComponent.h" />
     <ClInclude Include="Api\World\Components\ActorRotationComponent.h" />
+    <ClInclude Include="Api\World\Components\ActorOwnerCompononent.h" />
+    <ClInclude Include="Api\World\Components\ActorUniqueIDComponent.h" />
     <ClInclude Include="Api\World\Components\ActorTypeComponent.h" />
     <ClInclude Include="Api\World\Components\AnimationComponent.h" />
     <ClInclude Include="Api\World\Components\AttributesComponent.h" />
