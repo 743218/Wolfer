@@ -150,6 +150,7 @@ void HookManager::init() {
 		RequestHook<ActorLerpMotionHook>(PlayerVTable, 24);
 		RequestHook<ActorNormalTickHook>(PlayerVTable, 26);
 		RequestHook<ActorIsOnFireHook>(PlayerVTable, 51);
+		RequestHook<ActorOnPushHook>(PlayerVTable, 135/*?onPush@Actor@@UEAAXAEAV1@@Z*/);
 		RequestHook<ActorSwingHook>(PlayerVTable, 117);
 		RequestHook<ActorSetRotHook>("4C 8B DC 49 89 73 10 49 89 7B 20 55 49 8D 6B A1 48 81 EC ? ? ? ? 48 8B");
 		RequestHook<MobSwingDurationHook>("48 89 5C 24 ? 57 48 83 EC 20 48 8B 15 ? ? ? ? 48 8B F9 33 DB");
