@@ -140,11 +140,16 @@ public:
     }
 
     Vector3<float> getPos() {
-        return stateVector->pos;
+        return stateVector ? stateVector->pos : Vector3<float>(0.f, 0.f, 0.f);
     }
 
     Vector3<float> getEyePos() {
-        return getRenderPositionComponent()->eyePos;
+        return getRenderPositionComponent() ? getRenderPositionComponent()->eyePos : getPos();
+    }
+
+    Vector3<float> getFeetPosition() {
+        Vector3<int> posInt = getPos().floor().CastTo<int>();
+        return posInt;
     }
 
     float calculateAttackDamage(Actor* target) {
