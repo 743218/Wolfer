@@ -70,7 +70,6 @@ public:
         getEntityContext()->getRegistry().remove<T>(getEntityContext()->mEntity);
     }
 
-
     ActorEquipmentComponent* getActorEquipmentComponent() {
         using func_t = ActorEquipmentComponent*(__cdecl*)(__int64, __int64);
         static func_t Func = (func_t)(Addresses::try_getActorEquipmentComponent);
@@ -134,7 +133,8 @@ public:
 
     void setInvisible(bool invisible) {
         uintptr_t SetInvisableFunc = Memory::findSig("48 89 74 24 ? 57 48 83 EC 50 48 8B 01 0F B6 F2 48 8B F9 48 8B 80 ? ? ? ? FF 15 ? ? ? ? 40 3A C6");
-
+        if (!Memory::findSig(SetInvisableFunc)) return;
+        
         auto setInvis = reinterpret_cast<void(__thiscall*)(Actor*, bool)>(SetInvisableFunc); // setInvisible signature address
         return setInvis(this, invisible); // Return FunctionCall as Actor
     }
@@ -284,10 +284,35 @@ public:
     void swing() {
         Memory::CallVFunc<117, void>(this);
     }
+
     EntityContext* getEntityContext()
     {
         uintptr_t address = reinterpret_cast<uintptr_t>(this);
         return reinterpret_cast<EntityContext*>((uintptr_t)this + 0x8); // 1.21.2
+    }
+
+    void die() {
+        Memory::CallVFunc<130, void>(this);
+    }
+
+    void drop/*item*/(class ItemStack const& item, bool randomly)/*?drop@Actor@@UEAA_NAEBVItemStack@@_N@Z*/ {
+        Memory::CallVFunc<123, void, ItemStack, bool>(this, itemStack, randomly);
+    }
+
+    virtual void startSpinAttack()/*?startSpinAttack@Actor@@UEAAXXZ*/ {
+        Memory::CallVFunc<127, void>(this);
+    }
+
+    virtual void stopSpinAttack()/*?stopSpinAttack@Actor@@UEAAXXZ*/ {
+        Memory::CallVFunc<128, void>(this);
+    }
+
+    virtual void onPush(class Actor&) { /*to be hooked, cancellable in event; ?onPush@Actor@@UEAAXAEAV1@@Z*/
+        Memory::CallVFunc<135, void>(this);
+    }
+
+    virtual bool isImmobile() { /*to be hooked, cancellable in event; ?isImmobile@Actor@@UEBA_NXZ*/
+        Memory::CallVFunc<43, bool>(this);
     }
 public:
     virtual bool getStatusFlag(ActorFlags flag);
