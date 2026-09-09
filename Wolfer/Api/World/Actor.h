@@ -299,19 +299,19 @@ public:
         Memory::CallVFunc<123, void, ItemStack, bool>(this, itemStack, randomly);
     }
 
-    virtual void startSpinAttack()/*?startSpinAttack@Actor@@UEAAXXZ*/ {
+    void startSpinAttack()/*?startSpinAttack@Actor@@UEAAXXZ*/ {
         Memory::CallVFunc<127, void>(this);
     }
 
-    virtual void stopSpinAttack()/*?stopSpinAttack@Actor@@UEAAXXZ*/ {
+    void stopSpinAttack()/*?stopSpinAttack@Actor@@UEAAXXZ*/ {
         Memory::CallVFunc<128, void>(this);
     }
 
-    virtual void onPush(class Actor&) { /*to be hooked, cancellable in event; ?onPush@Actor@@UEAAXAEAV1@@Z*/
+    void onPush(class Actor&) { /*to be hooked, cancellable in event; ?onPush@Actor@@UEAAXAEAV1@@Z*/
         Memory::CallVFunc<135, void>(this);
     }
 
-    virtual bool isImmobile() { /*to be hooked, cancellable in event; ?isImmobile@Actor@@UEBA_NXZ*/
+    bool isImmobile() { /*to be hooked, cancellable in event; ?isImmobile@Actor@@UEBA_NXZ*/
         Memory::CallVFunc<43, bool>(this);
     }
 public:
