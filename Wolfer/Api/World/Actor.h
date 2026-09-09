@@ -314,6 +314,10 @@ public:
     bool isImmobile() { /*to be hooked, cancellable in event; ?isImmobile@Actor@@UEBA_NXZ*/
         Memory::CallVFunc<43, bool>(this);
     }
+
+    bool isBlocking() { /*?isBlocking@Actor@@UEBA_NXZ*/
+        Memory::CallVFunc<48, bool>(this);
+    }
 public:
     virtual bool getStatusFlag(ActorFlags flag);
     virtual void setStatusFlag(ActorFlags flag, bool value);
