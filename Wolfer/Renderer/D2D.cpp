@@ -247,19 +247,26 @@ Vector2<float> D2D::getWindowSize() {
 
 void D2D::drawText(const Vector2<float>& textPos, const std::string& textStr, const WolferColor& color, float textSize, bool storeTextLayout) {
 	IDWriteTextLayout* textLayout = getTextLayout(textStr, textSize, storeTextLayout);
-
+	if (!textLayout) return;
+	
 	static CustomFont* customFontMod = ModuleManager::getModule<CustomFont>();
+	if (!customFontMod) return;
+	
 	if (customFontMod->shadow) {
 		ID2D1SolidColorBrush* shadowColorBrush = getSolidColorBrush(WolferColor(0, 0, 0, color.a));
 		d2dDeviceContext->DrawTextLayout(D2D1::Point2F(textPos.x + 1.f, textPos.y + 1.f), textLayout, shadowColorBrush);
 	}
 
 	ID2D1SolidColorBrush* colorBrush = getSolidColorBrush(color);
+	if (!colorBrush) return;
+	
 	d2dDeviceContext->DrawTextLayout(D2D1::Point2F(textPos.x, textPos.y), textLayout, colorBrush);
 }
 
 float D2D::getTextWidth(const std::string& textStr, float textSize, bool storeTextLayout) {
 	IDWriteTextLayout* textLayout = getTextLayout(textStr, textSize, storeTextLayout);
+	if (!textLayout) return -1.f; //Must return a value, so lets just give it dummy data
+	
 	DWRITE_TEXT_METRICS textMetrics;
 	textLayout->GetMetrics(&textMetrics);
 
@@ -268,6 +275,8 @@ float D2D::getTextWidth(const std::string& textStr, float textSize, bool storeTe
 
 float D2D::getTextHeight(const std::string& textStr, float textSize, bool storeTextLayout) {
 	IDWriteTextLayout* textLayout = getTextLayout(textStr, textSize, storeTextLayout);
+	if (!textLayout) return -1.f;
+	
 	DWRITE_TEXT_METRICS textMetrics;
 	textLayout->GetMetrics(&textMetrics);
 
@@ -276,30 +285,44 @@ float D2D::getTextHeight(const std::string& textStr, float textSize, bool storeT
 
 void D2D::drawLine(const Vector2<float>& startPos, const Vector2<float>& endPos, const WolferColor& color, float width) {
 	ID2D1SolidColorBrush* colorBrush = getSolidColorBrush(color);
+	if (!colorBrush) return;
+	if (!d2dDeviceContext) return;
+	
 	d2dDeviceContext->DrawLine(D2D1::Point2F(startPos.x, startPos.y), D2D1::Point2F(endPos.x, endPos.y), colorBrush, width);
 }
 
 void D2D::drawRectangle(const Vector4<float>& rect, const WolferColor& color, float width) {
 	ID2D1SolidColorBrush* colorBrush = getSolidColorBrush(color);
+	if (!colorBrush) return;
+	if (!d2dDeviceContext) return;
+	
 	d2dDeviceContext->DrawRectangle(D2D1::RectF(rect.x, rect.y, rect.z, rect.w), colorBrush, width);
 }
 
 void D2D::fillRectangle(const Vector4<float>& rect, const WolferColor& color) {
 	ID2D1SolidColorBrush* colorBrush = getSolidColorBrush(color);
+	if (!colorBrush) return;
+	if (!d2dDeviceContext) return;
+	
 	d2dDeviceContext->FillRectangle(D2D1::RectF(rect.x, rect.y, rect.z, rect.w), colorBrush);
 }
 
 void D2D::drawCircle(const Vector2<float>& centerPos, const WolferColor& color, float radius, float width) {
 	ID2D1SolidColorBrush* colorBrush = getSolidColorBrush(color);
+	if (!colorBrush) return;
+	if (!d2dDeviceContext) return;
 	d2dDeviceContext->DrawEllipse(D2D1::Ellipse(D2D1::Point2F(centerPos.x, centerPos.y), radius, radius), colorBrush, width);
 }
 
 void D2D::fillCircle(const Vector2<float>& centerPos, const WolferColor& color, float radius) {
 	ID2D1SolidColorBrush* colorBrush = getSolidColorBrush(color);
+	if (!colorBrush) return;
+	if (!d2dDeviceContext) return;
 	d2dDeviceContext->FillEllipse(D2D1::Ellipse(D2D1::Point2F(centerPos.x, centerPos.y), radius, radius), colorBrush);
 }
 
 void D2D::addBlur(const Vector4<float>& rect, float strength, bool flush) {
+	if (!d2dDeviceContext) return;
 	if (flush) {
 		d2dDeviceContext->Flush();
 	}
