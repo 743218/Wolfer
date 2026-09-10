@@ -55,6 +55,7 @@
 #include "Modules/Category/Exploit/InstaUse.h"
 #include "Modules/Category/Exploit/ClientSideInventory.h"
 #include "Modules/Category/Exploit/InventoryDesync2.h"
+#include "Modules/Category/Exploit/NoFall.h"
 
 class ModuleManager {
 public:
