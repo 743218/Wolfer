@@ -42,6 +42,8 @@ public:
     CLASS_MEMBER(AABBShapeComponent*, aabbShape, 0x298);
     CLASS_MEMBER(ActorRotationComponent*, rotation, 0x2A0);
     CLASS_MEMBER(bool, isDestroying, 0x19F0);
+    CLASS_MEMBER(int, buildPlatform, 0x62C);
+    CLASS_MEMBER(bool, isSwinging, 0x588);
 public:
     Vector3<float> getHumanPos() {
         Vector3<float> targetPos = this->getEyePos();
@@ -295,6 +297,18 @@ public:
         Memory::CallVFunc<130, void>(this);
     }
 
+    void despawn() {
+        Memory::CallVFunc<76, void>(this);
+    }
+
+    void setArmor(int armorslot, ItemStack const& slot) {
+        Memory::CallVFunc<77, int, int, ItemStack const&>(this, armorslot, slot);
+    }
+
+    bool canPowerJump() {
+        Memory::CallVFunc<64, bool>(this);
+     }
+
     void drop/*item*/(class ItemStack const& item, bool randomly)/*?drop@Actor@@UEAA_NAEBVItemStack@@_N@Z*/ {
         Memory::CallVFunc<123, void, ItemStack, bool>(this, itemStack, randomly);
     }
@@ -317,6 +331,38 @@ public:
 
     bool isBlocking() { /*?isBlocking@Actor@@UEBA_NXZ*/
         Memory::CallVFunc<48, bool>(this);
+    }
+
+    bool isInWall() { /*?isInWall@Actor@@UEBA_NXZ*/
+        Memory::CallVFunc<33, bool>(this);
+    }
+
+    bool isInvisible() { /*?isInvisible@Actor@@UEBA_NXZ*/
+        Memory::CallVFunc<34, bool>(this);
+    }
+
+    bool consumeTotem() { /*?consumeTotem@Actor@@UEAA_NXZ*/
+        Memory::CallVFunc<86, bool>(this);
+    }
+
+    bool canAttack(Actor* entity, bool allowInvunerable) { /*?canAttack@Actor@@UEBA_NPEAV1@_N@Z*/ 
+        Memory::CallVFunc<54, bool, Actor, bool>(this, entity, allowInvunerable);
+    }
+
+    bool isValidTarget(Actor* attacker) { /*?isValidTarget@Actor@@UEBA_NPEAV1@@Z*/ 
+        Memory::CallVFunc<56, bool, Actor>(this, attacker);
+    }
+
+    void performRangedAttack(Actor* entity, float power) { /*?performRangedAttack@Actor@@UEAAXAEAV1@M@Z*/ 
+        Memory::CallVFunc<58, void, Actor, float>(this, entity, power);
+    }
+
+    void setPlayerGameType(int GameType) {
+        return Memory::CallVFunc<226, void, int>(this, GameType);
+    }
+
+    void _crit(Actor& actor) {
+        return Memory::CallVFunc<228, void, Actor&>(this, actor);
     }
 public:
     virtual bool getStatusFlag(ActorFlags flag);
