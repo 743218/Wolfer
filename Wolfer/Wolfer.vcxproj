@@ -240,6 +240,7 @@
     <ClInclude Include="Client\Managers\ModuleManager\Modules\Category\Client\Hud.h" />
     <ClInclude Include="Client\Managers\ModuleManager\Modules\Category\Exploit\ClientSideInventory.h" />
     <ClInclude Include="Client\Managers\ModuleManager\Modules\Category\Exploit\InstaUse.h" />
+    <ClInclude Include="Client\Managers\ModuleManager\Modules\Category\Exploit\NoFall.h" />
     <ClInclude Include="Client\Managers\ModuleManager\Modules\Category\Exploit\InventoryDesync.h" />
     <ClInclude Include="Client\Managers\ModuleManager\Modules\Category\Exploit\InventoryDesync2.h" />
     <ClInclude Include="Client\Managers\ModuleManager\Modules\Category\Exploit\Phase.h" />
