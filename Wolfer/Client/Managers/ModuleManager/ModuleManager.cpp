@@ -61,7 +61,8 @@ void ModuleManager::init() {
 	moduleList.push_back(new Phase());
 	moduleList.push_back(new InventoryDesync2());
 	moduleList.push_back(new InstaUse());
-
+	moduleList.push_back(new NoFall());
+	
 	std::sort(moduleList.begin(), moduleList.end(), [](Module* lhs, Module* rhs) {
 		return lhs->getModuleName() < rhs->getModuleName();
 	});
