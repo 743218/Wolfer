@@ -34,7 +34,7 @@ private:
         int py = (int)floor(pos.y - 2.0f);
         int pz = (int)floor(pos.z);
 
-        Vector3<int> foot = { px, py, pz };
+        Vector3<int> foot = player->getPos().floor().CastTo<int>();
 
         auto r = g_Data.getClientInstance()->getRegion();
         auto b = r->getBlock(foot);
