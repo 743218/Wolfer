@@ -10,6 +10,7 @@ public:
 		registerSetting(new EnumSetting("Rotation", "The rotation to the target target", { "None", "Silent", "Strafe" }, &strafe, strafe));
 		registerSetting(new BoolSetting("Mobs", "Attack mobs", &mobs, false));
 		registerSetting(new BoolSetting("Criticals", "Attempt to always critical hit", &crits, false));
+		registerSetting(new BoolSetting("IGNCrits", "Attempt to always critical hit but for ign", &igncrits, false));
 	}
 
 	void onEnable() override {
@@ -71,10 +72,16 @@ public:
 		input->rotation.y = targetRot.y;
 		input->headYaw = targetRot.y;
 
-		if (crits) {
+		if (crits && !igncrits) {
 			if (critvalglide > 0.05f) critvalglide = 0.f;
 			input->position.y -= critvalglide;
 			critvalglide += 0.01f;
+		}
+		
+		if (igncrits) {
+			if (critvalglide > 0.33f) critvalglide = 0.f;
+			input->position.y -= critvalglide;
+			critvalglide += 0.11f;
 		}
 		
 		shouldRotate = false;
@@ -100,7 +107,8 @@ private:
 	Vector2<float> targetRot{};
 	float range = 5.f;
 	float critvalglide = 0.f;
-	bool crits = =false;
+	bool crits =false;
+	bool igncrits = false;
 	int hitAttempts = 1;
 	int delay = 5;
 	int tickCounter = 0;
