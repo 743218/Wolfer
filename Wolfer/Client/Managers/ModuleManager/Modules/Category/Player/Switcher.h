@@ -35,6 +35,7 @@ public:
             currentSlot = startSlot;
 
         player->playerInventory->selectedSlot = currentSlot;
+        InventoryUtil::sendMobEquipment(currentSlot);
     }
 
     void onTick(GameMode*) override {
