@@ -48,7 +48,7 @@ public:
 		targetRot = player->getEyePos().CalcAngle(target->getEyePos());
 
 		for (int i = 0; i < hitAttempts; i++) {
-	    	player->gameMode->attack(target);
+	    	if (critvalglide >= 0.f && igncrits) player->gameMode->attack(target);
 		}
 		player->swing(); //Servers on bedrock don't care if you swing or not. There's no point in the wasted packets. We only need to do this one time.
 		
