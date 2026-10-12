@@ -11,7 +11,7 @@ private:
 
 public:
     SMTeleport() : Module("SMTeleport", "Smoothly teleports to a target using setPos()", Category::MOVEMENT) {
-        registerSetting(new SliderSetting<float>("Zoomy", "Movement speed", &speed, 1.5f, 0.1f, 3.f));
+        registerSetting(new SliderSetting<float>("Zoomy", "Movement speed", &speed, 1.5f, 0.1f, 8.f));
         registerSetting(new SliderSetting<float>("Threshold", "Arrival distance", &arrivalThreshold, 1.0f, 0.1f, 5.0f));
     }
 
@@ -46,7 +46,7 @@ public:
         if (!player) return;
 
         player->stateVector->velocity = Vector3<float>(0.f, 0.f, 0.f);
-        Vector3<float> pos = player->getPos();
+        Vector3<float> pos = player->getPos().sub(Vec3<float>(0.f, 1.f, 0.f);
         Vector3<float> delta = targetPos.sub(pos);
 
         float distance = std::sqrt(delta.x * delta.x + delta.y * delta.y + delta.z * delta.z);
