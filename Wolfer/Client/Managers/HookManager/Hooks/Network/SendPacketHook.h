@@ -14,6 +14,13 @@ private:
 		if (noPacketMod->isEnabled() && g_Data.getLocalPlayer() != nullptr)
 			return;
 
+		if (ModuleManager::getModule<Disabler>()->isEnabled()) {
+			if (packet->getId() == PacketID::PlayerAuthInputPacket) {
+				auto paip = static_cast<PlayerAuthInputPacket*>(packet);
+				paip->TicksAlive = 0;
+			}
+		}
+
 		ModuleManager::onSendPacket(packet);
 
 		oFunc(_this, packet);
