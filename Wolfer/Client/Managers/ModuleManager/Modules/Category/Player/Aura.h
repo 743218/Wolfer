@@ -81,8 +81,8 @@ public:
 		if (igncrits) {
 			if (critvalglide > 0.33f) critvalglide = 0.f;
 			input->position.y -= critvalglide;
-			critvalglide += 0.11f;
-			input->velocity.y = -0.11f;
+			critvalglide += 0.081f;
+			input->velocity.y = -0.081f;
 		}
 		
 		shouldRotate = false;
