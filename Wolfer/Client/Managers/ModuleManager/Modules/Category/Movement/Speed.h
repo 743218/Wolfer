@@ -10,7 +10,7 @@ public:
         registerSetting(new SliderSetting<float>("Speed", "Movement speed", &speed, 0.40f, 0.0f, 2.0f));
     }
 
-    void onClientTick() override {
+    void onLevelTick() override {
         LocalPlayer* localPlayer = g_Data.getLocalPlayer();
         if (!localPlayer) return;
 
