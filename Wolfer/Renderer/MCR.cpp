@@ -177,6 +177,13 @@ void MCR::fillRectangle(const Vector4<float>& rect, const WolferColor& color) {
 	}
 }*/
 void MCR::drawItem(const Vector2<float>& pos, ItemStack* itemStack, float scale, bool showDurabilityBar) {
+	if (!baseActorRenderCtx) return;
+	if (!baseActorRenderCtx.itemRenderer) return;
+	if (!Game::getLocalPlayer()) return;
+	if (!itemStack) return;
+	if (!itemStack->item.get()) return;
+	if (scale == 0.f) return;
+	
 	baseActorRenderCtx.itemRenderer->renderGuiItemNew(&baseActorRenderCtx, itemStack, 0, pos.x, pos.y, 1.f, scale, false);
 
 	if (itemStack->item.get()->isGlint(itemStack)) {
