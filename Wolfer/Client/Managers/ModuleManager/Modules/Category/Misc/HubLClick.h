@@ -11,7 +11,7 @@ public:
         char shit[0x256];
     };
 
-    HubLClick() : Module("HubLClick", "Sends /hub command on right-click", Category::MISC) {}
+    HubLClick() : Module("HubLClick", "Sends /hub command on left-click", Category::MISC) {}
 
     void onTick(GameMode* gm) override {
         if (!g_Data.isLeftClickDown()) return;
