@@ -1,4 +1,4 @@
-#include "ModuleManager.h"
+8#include "ModuleManager.h"
 #include "../../Client.h"
 #include "Modules/Category/Client/Hud.h"
 #include "Modules/Category/Client/ClickGUI.h"
@@ -117,6 +117,8 @@ void ModuleManager::onContainerTick(ContainerScreenController* controller) {
 	if (!Client::isInitialized())
 		return;
 
+	if(!controller) return;
+
 	for (auto& mod : moduleList) {
 		if (mod->isEnabled() || mod->runOnBackground()) {
 			mod->onContainerTick(controller);
@@ -128,6 +130,9 @@ void ModuleManager::onTick(GameMode* gm) {
 	if (!Client::isInitialized())
 		return;
 
+	if (!gm) return;
+	if (!Game::getLocalPlayer()) return;
+	
 	for (auto& mod : moduleList) {
 		if (mod->isEnabled() || mod->runOnBackground()) {
 			mod->onTick(gm);
@@ -139,6 +144,8 @@ void ModuleManager::onLevelTick(Level* level) {
 	if (!Client::isInitialized())
 		return;
 
+	if (!level || !Game::getLocalPlayer()) return;
+	
 	for (auto& mod : moduleList) {
 		if (mod->isEnabled() || mod->runOnBackground()) {
 			mod->onLevelTick(level);
@@ -150,6 +157,8 @@ void ModuleManager::onUpdateRotation(LocalPlayer* localPlayer) {
 	if (!Client::isInitialized())
 		return;
 
+	if (!localPlayer) return;
+	
 	for (auto& mod : moduleList) {
 		if (mod->isEnabled() || mod->runOnBackground()) {
 			mod->onUpdateRotation(localPlayer);
@@ -160,7 +169,8 @@ void ModuleManager::onUpdateRotation(LocalPlayer* localPlayer) {
 void ModuleManager::onSendPacket(Packet* packet) {
 	if (!Client::isInitialized())
 		return;
-
+	if (!packet) return;
+	
 	for (auto& mod : moduleList) {
 		if (mod->isEnabled() || mod->runOnBackground()) {
 			mod->onSendPacket(packet);
