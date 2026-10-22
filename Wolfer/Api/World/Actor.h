@@ -45,13 +45,6 @@ public:
     CLASS_MEMBER(int, buildPlatform, 0x62C);
     CLASS_MEMBER(bool, isSwinging, 0x588);
 public:
-    Vector3<float> getHumanPos() {
-        Vector3<float> targetPos = this->getEyePos();
-
-        if (this->getActorTypeComponent()->id == 319) return targetPos.sub(Vector3<float>(0.f, 1.6f, 0.f));
-        return targetPos;
-    }
-
     template <typename T>
     T* getComponent() {
         return const_cast<T*>(getEntityContext()->getRegistry().try_get<T>(getEntityContext()->mEntity));
@@ -149,9 +142,12 @@ public:
         return getRenderPositionComponent() ? getRenderPositionComponent()->eyePos : getPos();
     }
 
-    Vector3<float> getFeetPosition() {
-        Vector3<int> posInt = getPos().floor().CastTo<int>();
-        return posInt;
+    Vector3<int> getFeetPosition() {
+        return getPos().floor().add(Vec3<int>(0, 1, 0)).CastTo<int>();
+    }
+
+    Vector3<float> getFeetPositionF() {
+        return getPos().sub(Vec3<float>(0.f, 1.62f, 0.f));
     }
 
     float calculateAttackDamage(Actor* target) {
