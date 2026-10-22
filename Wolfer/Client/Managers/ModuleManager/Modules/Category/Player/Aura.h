@@ -9,8 +9,7 @@ public:
 		registerSetting(new SliderSetting<int>("Hit Attempts", "How many times to attack the target.", &hitAttempts, 1, 0, 10));
 		registerSetting(new EnumSetting("Rotation", "The rotation to the target target", { "None", "Silent", "Strafe" }, &strafe, strafe));
 		registerSetting(new BoolSetting("Mobs", "Attack mobs", &mobs, false));
-		registerSetting(new BoolSetting("Criticals", "Attempt to always critical hit", &crits, false));
-		registerSetting(new BoolSetting("IGNCrits", "Attempt to always critical hit but for ign", &igncrits, false));
+		registerSetting(new EnumSetting("Criticals", "Crit type", { "None", "Lifeboat", "mc.ign.gg" }, &crits, crits));
 	}
 
 	void onEnable() override {
@@ -48,7 +47,7 @@ public:
 		targetRot = player->getEyePos().CalcAngle(target->getEyePos());
 
 		for (int i = 0; i < hitAttempts; i++) {
-	    	if (critvalglide >= 0.f && igncrits) player->gameMode->attack(target);
+	    	player->gameMode->attack(target);
 		}
 		player->swing(); //Servers on bedrock don't care if you swing or not. There's no point in the wasted packets. We only need to do this one time.
 		
@@ -72,13 +71,13 @@ public:
 		input->rotation.y = targetRot.y;
 		input->headYaw = targetRot.y;
 
-		if (crits && !igncrits) {
+		if (crits == 1) {
 			if (critvalglide > 0.05f) critvalglide = 0.f;
 			input->position.y -= critvalglide;
 			critvalglide += 0.01f;
 		}
 		
-		if (igncrits) {
+		if (crits == 2) {
 			if (critvalglide > 0.33f) critvalglide = 0.f;
 			input->position.y -= critvalglide;
 			critvalglide += 0.081f;
@@ -108,8 +107,7 @@ private:
 	Vector2<float> targetRot{};
 	float range = 5.f;
 	float critvalglide = 0.f;
-	bool crits =false;
-	bool igncrits = false;
+	int crits = 0;
 	int hitAttempts = 1;
 	int delay = 5;
 	int tickCounter = 0;
